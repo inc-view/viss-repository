@@ -1,0 +1,10 @@
+{
+  "name": "web-site",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node ./web-site/app.js",
+    "dev": "cd web-site && npm run dev",
+    "postinstall": "cd web-site && npm install"
+  }
+}
