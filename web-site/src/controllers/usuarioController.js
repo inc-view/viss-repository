@@ -1,5 +1,5 @@
 var usuarioModel = require("../models/usuarioModel");
-var aquarioModel = require("../models/aquarioModel");
+
 
 function autenticar(req, res) {
     var email = req.body.emailServer;
@@ -36,7 +36,29 @@ function autenticar(req, res) {
     }
 
 }
+function verificarCodEmpresa(req, res){
+    var codigoEmpresa = req.body.codigoEmpresaServer;
 
+    if(codigoEmpresa == undefined){
+        res.status(400).send("O código da empresa está undefined");
+    }else{
+        usuarioModel.verificarCodEmpresa(codigoEmpresa)
+            .then(
+                function (resultado){
+                    res.json(resultado);
+                }
+            ).catch(
+                function (erro) {
+                    console.log(erro);
+                    console.log(
+                        "\nHouve um erro ao realizar a verificação! Erro: ",
+                        erro.sqlMessage
+                    );
+                    res.status(500).json(erro.sqlMessage);
+                }
+            );
+    }
+}
 function cadastrar(req, res) {
     // Crie uma variável que vá recuperar os valores do arquivo cadastro.html
     var nome = req.body.nomeServer;
@@ -97,6 +119,7 @@ function listar(req, res) {
 }
 module.exports = {
     autenticar,
+    verificarCodEmpresa,
     cadastrar,
     listar
 }

@@ -9,8 +9,13 @@ function autenticar(email, senha) {
     return database.executar(instrucao);
 }
 
+function verificarCodEmpresa(codigoEmpresa){
+    var instrucao = `SELECT idEmpresa FROM empresa WHERE idEmpresa=${codigoEmpresa}`;
+    console.log("executando a instrução SQL: " + instrucao);
+    return database.executar(instrucao);
+}
 // Coloque os mesmos parâmetros aqui. Vá para a var instrucao
-function cadastrar(nome, email, senha, cpf , telefone) {
+function cadastrar(nome, email, senha, cpf , telefone, codigoEmpresa) {
     console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function cadastrar():", nome, email, senha);
     
     // Insira exatamente a query do banco aqui, lembrando da nomenclatura exata nos valores
@@ -29,6 +34,7 @@ function listar(idUsuario){
 
 module.exports = {
     autenticar,
+    verificarCodEmpresa,
     cadastrar,
     listar
 };
