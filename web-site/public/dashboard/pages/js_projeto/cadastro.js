@@ -1,8 +1,8 @@
-function cadastrar(){
+function cadastrar(empresa){
     var nomeVar = ipt_nome.value;
     var emailVar = ipt_email.value;
     var cpfVar = ipt_cpf.value;
-    var empresaVar = ipt_codEmpresa.value;
+    var empresaVar = empresa;
     var telefoneVar = ipt_tel.value;
     var senhaVar = ipt_senha.value;
     var confSenha = ipt_confSenha.value;
@@ -31,6 +31,7 @@ function cadastrar(){
                 senhaServer: senhaVar,
                 emailServer: emailVar,
                 telefoneServer:telefoneVar,
+                empresaServer : empresaVar,
                 cpfServer: cpfVar
             })
         }).then(function (resposta) {
@@ -40,9 +41,6 @@ function cadastrar(){
             if (resposta.ok) {
                 alert("Cadastro realizado com sucesso! Redirecionando para o login");
                 window.location = "login.html";
-                
-
-                // limparFormulario();
             } else {
                 throw ("Houve um erro ao tentar realizar o cadastro!");
             }
@@ -58,38 +56,26 @@ function cadastrar(){
     }
 }
 
-function verificaEmpresaExiste(codigoEmpresa){
+function verificaEmpresaExiste(){
     var empresaVar = ipt_codEmpresa.value;
 
 
-    fetch(`/usuarios/verificarCodEmpresa/${codigoEmpresa}`, {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            // crie um atributo que recebe o valor recuperado aqui
-            // Agora vá para o arquivo routes/usuario.js
-            empresaServer: empresaVar
-        })
-    }).then(function (resposta) {
+    fetch(`/usuarios/verificarCodEmpresa/${empresaVar}`, { cache: 'no-store' }).then(function (response) {
+        if (response.ok) {
+            response.json().then(function (resposta) {
+                console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+                resposta.reverse();
 
-        console.log("resposta: ", resposta);
+                cadastrar(empresaVar);
 
-        if (resposta.ok) {
-            if(empresaServer == null){
-                aviso_codEmpresa.inner_HTML = "Empresa não encontrada"
-            }else{
-                cadastrar();
-            }
-            
-
-            // limparFormulario();
+            });
         } else {
-            throw ("Houve um erro ao tentar realizar o cadastro!");
+            console.error('Nenhum dado encontrado ou erro na API');
+            var aviso = document.getElementById("aviso_codEmpresa");
+                    aviso.innerHTML = "Empresa não existe!"
         }
-    }).catch(function (resposta) {
-        console.log(`#ERRO: ${resposta}`);
-        //finalizarAguardar();
-    });
+    })
+        .catch(function (error) {
+            console.error(`Erro na obtenção dos dados: ${error.message}`);
+        });
 }
