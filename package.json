@@ -6,5 +6,8 @@
     "start": "node ./web-site/app.js",
     "dev": "cd web-site && npm run dev",
     "postinstall": "cd web-site && npm install"
+  },
+  "dependencies": {
+    "formidable": "^3.5.1"
   }
 }
