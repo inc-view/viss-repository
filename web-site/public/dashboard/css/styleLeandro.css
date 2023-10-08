@@ -1,0 +1,69 @@
+.justify-content-space-around {
+    justify-content: space-around;
+}
+
+.card-component {
+    background-color: #FFFFFF;
+    border-radius: 10px;
+    padding-top: 1.5%;
+    padding-bottom: 1.5%;
+    width: 25%;
+}
+
+.card-component:hover {
+    cursor: pointer;
+    background-color: #D8D8D8;
+    transition: 0.2s;
+}
+
+.card-component:not(:hover) {
+    transition: 0.2s;
+}
+
+.dashboardHide {
+    display: none;
+}
+
+.red-text {
+    color: #FF0000 !important;
+    font-weight: bold !important;
+}
+
+.green-text {
+    color: #009900 !important;
+    font-weight: bold !important;
+}
+
+.blue-text {
+    color: #0000FF !important;
+    font-weight: bold !important;
+}
+
+.card-component-text {
+    font-size: 120% !important;
+}
+
+.overflow {
+    overflow-y: scroll;
+}
+
+.process-list-height {
+    max-height: 500px !important;
+}
+
+.alert-list {
+    max-height: 300px;
+}
+
+.process-list-height-bg {
+    height: fit-content !important;
+}
+
+.table tr {
+    border-style: hidden;
+}
+
+.table td {
+    border-style: hidden;
+}
+

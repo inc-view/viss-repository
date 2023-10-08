@@ -15,6 +15,10 @@ var medidasRouter = require("./src/routes/medidas");
 var empresasRouter = require("./src/routes/empresas");
 var fileRouter = require("./src/routes/files");
 
+// Meus Route's
+
+var leandroRouter = require("./src/routes/routeLeandro")
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
@@ -28,6 +32,10 @@ app.use("/medidas", medidasRouter);
 app.use("/empresas", empresasRouter);
 app.use("/files", fileRouter);
 
+
+// Meus Route's
+
+app.use("/routeLeandro", leandroRouter)
 
 app.listen(PORTA, function () {
     console.log(`Servidor do seu site já está rodando! Acesse o caminho a seguir para visualizar: http://localhost:${PORTA} \n

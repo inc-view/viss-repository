@@ -36,28 +36,28 @@ function autenticar(req, res) {
     }
 
 }
-function verificarCodEmpresa(req, res){
-    var codigoEmpresa = req.body.codigoEmpresaServer;
-
-    if(codigoEmpresa == undefined){
-        res.status(400).send("O código da empresa está undefined");
-    }else{
-        usuarioModel.verificarCodEmpresa(codigoEmpresa)
-            .then(
-                function (resultado){
-                    res.json(resultado);
-                }
-            ).catch(
-                function (erro) {
-                    console.log(erro);
-                    console.log(
-                        "\nHouve um erro ao realizar a verificação! Erro: ",
-                        erro.sqlMessage
-                    );
-                    res.status(500).json(erro.sqlMessage);
-                }
-            );
+function verificarCodEmpresa(req, res) {
+    var codEmpresa = req.params.codEmpresa;
+    if(codEmpresa == undefined) {
+        res.status(400).send("Seu ID da empresa está Undefined");
     }
+    else{
+        usuarioModel.verificarCodEmpresa(codEmpresa)
+        .then(
+            function(resultado){
+                if (resultado.length > 0) {
+                    res.status(200).json(resultado);
+                } else {
+                    res.status(204).send("Nenhum resultado encontrado!")
+                }
+            }
+        ).catch(function (erro) {
+            console.error(erro);
+            res.status(500).json(erro.sqlMessage);
+            console.error("Erro na consulta")
+        })
+    }
+
 }
 function cadastrar(req, res) {
     // Crie uma variável que vá recuperar os valores do arquivo cadastro.html
@@ -66,6 +66,7 @@ function cadastrar(req, res) {
     var senha = req.body.senhaServer;
     var cpf = req.body.cpfServer;
     var telefone = req.body.telefoneServer;
+    var codigoEmpresa = req.body.empresaServer;
 
     // Faça as validações dos valores
     if (nome == undefined) {
@@ -74,10 +75,16 @@ function cadastrar(req, res) {
         res.status(400).send("Seu email está undefined!");
     } else if (senha == undefined) {
         res.status(400).send("Sua senha está undefined!");
-    } else {
+    } else if(cpf == undefined) {
+        res.status(400).send("Seu CPF está undefined");
+    }else if(telefone == undefined){
+        res.status(400).send("Seu telefone está undefined");
+    }else if(codigoEmpresa == undefined){
+        res.status(400).send("Seu codigo da empresa está undefined");
+    }else{
 
         // Passe os valores como parâmetro e vá para o arquivo usuarioModel.js
-        usuarioModel.cadastrar(nome, email, senha, cpf , telefone)
+        usuarioModel.cadastrar(nome, email, senha, cpf , telefone, codigoEmpresa)
             .then(
                 function (resultado) {
                     res.json(resultado);

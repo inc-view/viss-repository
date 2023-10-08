@@ -8,6 +8,7 @@
     "postinstall": "cd web-site && npm install"
   },
   "dependencies": {
+    "jquery-mask-plugin": "^1.14.16",
     "csv": "^6.3.4",
     "csv-parse": "^5.5.1",
     "csvtojson": "^2.0.10",
