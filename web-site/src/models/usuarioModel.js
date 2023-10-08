@@ -21,8 +21,24 @@ function cadastrar(nome, email, senha, cpf , telefone, codigoEmpresa) {
     // Insira exatamente a query do banco aqui, lembrando da nomenclatura exata nos valores
     //  e na ordem de inserção dos dados.
     var instrucao = `
-        INSERT INTO funcionario (nome, email, senha, cpf , telefone, fkEmpresa) VALUES ('${nome}', '${email}', '${senha}', '${cpf}' , '${telefone}', '${codigoEmpresa}');
+    INSERT INTO funcionario (nome, email, senha, cpf , telefone, fkEmpresa, fkGestor) VALUES 
+    ('${nome}', '${email}', '${senha}', '${cpf}' , '${telefone}', '${codigoEmpresa}', null);
+    
     `;
+    console.log("Executando a instrução SQL: \n" + instrucao);
+    return database.executar(instrucao);
+}
+
+function atualizarCadFunc(nome, email, cpf){
+    var instrucao = `
+    UPDATE funcionario SET fkGestor = (SELECT idFuncionario FROM (SELECT idFuncionario FROM 
+        funcionario WHERE nome='${nome}' AND 
+        email='${email}' AND cpf='${cpf}') AS t) WHERE idFuncionario = (SELECT idFuncionario FROM (SELECT idFuncionario FROM 
+        funcionario WHERE nome='${nome}' AND 
+        email='${email}' AND cpf='${cpf}') AS t);
+    
+    `;
+
     console.log("Executando a instrução SQL: \n" + instrucao);
     return database.executar(instrucao);
 }
@@ -35,6 +51,7 @@ function listar(idUsuario){
 module.exports = {
     autenticar,
     verificarCodEmpresa,
+    atualizarCadFunc,
     cadastrar,
     listar
 };
