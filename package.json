@@ -8,6 +8,10 @@
     "postinstall": "cd web-site && npm install"
   },
   "dependencies": {
-    "formidable": "^3.5.1"
+    "csv": "^6.3.4",
+    "csv-parse": "^5.5.1",
+    "csvtojson": "^2.0.10",
+    "formidable": "^3.5.1",
+    "neat-csv": "^7.0.0"
   }
 }
