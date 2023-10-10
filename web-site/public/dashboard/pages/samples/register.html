@@ -5,7 +5,7 @@
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Star Admin2 </title>
+  <title>Inc-View - Cadastro </title>
   <!-- plugins:css -->
   <link rel="stylesheet" href="../../vendors/feather/feather.css">
   <link rel="stylesheet" href="../../vendors/mdi/css/materialdesignicons.min.css">
@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="../../vendors/typicons/typicons.css">
   <link rel="stylesheet" href="../../vendors/simple-line-icons/css/simple-line-icons.css">
   <link rel="stylesheet" href="../../vendors/css/vendor.bundle.base.css">
+  <link rel="stylesheet" href="css_CadLogin/styleLogin.css">
   <!-- endinject -->
   <!-- Plugin css for this page -->
   <!-- End plugin css for this page -->
@@ -25,7 +26,7 @@
 <body>
   <div class="container-scroller">
     <div class="container-fluid page-body-wrapper full-page-wrapper">
-      <div class="content-wrapper d-flex align-items-center auth px-0">
+      <div class="content-wrapper d-flex align-items-center auth px-0" id="fundo">
         <div class="row w-100 mx-0">
           <div class="col-lg-4 mx-auto">
             <div class="auth-form-light text-left py-5 px-4 px-sm-5">
@@ -45,11 +46,11 @@
                 </div>
                 <div class="form-group">
                     <label for="">CPF</label>
-                    <input type="text" class="form-control form-control-lg" id="ipt_cpf" placeholder="CPF">
+                    <input type="text" class="form-control ls-mask-cpf" id="ipt_cpf" placeholder="CPF" max-lenght="14" autocomplete="off">
                 </div>
                 <div class="form-group">
                     <label for="">Código da empresa</label>
-                    <input type="text" class="form-control form-control-lg" id="ipt_codEmpresa" placeholder="Código da empresa">
+                    <input type="number" class="form-control form-control-lg" id="ipt_codEmpresa" placeholder="Código da empresa">
                     <p style="color: red;" id="aviso_codEmpresa"></p>
                 </div>
                 <div class="form-group">
@@ -69,7 +70,7 @@
                   <input type="password" class="form-control form-control-lg" id="ipt_confSenha" placeholder="Senha">
                 </div>
                 <div class="mt-3">
-                  <a class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" href="../../index.html" onclick="cadastrar()">CADASTRAR</a>
+                  <a class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" onclick="verificaEmpresaExiste()">CADASTRAR</a>
                 </div>
                
                 <div class="text-center mt-4 fw-light">
@@ -103,3 +104,6 @@
 
 <!-- SCRIPT PARA CADASTRO -->
 <script src="../js_projeto/cadastro.js"></script>
+<script>
+  var codEmpresa = sessionStorage.COD_EMPRESA;
+</script>

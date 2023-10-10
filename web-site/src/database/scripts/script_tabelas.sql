@@ -1,6 +1,6 @@
 create database inkView;
 use inkView;
--- DROP DATABASE inkView;
+
 CREATE TABLE IF NOT EXISTS  endereco  (
      idEndereco  INT NOT NULL AUTO_INCREMENT,
      complemento  VARCHAR(45) NULL,
@@ -124,5 +124,4 @@ CREATE TABLE IF NOT EXISTS processo (
     fkComputador INT NOT NULL,
     PRIMARY KEY (idProcesso),
     CONSTRAINT fk_registros_computador1 FOREIGN KEY (fkComputador)
-        REFERENCES computador (idComputador)
-);
+        REFERENCES computador (idComputador);
