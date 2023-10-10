@@ -102,26 +102,6 @@ function cadastrar(req, res) {
     }
 }
 
-function atualizarCadFunc(req, res){
-    var nome = req.body.nomeServer;
-    var email = req.body.emailServer;
-    var cpf = req.body.cpfServer;
-
-    usuarioModel.atualizarCadFunc(nome, email, cpf)
-        .then(
-            function (resultado) {
-                res.json(resultado);
-            }
-        )
-        .catch(
-            function (erro) {
-                console.log(erro);
-                console.log("Houve um erro ao realizar a atualização: ", erro.sqlMessage);
-                res.status(500).json(erro.sqlMessage);
-            }
-        );
-}
-
 function listar(req, res) {
     var idUsuario = req.params.id
     if(idUsuario == undefined) {
@@ -148,7 +128,6 @@ function listar(req, res) {
 module.exports = {
     autenticar,
     verificarCodEmpresa,
-    atualizarCadFunc,
     cadastrar,
     listar
 }
