@@ -1606,3 +1606,7 @@ section {
 #footer .footer-links a:hover {
   color: #3498db;
 }
+
+.text-justify {
+  text-align: justify;
+}
