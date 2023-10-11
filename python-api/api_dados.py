@@ -111,16 +111,17 @@ if opcao == "3":
     axs = gs.subplots(sharex=True, sharey=True)
     # recuperamos todas as colunas dos últimos 40 registros (~20 min)
     # Uma possível melhoria seria deixar o usuário escolher o período que quer observar
-    cursor.execute("SELECT * FROM registros ORDER BY dataRegistro DESC LIMIT 40")
+    cursor.execute("PREPARE stmt FROM @sql")
+    cursor.execute("EXECUTE stmt")
     x = []
     yCpu = []
     yRam = []
     yDisco = []
     
     # aqui são montados os arrays, para exibir através do matplotlib
-    for (id, cpu, ram, disco, dataRegistro) in cursor:
-        x.append(dataRegistro)
-        yCpu.append(cpu)
+    for (idComputador, CPU, ram, disco, dtHora) in cursor:
+        x.append(dtHora)
+        yCpu.append(CPU)
         yRam.append(ram)
         yDisco.append(disco)
 
@@ -160,7 +161,6 @@ if opcao == "1":
         dateNow = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
         diskUseList = []
-
         # A variável diskBar é um array de strings, onde vão sendo armazenadas as barras
         # que são exibidas no console. Assim como a diskUseList, cada posição deste array
         # armazena a barra referente à uma partição.
