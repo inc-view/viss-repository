@@ -18,6 +18,8 @@ router.post("/arquivo", function(req, res){
   var newFilename = ''
   form.parse(req, (err, fields, files) => {
 
+    console.log(files.fileCsv)
+
     if(files.fileCsv[0].mimetype.endsWith('csv')){
 
       if(err){

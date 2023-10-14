@@ -33,6 +33,8 @@ function login(){
                 sessionStorage.FK_GESTOR = json[0].fkGestor;
                 sessionStorage.EMAIL_USER = json[0].email;
                 sessionStorage.SENHA_USER = json[0].senha;
+                sessionStorage.FK_EMPRESA = json[0].fkEmpresa;
+
 
                 setTimeout(function (){
                     window.location = "../../../dashboard/index.html"
