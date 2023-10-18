@@ -19,4 +19,8 @@ router.get("/dashboardDisk", function (req, res) {
     leandroController.dashboardDisk(req, res);
 });
 
+router.get("/infoMaquina", function (req, res) {
+    leandroController.infoMaquina(req, res);
+});
+
 module.exports = router;

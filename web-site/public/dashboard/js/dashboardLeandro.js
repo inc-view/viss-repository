@@ -1,21 +1,62 @@
+function infoMaquina() {
+    var state;
+    var name;
+    var brand;
+    var system;
+    var ip;
+    fetch(`/routeLeandro/dashboardCpu/`, { cache: 'no-store' }).then(function (response) {
+        if (response.ok) {
+            response.json().then(function (resposta) {
+                console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+
+                let registro = resposta[0]
+
+                if (registro.Status == 1) {
+                    state = `Online`
+                } else {
+                    state = `Offline`
+                }
+                name = registro.NomeFuncionario
+                brand = registro.MarcaComputador
+                system = registro.SistemaOperacional
+                ip = registro.ipComputador
+
+                cardStatus.innerHTML = `Status: ${state}`
+                cardName.innerHTML = `Nome do Funcionário: ${name}`
+                cardBrand.innerHTML = `Marca da Máquina: ${brand}`
+                cardSystem.innerHTML = `Sistema Operacional: ${system}`
+                cardIp.innerHTML = `IP da Máquina: ${ip}`
+
+            });
+        } else {
+            console.error('Nenhum dado encontrado ou erro na API');
+        }
+    })
+        .catch(function (error) {
+            console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+        });
+}
+
+infoMaquina()
+
 var labelsDashboardGeral = [0, 0, 0, 0, 0]
 var cpuDataDashboardGeral = [0, 0, 0, 0, 0]
 var memoryDataDashboardGeral = [0, 0, 0, 0, 0]
 var diskDataDashboardGeral = [0, 0, 0, 0, 0]
 
-var varDashboardGeral = new Chart (dashboardGeral, {
+var varDashboardGeral = new Chart(dashboardGeral, {
     type: `line`,
     data: {
         labels: labelsDashboardGeral,
         datasets: [{
             label: `CPU`,
             data: cpuDataDashboardGeral,
-            borderColor: '#FF0000',
+            borderColor: '#2CA093',
         },
         {
             label: `Memória RAM`,
             data: memoryDataDashboardGeral,
-            borderColor: '#009900'
+            borderColor: '#B80096'
         },
         {
             label: `Disco`,
@@ -38,14 +79,14 @@ var varDashboardGeral = new Chart (dashboardGeral, {
 var labelsDashboardCpu = []
 var dataDashboardCpu = []
 
-var varDashboardCpu = new Chart (dashboardCpu, {
+var varDashboardCpu = new Chart(dashboardCpu, {
     type: `line`,
     data: {
         labels: labelsDashboardCpu,
         datasets: [{
             label: `Uso da CPU`,
             data: dataDashboardCpu,
-            borderColor: '#FF0000',
+            borderColor: '#2CA093',
         }]
     },
     options: {
@@ -63,14 +104,14 @@ var varDashboardCpu = new Chart (dashboardCpu, {
 var labelsDashboardMemory = []
 var dataDashboardMemory = []
 
-var varDashboardMemory = new Chart (dashboardMemory, {
+var varDashboardMemory = new Chart(dashboardMemory, {
     type: `line`,
     data: {
         labels: labelsDashboardMemory,
         datasets: [{
             label: `Uso da Memória`,
             data: dataDashboardMemory,
-            borderColor: '#009900'
+            borderColor: '#B80096'
         }]
     },
     options: {
@@ -88,7 +129,7 @@ var varDashboardMemory = new Chart (dashboardMemory, {
 var labelsDashboardDisk = []
 var dataDashboardDisk = []
 
-var varDashboardDisk = new Chart (dashboardDisk, {
+var varDashboardDisk = new Chart(dashboardDisk, {
     type: `line`,
     data: {
         labels: labelsDashboardDisk,
@@ -163,7 +204,7 @@ function updateDashboardGeral() {
         .catch(function (error) {
             console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
         });
-        varDashboardGeral.update()
+    varDashboardGeral.update()
 }
 
 function updateDashboardCpu() {
@@ -187,6 +228,18 @@ function updateDashboardCpu() {
 
                 cardCpu.innerHTML = `${resposta[0].cpu}%`
 
+                if (resposta[0].cpu <= 45) {
+                    cardCpu.style = `color: green !important`
+                } else if (resposta[0].cpu < 65) {
+                    cardCpu.style = `color: white !important`
+                } else if (resposta[0].cpu < 80) {
+                    cardCpu.style = `color: yellow !important`
+                } else if (resposta[0].cpu < 90) {
+                    cardCpu.style = `color: orange !important`
+                } else {
+                    cardCpu.style = `color: red !important`
+                }
+
             });
         } else {
             console.error('Nenhum dado encontrado ou erro na API');
@@ -195,7 +248,7 @@ function updateDashboardCpu() {
         .catch(function (error) {
             console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
         });
-        varDashboardCpu.update()
+    varDashboardCpu.update()
 }
 
 function updateDashboardMemory() {
@@ -218,6 +271,18 @@ function updateDashboardMemory() {
                 }
 
                 cardMemory.innerHTML = `${resposta[0].memory}%`
+
+                if (resposta[0].cpu <= 50) {
+                    cardMemory.style = `color: green !important`
+                } else if (resposta[0].cpu < 65) {
+                    cardMemory.style = `color: white !important`
+                } else if (resposta[0].cpu < 80) {
+                    cardMemory.style = `color: yellow !important`
+                } else if (resposta[0].cpu < 90) {
+                    cardMemory.style = `color: orange !important`
+                } else {
+                    cardMemory.style = `color: red !important`
+                }
 
             });
         } else {
