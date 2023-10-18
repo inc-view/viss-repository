@@ -853,7 +853,7 @@
                                         class="btn btn-primary btn-lg text-white mb-0 me-0"
                                         type="button"
                                         data-bs-toggle="modal"
-                                        data-bs-target="#modalTeste"
+                                        data-bs-target="#modalLote"
                                       >
                                         <i class="mdi mdi-account-plus"></i
                                         >Cadastro em Lote
@@ -955,6 +955,7 @@
     </div>
     <!-- container-scroller -->
 
+    <!-- MODAL CADASTRO UNITÁRIO -->
     <div
       class="modal fade"
       id="exampleModal"
@@ -1044,9 +1045,9 @@
     <!-- MODAL CADASTRO EM LOTE -->
     <div
       class="modal fade"
-      id="modalTeste"
+      id="modalLote"
       tabindex="-1"
-      aria-labelledby="modalTesteLabel"
+      aria-labelledby="modalLoteLabel"
       aria-hidden="true"
     >
       <div class="modal-dialog">
@@ -1087,6 +1088,133 @@
             </div>
           </div>
           <div class="modal-footer"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL EDIÇÃO FUNCIONÁRIO -->
+    <div
+      class="modal fade"
+      id="modalEdit"
+      tabindex="-1"
+      aria-labelledby="modalEditLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+              <div class="col-lg-14">
+                <form id="formInsertFuncionario">
+                  <div class="row g-3 align-items-center mb-3">
+                    <div class="col-auto">
+                      <input type="text" id="dadosFuncionario" hidden data-id="" data-empresa="">
+                      <label for="inputNome" class="col-form-label">Nome</label>
+                      <input
+                        type="text"
+                        id="inputNomeEdit"
+                        class="form-control"
+                        aria-describedby="nameHelp"
+                      />
+                    </div>
+  
+                    <div class="col-auto">
+                      <label for="inputCpf" class="col-form-label">CPF</label>
+                      <input
+                        type="text"
+                        id="inputCpfEdit"
+                        class="form-control"
+                        aria-describedby="cpfHelp"
+                        disabled
+                      />
+                    </div>
+                  </div>
+  
+                  <div class="row-md-4 mb-3">
+                    <label for="inputTelefone" class="form-label">Telefone</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="inputTelefoneEdit"
+                      aria-describedby="telefoneHelp"
+                    />
+                  </div>
+  
+                  <div class="mb-3">
+                    <label for="inputEmailEdit" class="form-label">Email</label>
+                    <input
+                      type="email"
+                      class="form-control"
+                      id="inputEmailEdit"
+                      aria-describedby="emailHelp"
+                    />
+                  </div>
+  
+                  <div class="mb-3">
+                    <label for="inputPass" class="form-label">Senha</label>
+                    <input type="text" class="form-control" id="inputPassEdit" />
+                  </div>
+                  <button id="editar" type="submit" class="btn btn-success">Editar</button>
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                  >
+                    Cancelar
+                  </button>
+                </form>
+              </div>
+          </div>
+          <div class="modal-footer"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL DELETE FUNCIONÁRIO -->
+    <div
+      class="modal fade"
+      id="modalDelete"
+      tabindex="-1"
+      aria-labelledby="modalDeleteLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+              <div class="col-lg-14">
+                <h2>Deseja excluir <span id="nomeFuncionario" class="text-black fw-bold"></span>?</h2>
+              </div>
+          </div>
+          <div class="modal-footer">
+            <button id="deleteFuncionario" type="submit" class="btn btn-danger" data-idFunc="" data-fkEmpresa="">
+              Deletar
+            </button>
+
+            <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                  >
+                    Cancelar
+                  </button>
+          </div>
         </div>
       </div>
     </div>
@@ -1163,7 +1291,6 @@
         "formInsertFuncionario"
       );
       formInsertFuncionario.addEventListener("submit", (e) => {
-
         e.preventDefault();
 
         var countValidation = 0;
@@ -1260,22 +1387,19 @@
         }
       });
 
-      window.addEventListener("load", ()=>{
-        
-        const tabelaFuncionario = document.getElementById('tableFuncionario')
+      window.addEventListener("load", () => {
+        const tabelaFuncionario = document.getElementById("tableFuncionario");
 
-        fetch(`/funcionario/listar/${sessionStorage.getItem("FK_EMPRESA")}`, { cache: 'no-store' })
-        .then((response)=>{
+        fetch(`/funcionario/listar/${sessionStorage.getItem("FK_EMPRESA")}`, {
+          cache: "no-store",
+        }).then((response) => {
+          if (response.status == 200) {
+            response.json().then((resposta) => {
+              console.log(resposta);
 
-          if(response.status == 200){
-
-            response.json().then((resposta)=>{
-
-              console.log(resposta)
-
-              var textHtml = ""
-              for(var i = 0; i < resposta.length; i++){
-
+              tabelaFuncionario.innerHTML = ""
+              var textHtml = "";
+              for (var i = 0; i < resposta.length; i++) {
                 textHtml = `
                   <tr>
                     <td>
@@ -1293,7 +1417,10 @@
                       <div>
                         <button
                           type="button"
+                          onclick="editFuncionario(this)"
                           class="btn btn-info btn-lg text-white mb-0 me-0"
+                          data-bs-toggle="modal"
+                          data-bs-target="#modalEdit"
                           data-idFuncionario="${resposta[i].idFuncionario}"
                           data-fkEmpresa="${resposta[i].fkEmpresa}"
                         >
@@ -1305,9 +1432,13 @@
                         </button>
                         <button
                           type="button"
+                          onclick="deleteFuncionario(this)"
                           class="btn btn-danger btn-lg text-white mb-0 me-0"
                           data-idFuncionario="${resposta[i].idFuncionario}"
                           data-fkEmpresa="${resposta[i].fkEmpresa}"
+                          data-nomeFuncionario="${resposta[i].nome}"
+                          data-bs-toggle="modal"
+                          data-bs-target="#modalDelete"
                         >
                           <span
                             class="material-symbols-outlined"
@@ -1318,20 +1449,105 @@
                       </div>
                     </td>
                   </tr>
-                `
-                
-                tabelaFuncionario.innerHTML += textHtml
+                `;
+
+                tabelaFuncionario.innerHTML += textHtml;
               }
-
-            })
-
-          }else{
-            infoToast.options.text = "Nenhum dado encontrado"
-            infoToast.showToast()
+            });
+          } else {
+            infoToast.options.text = "Nenhum dado encontrado";
+            infoToast.showToast();
           }
+        });
+      });
 
+
+      // EDIÇÃO
+      function editFuncionario(elemento){
+
+        let idFuncionario = elemento.dataset.idfuncionario
+        let fkEmpresa = elemento.dataset.fkempresa
+
+        fetch('/funcionario/listarFuncionario',{
+          method: "post",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            id: idFuncionario,
+            empresa:fkEmpresa
+          })
+
+        }).then((resposta)=>{
+          resposta.json().then(
+            (dados)=>{
+              inputNomeEdit.value = dados[0].nome
+              inputCpfEdit.value = dados[0].cpf
+              inputTelefoneEdit.value = dados[0].telefone
+              inputEmailEdit.value = dados[0].email
+              inputPassEdit.value = dados[0].senha
+
+              document.getElementById('dadosFuncionario').dataset.id = dados[0].idFuncionario
+              document.getElementById('dadosFuncionario').dataset.empresa = dados[0].fkEmpresa
+
+            }
+          )
         })
-      
+      }
+
+      document.getElementById('editar').addEventListener('click', (e)=>{
+
+        e.preventDefault()
+
+        let dadosEdicao = {
+          "nome":inputNomeEdit.value,
+          "telefone":inputTelefoneEdit.value,
+          "email":inputEmailEdit.value,
+          "pass":inputPassEdit.value,
+          "id":document.getElementById('dadosFuncionario').dataset.id,
+          "empresa":document.getElementById('dadosFuncionario').dataset.empresa
+        }
+
+        fetch('/funcionario/editarFuncionario',{
+          method: "post",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            nome:inputNomeEdit.value,
+            telefone:inputTelefoneEdit.value,
+            email:inputEmailEdit.value,
+            pass:inputPassEdit.value,
+            id:document.getElementById('dadosFuncionario').dataset.id,
+            empresa:document.getElementById('dadosFuncionario').dataset.empresa
+          })
+
+        }).then((resposta)=>{
+          if(resposta.ok){
+            successToast.options.text = "Funcionário editado com sucesso"
+            successToast.showToast()
+            setTimeout(()=>{
+              window.location.reload()
+            }, 2000)
+          }
+        })
+
+      })
+
+
+      // EXCLUIR
+      function deleteFuncionario(elemento){
+        document.getElementById('nomeFuncionario').innerHTML = elemento.dataset.nomefuncionario
+        document.getElementById('deleteFuncionario').dataset.idfunc = elemento.dataset.idfuncionario
+        document.getElementById('deleteFuncionario').dataset.fkempresa = elemento.dataset.fkempresa
+      }
+
+      document.getElementById('deleteFuncionario').addEventListener('click', (e)=>{
+        e.preventDefault()
+
+        let id = document.getElementById('deleteFuncionario').dataset.idfunc
+        let empresa = document.getElementById('deleteFuncionario').dataset.fkempresa
+
       })
 
 
