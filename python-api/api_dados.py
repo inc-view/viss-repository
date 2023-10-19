@@ -95,58 +95,16 @@ for i in range(cpuQuantity):
 
 opcao = ""
 
-while not opcao in ("1", "2", "3"):
-    print("Escolha uma opção:\n1- Registrar dados\n2- Exibir histórico\n3- Sair\n")
-    """ print(psutil.net_if_addrs()) """
+while not opcao in ("1", "2"):
+    print("Escolha uma opção:\n1- Registrar dados\n2- Sair\n")
+    ipMaquina = psutil.net_if_addrs()['wlo1'][0].address
+    print('--------------')
+    print(ipMaquina)
     opcao = input()
 
-if opcao == "3":
+if opcao == "2":
     print("Processos finalizados")
 
-""" elif opcao == "2":
-    fig = plt.figure()
-    gs = fig.add_gridspec(1,3)
-    fig.set_figheight(100)
-    fig.set_figwidth(300)
-    axs = gs.subplots(sharex=True, sharey=True)
-    # recuperamos todas as colunas dos últimos 40 registros (~20 min)
-    # Uma possível melhoria seria deixar o usuário escolher o período que quer observar
-    cursor.execute("PREPARE stmt FROM @sql")
-    cursor.execute("EXECUTE stmt")
-    x = []
-    yCpu = []
-    yRam = []
-    yDisco = []
-    
-    # aqui são montados os arrays, para exibir através do matplotlib
-    for (idComputador, CPU, ram, disco, dtHora) in cursor:
-        x.append(dtHora)
-        yCpu.append(CPU)
-        yRam.append(ram)
-        yDisco.append(disco)
-
-    # Todos usam o mesmo array x, pois todos se referem às mesmas datas e horas.
-    axs[0].plot(x, yCpu, 'g')
-    axs[0].set_title('Uso de CPU')
-    axs[0].tick_params(axis='x', labelrotation = 45)
-    axs[0].set_ylabel('Porcentagem de uso (%)')
-   
-    axs[1].plot(x, yRam, 'b')
-    axs[1].set_title('Uso de RAM')
-    axs[1].tick_params(axis='x', labelrotation = 45)
-    axs[1].set_xlabel('Data e hora do registro')
-
-    axs[2].plot(x, yDisco, 'r')
-    axs[2].set_title('Uso de disco')
-    axs[2].tick_params(axis='x', labelrotation = 45)
-   
-    # Setando yticks para que sejam exibidas labels de 10 em 10 % na esquerda
-    plt.yticks([0,10,20,30,40,50,60,70,80,90,100])
-
-    # Adicionando margem, para que o título do eixo x não fique cortado
-    plt.subplots_adjust(bottom=0.20)
-    plt.show()
- """
 if opcao == "1":
     while True:
         systemClear = ('clear' if platform.system() == 'Linux' else 'cls')
@@ -249,7 +207,7 @@ if opcao == "1":
             mySqlInsertQueryMemoryPercent = "INSERT INTO registro VALUES (null, " + str(memoryPercent) + ",  current_timestamp(), 2);"
             mySqlInsertQueryMemoryUsed = "INSERT INTO registro VALUES (null, " + str(memoryUsed) + ",  current_timestamp(), 3);"
             mySqlInsertQueryMemoryTotal = "INSERT INTO registro VALUES (null, " + str(memoryTotal) + ",  current_timestamp(), 3);"
-            mySqlInsertQueryDiskPercent = "INSERT INTO registro VALUES (null, " + str(mediaCpus) + ",  current_timestamp(), 4);"
+            mySqlInsertQueryDiskPercent = "INSERT INTO registro VALUES (null, " + str(diskPercent.percent) + ",  current_timestamp(), 4);"
              
             cursor.execute(mySqlInsertQueryCpuPercent)
             cursor.execute(mySqlInsertQueryMemoryPercent)

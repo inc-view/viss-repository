@@ -36,8 +36,9 @@ INSERT INTO  unidadeMedida  ( idUnidadeMedida ,  tipoMedida ) VALUES
 -- Inserir registros na tabela componentes
 INSERT INTO  componente  ( idComponente ,  tipo ,  fkUnidadeMedida ) VALUES 
 (null, 'CPU', 1),
-(null, 'Memoria', 2), 
-(null, 'Disco', 3), 
+(null, 'Memoria', 1),
+(null, 'Memoria', 3),
+(null, 'Disco', 1), 
 (null, 'Upload', 5);
 
 -- Inserir componentes dos computadores na tabela componenteComputador
