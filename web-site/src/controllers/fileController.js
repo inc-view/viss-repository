@@ -21,8 +21,8 @@ function salvarDados(req, res, fileName) {
         .then((result) => {
 
           if (result) {
-            res.redirect('http://localhost:3333/teste.html')
-            res.status(200).end();
+            res.redirect('http://localhost:3333/dashboard/crud-funcionario.html')
+            res.status(200);
           }
 
         })

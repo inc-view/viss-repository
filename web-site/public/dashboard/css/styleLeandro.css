@@ -24,17 +24,17 @@
     display: none;
 }
 
-.red-text {
-    color: #FF0000 !important;
+.cpu-color-text {
+    color: #2CA093 !important;
     font-weight: bold !important;
 }
 
-.green-text {
-    color: #009900 !important;
+.memory-color-text {
+    color: #B80096 !important;
     font-weight: bold !important;
 }
 
-.blue-text {
+.disk-color-text {
     color: #0000FF !important;
     font-weight: bold !important;
 }

@@ -64,7 +64,7 @@
       <div class="navbar-menu-wrapper d-flex align-items-top"> 
         <ul class="navbar-nav">
           <li class="nav-item font-weight-semibold d-none d-lg-block ms-0">
-            <h1 class="welcome-text">Good Morning, <span class="text-black fw-bold">John Doe</span></h1>
+            <!-- <h1 class="welcome-text">Good Morning, <span class="text-black fw-bold">John Doe</span></h1> -->
             <!-- <h3 class="welcome-sub-text">Your performance summary this week </h3> -->
           </li>
         </ul>
@@ -498,23 +498,23 @@
                     <table class="table">
                       <tbody>
                         <tr>
-                          <td class="fw-bold margin-0">Status:</td>
+                          <td class="fw-bold margin-0" id="cardStatus">Status:</td>
                           <td></td>
                         </tr>
                         <tr>
-                          <td class="fw-bold margin-0">Nome do Funcionário:</td>
+                          <td class="fw-bold margin-0" id="cardName">Nome do Funcionário:</td>
                           <td></td>
                         </tr>
                         <tr>
-                          <td class="fw-bold margin-0">Marca da Máquina:</td>
+                          <td class="fw-bold margin-0" id="cardBrand">Marca da Máquina:</td>
                           <td></td>
                         </tr>
                         <tr>
-                          <td class="fw-bold margin-0">Sistema Operacional:</td>
+                          <td class="fw-bold margin-0" id="cardSystem">Sistema Operacional:</td>
                           <td></td>
                         </tr>
                         <tr>
-                          <td class="fw-bold margin-0">IP da Máquina:</td>
+                          <td class="fw-bold margin-0" id="cardIp">IP da Máquina:</td>
                           <td></td>
                         </tr>
                       </tbody>
@@ -556,17 +556,17 @@
                       <div class="col-sm-12">
                         <div class="statistics-details d-flex align-items-center justify-content-space-around">
                           <div class="text-center card-component red-text card" onclick="hideDashboards(), showCpu()">
-                            <p class="statistics-title red-text card-component-text">CPU</p>
+                            <p class="statistics-title cpu-color-text card-component-text">CPU</p>
                             <h3 class="rate-percentage" id="cardCpu">0%</h3>
                             <!-- <p class="text-danger d-flex"><i class="mdi mdi-menu-down"></i><span>-0.5%</span></p> -->
                           </div>
                           <div class="text-center card-component card" onclick="hideDashboards(), showMemory()">
-                            <p class="statistics-title green-text card-component-text">Memória RAM</p>
+                            <p class="statistics-title memory-color-text card-component-text">Memória RAM</p>
                             <h3 class="rate-percentage" id="cardMemory">0%</h3>
                             <!-- <p class="text-success d-flex"><i class="mdi mdi-menu-up"></i><span>+0.1%</span></p> -->
                           </div>
                           <div class="text-center card-component card" onclick="hideDashboards(), showDisk()">
-                            <p class="statistics-title blue-text card-component-text">Disco</p>
+                            <p class="statistics-title disk-color-text card-component-text">Disco</p>
                             <h3 class="rate-percentage" id="cardDisk">0%</h3>
                             <!-- <p class="text-danger d-flex"><i class="mdi mdi-menu-down"></i><span>68.8</span></p> -->
                           </div>
