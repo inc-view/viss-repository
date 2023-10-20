@@ -6,10 +6,7 @@ from datetime import date
 import time
 import mysql.connector
 import mysql.connector.errorcode
-import matplotlib.pyplot as plt
-import requests
-import json
-import pandas as pd
+import socket
 
 """ webhook = "https://hooks.slack.com/services/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" """
 
@@ -97,9 +94,9 @@ opcao = ""
 
 while not opcao in ("1", "2"):
     print("Escolha uma opção:\n1- Registrar dados\n2- Sair\n")
-    ipMaquina = psutil.net_if_addrs()['wlo1'][0].address
+    ipMaquina = socket.gethostbyname(socket.gethostname())
     print('--------------')
-    print(ipMaquina)
+    print(f'IP Local: {ipMaquina}')
     opcao = input()
 
 if opcao == "2":
@@ -203,6 +200,11 @@ if opcao == "1":
         mediaCpus = round((somaCpus / len(cpusPercent)),2)
 
         try:
+            selectIpMaquina = f"select idHasComponente from hasComponente as h inner join computador as pc on pc.idComputador = h.fkComputador where pc.ipComputador = '{str(ipMaquina)}';"
+            cursor.execute(selectIpMaquina)
+            teste = cursor.fetchall()
+            print(teste)
+
             mySqlInsertQueryCpuPercent = "INSERT INTO registro VALUES (null, " + str(mediaCpus) + ",  current_timestamp(), 1);"
             mySqlInsertQueryMemoryPercent = "INSERT INTO registro VALUES (null, " + str(memoryPercent) + ",  current_timestamp(), 2);"
             mySqlInsertQueryMemoryUsed = "INSERT INTO registro VALUES (null, " + str(memoryUsed) + ",  current_timestamp(), 3);"
