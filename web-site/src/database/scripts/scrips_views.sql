@@ -1,15 +1,16 @@
+use inkView;
 CREATE VIEW tabelaRegistros AS
     SELECT 
          registro . registro  AS  Registro ,
          registro . dtHora  AS  MomentoRegistro ,
          componente . tipo  AS  Componente ,
          unidademedida .tipoMedida AS Simbolo,
-        componenteComputador.idComponenteComputador AS idComponenteComputador,
+        hasComponente.idHasComponente AS idHasComponente,
         computador.idComputador AS idComputador
     FROM
         registro
             JOIN
-        componenteComputador ON fkComponenteComputador = idComponenteComputador
+        hasComponente ON fkHasComponente = idHasComponente
             JOIN
         computador ON fkComputador = idComputador
             JOIN
@@ -55,3 +56,21 @@ CREATE VIEW infoComputador AS
         computador
             JOIN
         funcionario ON fkFuncionario = idFuncionario;
+        
+	
+DELIMITER //
+
+CREATE TRIGGER insere_hasComputadores
+AFTER INSERT ON computador
+FOR EACH ROW
+BEGIN
+    INSERT INTO hasComponente (fkComponente, fkComputador) VALUES 
+     (1, NEW.idComputador),
+     (2, NEW.idComputador),
+     (3, NEW.idComputador),
+     (4, NEW.idComputador);
+END;
+
+//
+
+DELIMITER ;
