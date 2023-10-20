@@ -1,6 +1,6 @@
 create database inkView;
 use inkView;
-
+-- DROP DATABASE inkView;
 CREATE TABLE IF NOT EXISTS  endereco  (
      idEndereco  INT NOT NULL AUTO_INCREMENT,
      complemento  VARCHAR(45) NULL,
@@ -74,31 +74,29 @@ CREATE TABLE IF NOT EXISTS  componente  (
     REFERENCES  unidadeMedida  ( idUnidadeMedida )
 );
 
-CREATE TABLE IF NOT EXISTS  Software  (
+CREATE TABLE IF NOT EXISTS  software  (
    idSoftware  INT NOT NULL AUTO_INCREMENT,
    nomeSoftware  VARCHAR(45) NOT NULL,
    cartegoriaSoftware  VARCHAR(45) NULL,
   PRIMARY KEY ( idSoftware ));
 
-CREATE TABLE IF NOT EXISTS  SoftwareComputador  (
-   fkSoftware  INT NOT NULL AUTO_INCREMENT,
-   bloquado  BOOLEAN NULL,
-   idSoftwareComputador  INT NOT NULL,
-   fkComputador  INT NOT NULL,
-  PRIMARY KEY ( fkSoftware ,  idSoftwareComputador ,  fkComputador ),
-  CONSTRAINT  fk_computador_has_Software_Software1 
-    FOREIGN KEY ( fkSoftware )
-    REFERENCES  Software  ( idSoftware ),
-  CONSTRAINT  fk_ComputadorSoftware_computador1 
-    FOREIGN KEY ( fkComputador )
-    REFERENCES  computador  ( idComputador )
+CREATE TABLE IF NOT EXISTS softwarePermitido (
+    idSoftwarePermitido INT NOT NULL AUTO_INCREMENT,
+    bloquado BOOLEAN NULL,
+    fkSoftware INT NOT NULL,
+    fkComputador INT NOT NULL,
+    PRIMARY KEY (idSoftwarePermitido, fkSoftware, fkComputador),
+    CONSTRAINT fk_computador_has_Software_Software1 FOREIGN KEY (fkSoftware)
+        REFERENCES software (idSoftware),
+    CONSTRAINT fk_ComputadorSoftware_computador1 FOREIGN KEY (fkComputador)
+        REFERENCES computador (idComputador)
 );
 
-CREATE TABLE IF NOT EXISTS  componenteComputador  (
-   idComponenteComputador  INT NOT NULL AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS  hasComponente  (
+   idHasComponente  INT NOT NULL AUTO_INCREMENT,
    fkComponente  INT NOT NULL,
    fkComputador  INT NOT NULL,
-  PRIMARY KEY ( idComponenteComputador ,  fkComponente ,  fkComputador ),
+  PRIMARY KEY ( idHasComponente ,  fkComponente ,  fkComputador ),
   CONSTRAINT  fk_componente_has_computador_componente1 
     FOREIGN KEY ( fkComponente )
     REFERENCES  componente  ( idComponente ),
@@ -111,11 +109,11 @@ CREATE TABLE IF NOT EXISTS  registro  (
    idRegistro  INT NOT NULL AUTO_INCREMENT,
    registro  INT NULL,
    dtHora  DATETIME NULL,
-   fkComponenteComputador  INT NOT NULL,
+   fkHasComponente  INT NOT NULL,
   PRIMARY KEY ( idRegistro ),
   CONSTRAINT  fk_registro_componenteComputador1 
-    FOREIGN KEY ( fkComponenteComputador )
-    REFERENCES  componenteComputador  ( idComponenteComputador )
+    FOREIGN KEY ( fkHasComponente )
+    REFERENCES  hasComponente  ( idHasComponente )
 );
 
 CREATE TABLE IF NOT EXISTS processo (
@@ -124,4 +122,5 @@ CREATE TABLE IF NOT EXISTS processo (
     fkComputador INT NOT NULL,
     PRIMARY KEY (idProcesso),
     CONSTRAINT fk_registros_computador1 FOREIGN KEY (fkComputador)
-        REFERENCES computador (idComputador);
+        REFERENCES computador (idComputador)
+);

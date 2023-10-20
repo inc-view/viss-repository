@@ -19,12 +19,6 @@ INSERT INTO  funcionario  ( idFuncionario ,  fkGestor ,  fkEmpresa ,  nome ,  em
 (null, NULL, 1, 'Maria Santos', 'maria@callcenterabc.com', '98765432109', '(11) 5678-1234', 'senha456'),
 (null, NULL, 2, 'Pedro Almeida', 'pedro@callcenterxyz.com', '56789012345', '(22) 3456-7890', 'senha789');
 
--- Inserir registros na tabela computadores
-INSERT INTO  computador  ( idComputador , ipComputador,  nomePatrimonio ,  marca ,  fkFuncionario ,  sistemaOperacional, ativo) VALUES 
-(null, 'PC001', 123456789,'Dell', 1, 'Windows 10', true),
-(null, 'PC002', 109284585, 'HP', 2, 'Ubuntu 20.04 LTS', true),
-(null, 'PC003', 432984821, 'Lenovo', 3, 'Windows 11', true);
-
 -- Inserir registros na tabela unidadeMedida
 INSERT INTO  unidadeMedida  ( idUnidadeMedida ,  tipoMedida ) VALUES 
 (null, '%'),
@@ -36,23 +30,28 @@ INSERT INTO  unidadeMedida  ( idUnidadeMedida ,  tipoMedida ) VALUES
 -- Inserir registros na tabela componentes
 INSERT INTO  componente  ( idComponente ,  tipo ,  fkUnidadeMedida ) VALUES 
 (null, 'CPU', 1),
-(null, 'Memoria', 2), 
-(null, 'Disco', 3), 
-(null, 'Upload', 5);
+(null, 'Memoria', 1), 
+(null, 'Memoria', 3), 
+(null, 'Disco', 1);
 
--- Inserir componentes dos computadores na tabela componenteComputador
-INSERT INTO componenteComputador values
-(null, 1, 1),
-(null, 2, 1),
-(null, 3, 1),
-(null, 4, 1);
+-- Inserir registros na tabela computadores
+INSERT INTO computador (ipComputador, nomePatrimonio, marca, fkFuncionario, sistemaOperacional, ativo) VALUES
+('034985', 'CPO01', 'Dell', 1, 'Windows 10', true),
+('094385', 'CPO02', 'HP', 2, 'Ubuntu 20.04 LTS', true),
+('123450', 'CPO03', 'Lenovo', 3, 'Windows 11', true);
+
+-- Inserir componentes dos computadores na tabela hasComponente
+-- INSERT INTO hasComponente values
+-- (null, 1, 1),
+-- (null, 2, 1),
+-- (null, 3, 1),
+-- (null, 4, 1);
 
 -- Inserir processos na tabela processo
 INSERT INTO  processo  VALUES
 (NULL, 'excel.exe', 1),
 (NULL, 'intellij.exe', 1),
 (NULL, 'vscode.exe', 1),
-(NULL, 'lol.exe', 1),
 (NULL, 'google.exe', 1);
 
 -- Inserir registros na tabela registro
