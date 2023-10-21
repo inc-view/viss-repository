@@ -74,3 +74,29 @@ END;
 //
 
 DELIMITER ;
+
+
+
+
+
+
+
+
+CREATE VIEW vwIdComponenteComputador AS
+select 
+	ipComputador,
+	cpu1.idHasComponente as 'cpu',
+	ram1.idHasComponente as 'ram',
+    disco1.idHasComponente as 'disco'
+from computador pc
+	join hasComponente cpu1 on cpu1.fkComputador = pc.idComputador
+    join hasComponente ram1 on ram1.fkComputador = pc.idComputador
+    join hasComponente disco1 on disco1.fkComputador = pc.idComputador
+		 join componente c on c.idComponente = cpu1.fkComponente
+         join componente c1 on c1.idComponente = ram1.fkComponente
+         join componente c2 on c2.idComponente = disco1.fkComponente
+			join unidadeMedida u on u.idUnidadeMedida = c1.fkUnidadeMedida
+				where c.tipo = 'CPU' 
+                and  c2.tipo = 'Disco' 
+                and c1.tipo = 'Memoria' 
+                and u.tipoMedida = '%';
