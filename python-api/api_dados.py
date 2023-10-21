@@ -58,8 +58,8 @@ consoleColors = {
 
 connection = mysql.connector.connect(
     host="localhost",
-    user="aluno",
-    password="sptech",
+    user="root",
+    password="@eduufreire",
     port=3306,
     database="inkView"
 )
@@ -94,10 +94,9 @@ opcao = ""
 
 while not opcao in ("1", "2"):
     print("Escolha uma opção:\n1- Registrar dados\n2- Sair\n")
-    ipMaquina = socket.gethostbyname(socket.gethostname())
-    print('--------------')
-    print(f'IP Local: {ipMaquina}')
     opcao = input()
+    ipMaquina = socket.gethostbyname(socket.gethostname())
+
 
 if opcao == "2":
     print("Processos finalizados")
@@ -200,23 +199,25 @@ if opcao == "1":
         mediaCpus = round((somaCpus / len(cpusPercent)),2)
 
         try:
-            selectIpMaquina = f"select idHasComponente from hasComponente as h inner join computador as pc on pc.idComputador = h.fkComputador where pc.ipComputador = '{str(ipMaquina)}';"
+            selectIpMaquina = f"select cpu, ram, disco from vwIdComponenteComputador where ipComputador = '{str(ipMaquina)}'"
             cursor.execute(selectIpMaquina)
-            teste = cursor.fetchall()
-            print(teste)
+            idsComponentes = cursor.fetchone()
 
-            mySqlInsertQueryCpuPercent = "INSERT INTO registro VALUES (null, " + str(mediaCpus) + ",  current_timestamp(), 1);"
-            mySqlInsertQueryMemoryPercent = "INSERT INTO registro VALUES (null, " + str(memoryPercent) + ",  current_timestamp(), 2);"
-            mySqlInsertQueryMemoryUsed = "INSERT INTO registro VALUES (null, " + str(memoryUsed) + ",  current_timestamp(), 3);"
-            mySqlInsertQueryMemoryTotal = "INSERT INTO registro VALUES (null, " + str(memoryTotal) + ",  current_timestamp(), 3);"
-            mySqlInsertQueryDiskPercent = "INSERT INTO registro VALUES (null, " + str(diskPercent.percent) + ",  current_timestamp(), 4);"
-             
+            mySqlInsertQueryCpuPercent = f"INSERT INTO registro VALUES (null, {str(mediaCpus)},  current_timestamp(), {idsComponentes[0]});"
+            mySqlInsertQueryMemoryPercent = f"INSERT INTO registro VALUES (null, {str(memoryPercent)},  current_timestamp(), {idsComponentes[1]});"
+            mySqlInsertQueryDiskPercent = f"INSERT INTO registro VALUES (null, {str(diskPercent.percent)},  current_timestamp(), {idsComponentes[2]});"
+
             cursor.execute(mySqlInsertQueryCpuPercent)
             cursor.execute(mySqlInsertQueryMemoryPercent)
-            cursor.execute(mySqlInsertQueryMemoryUsed)
-            cursor.execute(mySqlInsertQueryMemoryTotal)
             cursor.execute(mySqlInsertQueryDiskPercent)
-            
+
+
+
+            # mySqlInsertQueryMemoryUsed = "INSERT INTO registro VALUES (null, " + str(memoryUsed) + ",  current_timestamp(), 3);"
+            # mySqlInsertQueryMemoryTotal = "INSERT INTO registro VALUES (null, " + str(memoryTotal) + ",  current_timestamp(), 3);"
+            # cursor.execute(mySqlInsertQueryMemoryUsed)
+            # cursor.execute(mySqlInsertQueryMemoryTotal)
+
             connection.commit()
 
         except mysql.connector.Error as error:
