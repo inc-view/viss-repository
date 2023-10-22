@@ -1430,22 +1430,6 @@
                             draw
                           </span>
                         </button>
-                        <button
-                          type="button"
-                          onclick="deleteFuncionario(this)"
-                          class="btn btn-danger btn-lg text-white mb-0 me-0"
-                          data-idFuncionario="${resposta[i].idFuncionario}"
-                          data-fkEmpresa="${resposta[i].fkEmpresa}"
-                          data-nomeFuncionario="${resposta[i].nome}"
-                          data-bs-toggle="modal"
-                          data-bs-target="#modalDelete"
-                        >
-                          <span
-                            class="material-symbols-outlined"
-                          >
-                            delete
-                          </span>
-                        </button>
                       </div>
                     </td>
                   </tr>
@@ -1550,6 +1534,25 @@
 
       })
 
+
+
+      // Botão de delete -> proxima atualizacao
+      // <button
+      //                     type="button"
+      //                     onclick="deleteFuncionario(this)"
+      //                     class="btn btn-danger btn-lg text-white mb-0 me-0"
+      //                     data-idFuncionario="${resposta[i].idFuncionario}"
+      //                     data-fkEmpresa="${resposta[i].fkEmpresa}"
+      //                     data-nomeFuncionario="${resposta[i].nome}"
+      //                     data-bs-toggle="modal"
+      //                     data-bs-target="#modalDelete"
+      //                   >
+      //                     <span
+      //                       class="material-symbols-outlined"
+      //                     >
+      //                       delete
+      //                     </span>
+      //                   </button>
 
     </script>
   </body>
