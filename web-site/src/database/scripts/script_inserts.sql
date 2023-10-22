@@ -56,4 +56,5 @@ INSERT INTO  processo  VALUES
 
 -- Inserir registros na tabela registro
 insert into registro values
-(null, 12, current_timestamp(), 1);
+(null, 89, current_timestamp(), 1);
+-- (null, 70, current_timestamp(), 5);
