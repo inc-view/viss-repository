@@ -16,7 +16,7 @@ var empresasRouter = require("./src/routes/empresas");
 var fileRouter = require("./src/routes/files");
 
 // Meus Route's
-
+var dashListagemRouter = require("./src/routes/routeDashListagem")
 var leandroRouter = require("./src/routes/routeLeandro")
 
 app.use(express.json());
@@ -34,7 +34,7 @@ app.use("/files", fileRouter);
 
 
 // Meus Route's
-
+app.use("/routeDashListagem",dashListagemRouter )
 app.use("/routeLeandro", leandroRouter)
 
 app.listen(PORTA, function () {
