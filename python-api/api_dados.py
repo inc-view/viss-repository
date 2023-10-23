@@ -1,285 +1,175 @@
-# O pacote os é usado para chamar comandos de console pelo python
-# especificamente usamos cls/clear para limpar a tela e deixar a interface mais ajeitada
 import os
-# A psutil é o pacote para obter os dados de máquina
 import psutil
-# A time é usada pela função sleep, para que possamos fazer os registros a cada 1 segundo
+import platform
+import datetime
+from datetime import date
 import time
-# Pacotes MySQL para conectar com o banco
 import mysql.connector
 import mysql.connector.errorcode
-# Pacote matplotlib para exibir o gráfico
-import matplotlib.pyplot as plt
-# pacotes para enviar os dados para o slack
-import requests
-import json
+import socket
 
-# Webhook ligando ao canal #chat_jira do Slack
-webbook = "https://hooks.slack.com/services/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"
+""" webhook = "https://hooks.slack.com/services/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" """
 
-# Esta variável é só para facilitar a edição de cores, que são usadas como métricas
-# Ao invés de ficar colocando o código \033[92m] é so chamar cor['verde'], p.ex.
-cor = {
-    'verde': "\033[92m",
-    'amarelo': "\033[93m",
-    'vermelho': "\033[31m",
-    'branco': "\033[0m"
+# Conexão Jira
+""" def connectJira():
+    url = "https://streamoon.atlassian.net/rest/api/3/issue"
+    auth = HTTPBasicAuth("SuporteStreamoon@gmail.com", "ATATT3xFfGF0QhLRC4Fh1bmPO3_a8GKt1rNexYJtzah5_BRgHq3C_Vfyd0RgYtIAo6wii5U2SR-_o9fI4JLpzgK8BjgBaaoMdHm9X_8GhAyGa9ya9yg7J7JjO9lIujiDcrQwxTOrXswYDzbTv9UWlX3nBTnM83J9C2WAgbnlaOD6EyurDrDHa54=87D5F38C")
+
+    headers ={
+        "Accept": "application/json",
+        "Content-Type": "application/json"
+    }
+   
+    payload = json.dumps({
+            "fields":{  
+                "summary": "Alerta Servidor",
+                "project":{"key":"STREAMOON"},
+                'issuetype':{'name':'[System] Incident'}
+            }
+    })
+   
+    response = requests.request(
+        "POST",
+        url,
+        data=payload,
+        headers=headers,
+        auth=auth
+    ) """
+
+consoleColors = {
+    "black": "\u001b[30m",
+    "red": "\u001b[31m",
+    "green": "\u001b[32m",
+    "yellow": "\u001b[33m",
+    "blue": "\u001b[34m",
+    "magenta": "\u001b[35m",
+    "cyan": "\u001b[36m",
+    "white": "\u001b[37m",
+    "brightBlack": "\u001b[30;1m",
+    "brightRed": "\u001b[31;1m",
+    "brightGreen": "\u001b[32;1m",
+    "brightYellow": "\u001b[33;1m",
+    "brightBlue": "\u001b[34;1m",
+    "brightMagenta": "\u001b[35;1m",
+    "brightCyan": "\u001b[36;1m",
+    "brightWhite": "\u001b[37;1m",
+    "reset": "\u001b[0m",
 }
 
-# A variável conexao cria a conexão ao banco de dados. A comando (criada a partir da 
-# conexao.cursor()) é onde efetivamente fazemos as chamadas de insert/select.
-conexao = mysql.connector.connect(
+connection = mysql.connector.connect(
     host="localhost",
-    user="viss",
-    password="urubu100",
+    user="aluno",
+    password="sptech",
     port=3306,
-    database="apiViss"
+    database="inkView"
 )
 
-comando = conexao.cursor()
+cursor = connection.cursor()
 
-# Essa variável é usada junto do while abaixo para que o usuário selecione uma opção
-# ela é inicializada com "" para que caiamos dentro do while na primeira passada
+def showText():
+    print(f"""{consoleColors['cyan']}
+[]=================================================================[]
+|                                                                   |
+|      ██╗███╗   ██╗ ██████╗    ██╗   ██╗██╗███████╗██╗    ██╗      |
+|      ██║████╗  ██║██╔════╝    ██║   ██║██║██╔════╝██║    ██║      |
+|      ██║██╔██╗ ██║██║         ██║   ██║██║█████╗  ██║ █╗ ██║      |
+|      ██║██║╚██╗██║██║         ╚██╗ ██╔╝██║██╔══╝  ██║███╗██║      |
+|      ██║██║ ╚████║╚██████╗     ╚████╔╝ ██║███████╗╚███╔███╔╝      |
+|      ╚═╝╚═╝  ╚═══╝ ╚═════╝      ╚═══╝  ╚═╝╚══════╝ ╚══╝╚══╝       |
+|                                                                   |
+[]=================================================================[]  
+              {consoleColors['reset']}{consoleColors['cyan']}
+                    Network Name: {platform.node()}
+                    Processor: {platform.processor()}
+                    Operating System: {platform.system()}\n
+[]=================================================================[]{consoleColors['reset']}\n""")
+    
+def ProgressBar(percentual): 
+    if(percentual>=0 or percentual<=100): 
+        B="["+(chr(9632)*(percentual))+"]"; 
+        if(percentual < 70):
+            print(f"""{consoleColors['green']}{B}{consoleColors['reset']}\n""")
+        elif(percentual < 90):
+            print(f"""{consoleColors['yellow']}{B}{consoleColors['reset']}\n""")
+        else:
+            print(f"""{consoleColors['red']}{B}{consoleColors['reset']}\n""")
+
+
+cpuQuantity = psutil.cpu_count(logical=True)
+for i in range(cpuQuantity):
+    cpuName = (f"CPU{i+1}")
+
 opcao = ""
 
-while not opcao in ("1", "2", "3"):
-    print("Escolha uma opção:\n1) Registrar dados\n2) Exibir Histórico\n3) Sair")
+while not opcao in ("1", "2"):
+    print("Escolha uma opção:\n1- Registrar dados\n2- Sair\n")
     opcao = input()
+    ipMaquina = socket.gethostbyname(socket.gethostname())
 
-# Opção de exibir histórico
 if opcao == "2":
+    print("Processos finalizados")
 
-    fig = plt.figure()
-    gs = fig.add_gridspec(1,3)
-    fig.set_figheight(100)
-    fig.set_figwidth(300)
-    axs = gs.subplots(sharex=True, sharey=True)
-    # recuperamos todas as colunas dos últimos 40 registros (~20 min)
-    # Uma possível melhoria seria deixar o usuário escolher o período que quer observar
-    comando.execute("SELECT * FROM registro ORDER BY dataRegistro DESC LIMIT 40")
-    x = []
-    yCpu = []
-    yRam = []
-    yDisco = []
-
-    # aqui são montados os arrays, para exibir através do matplotlib
-    for (id, cpu, ram, disco, dataRegistro) in comando:
-        x.append(dataRegistro)
-        yCpu.append(cpu)
-        yRam.append(ram)
-        yDisco.append(disco)
-
-    # Todos usam o mesmo array x, pois todos se referem às mesmas datas e horas.
-    axs[0].plot(x, yCpu, 'g')
-    axs[0].set_title('Uso de CPU')
-    axs[0].tick_params(axis='x', labelrotation = 45)
-    axs[0].set_ylabel('Porcentagem de uso (%)')
-    
-    axs[1].plot(x, yRam, 'b')
-    axs[1].set_title('Uso de RAM')
-    axs[1].tick_params(axis='x', labelrotation = 45)
-    axs[1].set_xlabel('Data e hora do registro')
-
-    axs[2].plot(x, yDisco, 'r')
-    axs[2].set_title('Uso de disco')
-    axs[2].tick_params(axis='x', labelrotation = 45)
-    
-    # Setando yticks para que sejam exibidas labels de 10 em 10 % na esquerda
-    plt.yticks([0,10,20,30,40,50,60,70,80,90,100])
-
-    # Adicionando margem, para que o título do eixo x não fique cortado
-    plt.subplots_adjust(bottom=0.20)
-    plt.show()
-
-# Opção de exibição em tempo real, e que salva no banco
-elif opcao == "1":
-
-    # A variável cont é usada para salvar no banco intermitentemente
-    # A API lê os dados e exibe ao usuário 1 vez por segundo, mas grava no
-    # banco a cada 30. A variável cont é incrementada em 1 a cada exibição,
-    # e quando ela chega em 30 nós salvamos no banco.
-    cont = 0
-
-    # Essas variáveis de histórico não fazem muito sentido mais. Antes elas 
-    # estavam sendo usadas porque não tinhamos a conexão com o banco, então 
-    # os dados que deveriam ser salvos eram guardados nesses arrays.
-    # Como temos a conexão com o banco podemos alterar isso agora, então podemos 
-    # mencionar que essas variáveis vem de uma versão anterior da API e que 
-    # vamos retirá-las no futuro.
-    cpu_historico = []
-    ram_historico = []
-    disco_historico = []
-
-    # Essas 4 variáveis são usadas para fazer a média para salvar no banco. Nós
-    # lemos os dados 1 vez por segundo, durante 30 segundos, e vamos salvando nessas
-    # variáveis para depois tirar a média e salvar no BD.
-    cpu_soma = 0
-    ram_soma = 0
-    disco_usado_soma = 0
-    disco_total_soma = 0
-
+if opcao == "1":
     while True:
-        # Limpar o console
-        os.system('cls')
+        systemClear = ('clear' if platform.system() == 'Linux' else 'cls')
 
-        # IMPORTANTE: Nós já obtemos os dados de CPU e RAM tratados da psutil, em forma
-        # de porcentagem de uso. Nós também tratamos o disco para obter a porcentagem de
-        # uso, mas fazemos de modo diferente para considerar a possibilidade de diversas
-        # partições
-        cpu_use = psutil.cpu_percent()
-        partitions = psutil.disk_partitions()
+        cpusPercent = psutil.cpu_percent(interval=1, percpu=True)
+        memory = (psutil.virtual_memory())
+        memoryPercent = memory.percent
+        memoryUsed = round((memory.used / 1024 / 1024 / 1000), 1)
+        memoryTotal = round((memory.total / 1024 / 1024 / 1000), 1)
+        diskPartitions = psutil.disk_partitions()
+        diskPercent = psutil.disk_usage(diskPartitions[0].mountpoint)
+        dateNow = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") 
 
-        # A variável disk_use_list armazena o uso de disco de todas as partições.
-        # cada posição deste array se refere aos dados de 1 partição.
-        disk_use_list = []
+        os.system(systemClear)
 
-        # A variável disk_bar é um array de strings, onde vão sendo armazenadas as barras
-        # que são exibidas no console. Assim como a disk_use_list, cada posição deste array
-        # armazena a barra referente à uma partição.
-        disk_bar = []
-
-        # percorremos todas as partições obtidas a partir da psutil. A função enumerate  é do
-        # próprio python, e basicamente ela nos "dá" um id para cada item.
-        # Seria possível usar o for com uma sintaxe do tipo 
-        #   for part in partitions:
-        # Porém,  tem o problema que neste caso não temos como saber em qual índice estamos
-        # atualmente, sem computações adicionais. A função enumerate simplifica esse processo, 
-        # nos dando tanto o item do array quanto seu respectivo índice (representados por part 
-        # e k neste for, respectivamente)
-        for (k, part) in enumerate(partitions):
-
-            # Usamos a propriedade "device" da partição, para obter o seu uso de disco, e adicionamos
-            # no array disk_use_list
-            disk_use_list.append(psutil.disk_usage(part.device))
-
-            # Também aproveitamenos para já começar a criação da barra de porcentagem que é exibida
-            # no console.
-            if (disk_use_list[k].percent <= 70):
-                disk_bar.append(cor['verde'] + "|")
-            elif (disk_use_list[k].percent <= 90):
-                disk_bar.append(cor['amarelo'] + "|")
-            else:
-                disk_bar.append(cor['vermelho'] + "|")
-
-        # A função virtual_memory retorna todas as estatístcas de uso da RAM, como
-        # Total disponível, quanto esta sendo usado, porcentagem usada, etc.
-        ram_use = psutil.virtual_memory()
-        cpu_bar = ""
-
-        # Assim como no disco acima, criamos o início das barras que serão exibidas no console,
-        # com as respectivas métricas.
-        if (cpu_use <= 70):
-            cpu_bar = cor['verde'] + "|"
-        elif (cpu_use <= 90):
-            cpu_bar = cor['amarelo'] + "|"
-        else:
-            cpu_bar = cor['vermelho'] + "|"
-
-        ram_bar = ""
-        if (ram_use.percent <= 70):
-            ram_bar = cor['verde'] + "|"
-        elif (ram_use.percent <= 90):
-            ram_bar = cor['amarelo'] + "|"
-        else:
-            ram_bar = cor['vermelho'] + "|"
-
-        # Este for é onde é construído o "corpo" das barras. o "for i in range(51)"
-        # vai percorrer todos os valores de 0 a 50 (inclusive), e comparamos esse número
-        # com a porcentagem de uso, preenchendo com "=" ou " " dependendo se o uso está
-        # acima ou abaixo do i do for.
-        for i in range(51):
-            if (cpu_use <= i*2):
-                cpu_bar += " "
-            else:
-                cpu_bar += "="
-            
-            # no caso do disco, novamente temos que usar um for para percorrer todas as partições.
-            for (k, disk_use) in enumerate(disk_use_list):
-                if (disk_use.percent <= i*2):
-                    disk_bar[k] += " "
-                else:
-                    disk_bar[k] += "="
-
-            if (ram_use.percent <= i*2):
-                ram_bar += " "
-            else:
-                ram_bar += "=" 
-
-
-        # Finalizamos as barras, adicionando um "|" e a cor branca.
-        # É importante voltar a cor para branco aqui, se não essas cores começam
-        # a vazar para o resto do console.
-        cpu_bar += "|" + cor['branco']          
-        ram_bar += "|" + cor['branco']  
-
-        for (k,disk) in enumerate(disk_use_list):         
-            disk_bar[k] += "|" + cor['branco']     
-
-
-        # exibimos através de prints. Aqui exibimios não só as barras, mas também os dados
-        # numéricos
-        # CPU: porcentagem de uso (%)
-        # RAM: RAM usada / RAM total (GB)
-        # Disco: Nome da partição e disco usado / disco total (GB)
-        # no caso da RAM e disco dividimos por 1000000000 para converter de byte para GB.
-        # também é usado round para exibir só 2 casas decimais, para ficar mais amigável para o usuário
-        print('CPU: ' + str(cpu_use) + ' %\n' + cpu_bar)
-        print('\nRAM: ' + str(round(ram_use.used / pow(10, 9), 2)) + '/' + str(round(ram_use.total / pow(10, 9),2)) +' GB\n' + ram_bar)
+        showText()
         
-        for (k,disk) in enumerate(disk_use_list):         
-            print('\n' + partitions[k].device + ': ' +str(round(disk.used / pow(10, 9), 2))+ '/' +str(round(disk.total / pow(10, 9), 2))  + ' GB\n' + disk_bar[k])
+        somaCpus = 0
+        mediaCpus = 0
+        for i in range(psutil.cpu_count()):
+            somaCpus += cpusPercent[i]
+            cpuName1 = (f"CPU{i+1}")
+            print(f"""{cpuName1}: {cpusPercent[i]}%""")
+            (ProgressBar(percentual=int(cpusPercent[i])))
+        print(f"""Memória Percent: {memoryPercent}%""")
+        ProgressBar(percentual=int(memoryPercent))
+        print(f"""Memória Usada: {memoryUsed} GB""")
+        ProgressBar(percentual=int(memoryUsed))
+        print(f"""Memoria Total: {memoryTotal} GB""")
+        ProgressBar(percentual=int(memoryTotal))
+            
+        mediaCpus = round((somaCpus / len(cpusPercent)),2)
 
-        # Somamos nas variáveis que usaremos para gravar no banco depois
-        cpu_soma += cpu_use
-        ram_soma += ram_use.percent
-        for disco in disk_use_list:
-            disco_usado_soma += disco.used
-            disco_total_soma += disco.total
-        cont += 1
+        try:
+            selectIpMaquina = f"select cpu, ram, disco from vwIdComponenteComputador where ipComputador = '{str(ipMaquina)}'"
+            cursor.execute(selectIpMaquina)
+            idsComponentes = cursor.fetchone()
 
-        # a cada 30 ciclos, gravamos os dados no banco.
-        if (cont >= 30):
+            mySqlInsertQueryCpuPercent = f"INSERT INTO registro VALUES (null, {str(mediaCpus)},  current_timestamp(), {idsComponentes[0]});"
+            mySqlInsertQueryMemoryPercent = f"INSERT INTO registro VALUES (null, {str(memoryPercent)},  current_timestamp(), {idsComponentes[1]});"
+            mySqlInsertQueryDiskPercent = f"INSERT INTO registro VALUES (null, {str(diskPercent.percent)},  current_timestamp(), {idsComponentes[2]});"
 
-            # no caso da CPU e da RAM, como somamos a porcentagem a cada ciclo, nós dividimos por 30
-            # para obter a média. 
-            # No caso do disco, como obtemos as somas de disco usado e disco total (e não a porcentagem)
-            # essa divisão por 30 não é necessária, nós só convertemos em porcentagem
-            # Nos 3 casos usamos round para 2 casas decimais
-            cpu_historico.append(round(cpu_soma / 30, 2))
-            ram_historico.append(round(ram_soma / 30, 2))
-            disco_historico.append(round((100 * disco_usado_soma) / (disco_total_soma), 2))
+            cursor.execute(mySqlInsertQueryCpuPercent)
+            cursor.execute(mySqlInsertQueryMemoryPercent)
+            cursor.execute(mySqlInsertQueryDiskPercent)
 
-            # Executamos o INSERT
-            # Como eu mencionei antes, as variáveis historico são meio desnecessárias, nós poderíamos
-            # pegar os cálculos feitos acima e jogá-los direto no INSERT.
-            # Mas, não podemos mudar isso agora, então ficamos com esse código legado por enquanto
-            comando.execute(
-                "INSERT INTO registro (usoCpu, usoRam, usoDisco, dataRegistro) VALUES "
-                f"({cpu_historico[-1]},{ram_historico[-1]},{disco_historico[-1]}, now());"
-            )
-            # aqui tem um macetezinho que eu acho útil de python, que você pode usar índices negativos
-            # em arrays. Basicamente eles siginificam que você conta de trás para frente, então o índice
-            # -1 te da o último item do array, o -2 dá o penúltimo, e assim por diante.
 
-            # Envio de mensagem ao slack 
-            if (ram_historico[-1] <= 90):
-                mensagem = { "text": "A RAM está em estado crítico" }
-                requests.post(webbook, data=json.dumps(mensagem))
 
-            conexao.commit()
+            # mySqlInsertQueryMemoryUsed = "INSERT INTO registro VALUES (null, " + str(memoryUsed) + ",  current_timestamp(), 3);"
+            # mySqlInsertQueryMemoryTotal = "INSERT INTO registro VALUES (null, " + str(memoryTotal) + ",  current_timestamp(), 3);"
+            # cursor.execute(mySqlInsertQueryMemoryUsed)
+            # cursor.execute(mySqlInsertQueryMemoryTotal)
 
-            # Resetando as variáveis para o próximo ciclo.
-            cpu_soma = 0
-            ram_soma = 0
-            disco_usado_soma = 0
-            disco_total_soma = 0
-            cont = 0
+            connection.commit()
 
-        # De novo, isso aqui é código legado de primeira versão. Está comentado mas vamos tirar no futuro
-        #print('\nHistórico: ')
-        #print('CPU:\n', cpu_historico)
-        #print('RAM:\n', ram_historico)
-        #print('Disco:\n', disco_historico)
+        except mysql.connector.Error as error:
+           print("Failed to insert record into Laptop table {}".format(error))
 
-        # Função sleep, para dar uma pausa de 1 segundo entre os registros.
-        time.sleep(1)
+        time.sleep(2)
+    
+
+if connection.is_connected():
+    cursor.close()
+    connection.close()
