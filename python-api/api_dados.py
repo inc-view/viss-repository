@@ -86,14 +86,23 @@ def showText():
     
 def ProgressBar(percentual): 
     if(percentual>=0 or percentual<=100): 
-        B="["+(chr(9632)*(percentual))+"]"; 
+        barPercent="["+(chr(9632)*(percentual))+"]"; 
         if(percentual < 70):
-            print(f"""{consoleColors['green']}{B}{consoleColors['reset']}\n""")
+            print(f"""{consoleColors['green']}{barPercent}{consoleColors['reset']}\n""")
         elif(percentual < 90):
-            print(f"""{consoleColors['yellow']}{B}{consoleColors['reset']}\n""")
+            print(f"""{consoleColors['yellow']}{barPercent}{consoleColors['reset']}\n""")
         else:
-            print(f"""{consoleColors['red']}{B}{consoleColors['reset']}\n""")
+            print(f"""{consoleColors['red']}{barPercent}{consoleColors['reset']}\n""")
 
+def ProgressBarGB(memoria):
+    if(memoria>=0 or memoria<=100): 
+        barMemoria="["+(chr(9632)*(memoria))+"]"; 
+        if(memoria < memoryTotal/1.5):
+            print(f"""{consoleColors['green']}{barMemoria}{consoleColors['reset']}\n""")
+        elif(memoria < memoryTotal/1.15):
+            print(f"""{consoleColors['yellow']}{barMemoria}{consoleColors['reset']}\n""")
+        else:
+            print(f"""{consoleColors['red']}{barMemoria}{consoleColors['reset']}\n""")
 
 cpuQuantity = psutil.cpu_count(logical=True)
 for i in range(cpuQuantity):
@@ -136,9 +145,11 @@ if opcao == "1":
         print(f"""Memória Percent: {memoryPercent}%""")
         ProgressBar(percentual=int(memoryPercent))
         print(f"""Memória Usada: {memoryUsed} GB""")
-        ProgressBar(percentual=int(memoryUsed))
-        print(f"""Memoria Total: {memoryTotal} GB""")
+        ProgressBarGB(memoria=int(memoryUsed))
+        print(f"""Memória Total: {memoryTotal} GB""")
         ProgressBar(percentual=int(memoryTotal))
+        print(f"""Disk Percent: {diskPercent.percent}%""")
+        ProgressBar(percentual=int(diskPercent.percent))
             
         mediaCpus = round((somaCpus / len(cpusPercent)),2)
 
