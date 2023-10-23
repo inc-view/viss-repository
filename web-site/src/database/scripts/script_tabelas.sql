@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS  endereco  (
 );
   
 CREATE TABLE IF NOT EXISTS  empresa  (
-   idEmpresa  INT NOT NULL AUTO_INCREMENT,
+   idEmpresa  INT NOT NULL AUTO_INUsadaCREMENT,
    razaoSocial  VARCHAR(100) NOT NULL,
    cnpj  CHAR(14) NOT NULL,
    email  VARCHAR(100) NOT NULL,

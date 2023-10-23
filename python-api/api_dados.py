@@ -58,8 +58,8 @@ consoleColors = {
 
 connection = mysql.connector.connect(
     host="localhost",
-    user="root",
-    password="@eduufreire",
+    user="aluno",
+    password="sptech",
     port=3306,
     database="inkView"
 )
@@ -78,13 +78,22 @@ def showText():
 |      ╚═╝╚═╝  ╚═══╝ ╚═════╝      ╚═══╝  ╚═╝╚══════╝ ╚══╝╚══╝       |
 |                                                                   |
 []=================================================================[]  
-              {consoleColors['reset']}""")
-
-    print(f"""{consoleColors['cyan']}
-            Network Name: {platform.node()}
-            Processor: {platform.processor()}
-            Operating System: {platform.system()}\n
+              {consoleColors['reset']}{consoleColors['cyan']}
+                    Network Name: {platform.node()}
+                    Processor: {platform.processor()}
+                    Operating System: {platform.system()}\n
 []=================================================================[]{consoleColors['reset']}\n""")
+    
+def ProgressBar(percentual): 
+    if(percentual>=0 or percentual<=100): 
+        B="["+(chr(9632)*(percentual))+"]"; 
+        if(percentual < 70):
+            print(f"""{consoleColors['green']}{B}{consoleColors['reset']}\n""")
+        elif(percentual < 90):
+            print(f"""{consoleColors['yellow']}{B}{consoleColors['reset']}\n""")
+        else:
+            print(f"""{consoleColors['red']}{B}{consoleColors['reset']}\n""")
+
 
 cpuQuantity = psutil.cpu_count(logical=True)
 for i in range(cpuQuantity):
@@ -96,7 +105,6 @@ while not opcao in ("1", "2"):
     print("Escolha uma opção:\n1- Registrar dados\n2- Sair\n")
     opcao = input()
     ipMaquina = socket.gethostbyname(socket.gethostname())
-
 
 if opcao == "2":
     print("Processos finalizados")
@@ -112,89 +120,25 @@ if opcao == "1":
         memoryTotal = round((memory.total / 1024 / 1024 / 1000), 1)
         diskPartitions = psutil.disk_partitions()
         diskPercent = psutil.disk_usage(diskPartitions[0].mountpoint)
-        dateNow = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
-        diskUseList = []
-        # A variável diskBar é um array de strings, onde vão sendo armazenadas as barras
-        # que são exibidas no console. Assim como a diskUseList, cada posição deste array
-        # armazena a barra referente à uma partição.
-        diskBar = []
-        # percorremos todas as partições obtidas a partir da psutil. A função enumerate  é do
-        # próprio python, e basicamente ela nos "dá" um id para cada item.
-        # Seria possível usar o for com uma sintaxe do tipo
-        #   for part in partitions:
-        # Porém,  tem o problema que neste caso não temos como saber em qual índice estamos
-        # atualmente, sem computações adicionais. A função enumerate simplifica esse processo,
-        # nos dando tanto o item do array quanto seu respectivo índice (representados por part
-        # e k neste for, respectivamente)
-        for (k, part) in enumerate(diskPartitions):
-            # Usamos a propriedade "device" da partição, para obter o seu uso de disco, e adicionamos
-            # no array diskUseList
-            diskUseList.append(psutil.disk_usage(part.device))
-            # Também aproveitamenos para já começar a criação da barra de porcentagem que é exibida
-            # no console.
-            if (diskUseList[k].percent <= 70):
-                diskBar.append(consoleColors['green'] + "|")
-            elif (diskUseList[k].percent <= 90):
-                diskBar.append(consoleColors['yellow'] + "|")
-            else:
-                diskBar.append(consoleColors['red'] + "|")
-                # A função virtual_memory retorna todas as estatístcas de uso da RAM, como
-        # Total disponível, quanto esta sendo usado, porcentagem usada, etc.
-        cpuBar = ""
-        ramBar = ""
-            # Assim como no disco acima, criamos o início das barras que serão exibidas no console,
-            # com as respectivas métricas.
-        if (cpusPercent[i] <= 70):
-            cpuBar = consoleColors['green'] + "|"
-        elif (cpusPercent[i] <= 90):
-            cpuBar = consoleColors['yellow'] + "|"
-        else:
-            cpuBar = consoleColors['red'] + "|"
-        if (memoryPercent <= 70):
-            ramBar = consoleColors['green'] + "|"
-        elif (memoryPercent <= 90):
-            ramBar = consoleColors['yellow'] + "|"
-        else:
-            ramBar = consoleColors['red'] + "|"
-           
-        # no caso do disco, novamente temos que usar um for para percorrer todas as partições.
-        for (k, disk) in enumerate(diskUseList):
-            if (diskPercent.percent <= i*2):
-                diskBar[k] += " "
-            else:
-                diskBar[k] += "="
-        if (memoryPercent <= i*2):
-            ramBar += " "
-        else:
-            ramBar += "=" 
-
-
-        # Finalizamos as barras, adicionando um "|" e a cor branca.
-        # É importante voltar a cor para branco aqui, se não essas cores começam
-        # a vazar para o resto do console.
-        cpuBar += "|" + consoleColors['white']          
-        ramBar += "|" + consoleColors['white']  
-
-        for (k,disk) in enumerate(diskUseList):        
-            diskBar[k] += "|" + consoleColors['white']
+        dateNow = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") 
 
         os.system(systemClear)
 
         showText()
-        print("Memória Percent: ", memoryPercent, "%\n", ramBar, "\nMemória Total: ", memoryTotal, "GB", "\nMemoria Usada: ", memoryUsed, "GB")
         
         somaCpus = 0
         mediaCpus = 0
         for i in range(psutil.cpu_count()):
             somaCpus += cpusPercent[i]
             cpuName1 = (f"CPU{i+1}")
-            for j in range(51):
-                if (cpusPercent[i] <= j*2):
-                    cpuBar += " "
-                else:
-                    cpuBar += "="
-            print(cpuName1, ":", cpusPercent[i], "%")
+            print(f"""{cpuName1}: {cpusPercent[i]}%""")
+            (ProgressBar(percentual=int(cpusPercent[i])))
+        print(f"""Memória Percent: {memoryPercent}%""")
+        ProgressBar(percentual=int(memoryPercent))
+        print(f"""Memória Usada: {memoryUsed} GB""")
+        ProgressBar(percentual=int(memoryUsed))
+        print(f"""Memoria Total: {memoryTotal} GB""")
+        ProgressBar(percentual=int(memoryTotal))
             
         mediaCpus = round((somaCpus / len(cpusPercent)),2)
 
@@ -229,4 +173,3 @@ if opcao == "1":
 if connection.is_connected():
     cursor.close()
     connection.close()
-
