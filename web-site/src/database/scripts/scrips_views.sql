@@ -20,7 +20,6 @@ CREATE VIEW tabelaRegistros AS
     ORDER BY registro.dtHora
     LIMIT 1000;
     
-
 SET @sql = NULL; -- Criando uma variável para armazenar o comando
 SELECT 
     GROUP_CONCAT(DISTINCT CONCAT('max(case when Componente = \'',
@@ -46,18 +45,42 @@ EXECUTE stmt; -- Executa o statement
 
 -- VIEW DE INFORMAÇÕES DO COMPUTADOR
 CREATE VIEW infoComputador AS
-    SELECT 
-        computador.ativo AS `Status`,
-        funcionario.nome AS `NomeFuncionario`,
-        computador.marca AS `MarcaComputador`,
-        computador.sistemaOperacional AS `SistemaOperacional`,
-        computador.ipComputador AS `IpComputador`
-    FROM
-        computador
-            JOIN
-        funcionario ON fkFuncionario = idFuncionario;
+SELECT 
+    f.nome AS `NomeFuncionario`,
+    c.ipComputador AS `IpComputador`,
+    c.ativo AS `Status`,
+    c.marca AS `MarcaComputador`,
+    c.sistemaOperacional AS `SistemaOperacional`,
+    (
+        SELECT MAX(r.dtHora)
+        FROM registro r
+        WHERE r.fkHasComponente IN (
+            SELECT hc.idHasComponente
+            FROM hasComponente hc
+            WHERE hc.fkComputador = c.idComputador
+        )
+    ) AS `UltimaSessao`,
+    (
+        SELECT r.registro
+        FROM registro r
+        JOIN hasComponente hc ON r.fkHasComponente = hc.idHasComponente
+        JOIN componente comp ON hc.fkComponente = comp.idComponente
+        WHERE comp.tipo = 'CPU' AND r.dtHora = (
+            SELECT MAX(r2.dtHora)
+            FROM registro r2
+            JOIN hasComponente hc2 ON r2.fkHasComponente = hc2.idHasComponente
+            WHERE hc2.fkComputador = c.idComputador
+            AND comp.tipo = 'CPU'
+        )
+        LIMIT 1
+    ) AS `PorcentagemCPU`
+FROM computador c
+JOIN funcionario f ON c.fkFuncionario = f.idFuncionario;
         
-	
+        select * from infoComputador;
+        select * from registro;
+		select * from tabelaRegistros;
+        DROP VIEW infoComputador;
 DELIMITER //
 
 CREATE TRIGGER insere_hasComputadores
@@ -74,11 +97,6 @@ END;
 //
 
 DELIMITER ;
-
-
-
-
-
 
 
 
