@@ -1,3 +1,44 @@
+const successToast = Toastify({
+    text: "Cadastro realizado com sucesso",
+    duration: 2000,
+    newWindow: true,
+    close: true,
+    gravity: "top", // `top` or `bottom`
+    position: "right", // `left`, `center` or `right`
+    stopOnFocus: true, // Prevents dismissing of toast on hover
+    style: {
+      background: "#008000",
+    },
+  });
+
+  const errorToast = Toastify({
+    text: "Não foi possível realizar o cadastro",
+    duration: 2000,
+    newWindow: true,
+    close: true,
+    gravity: "top", // `top` or `bottom`
+    position: "right", // `left`, `center` or `right`
+    stopOnFocus: true, // Prevents dismissing of toast on hover
+    style: {
+      background: "#FF2F2F",
+    },
+  });
+
+  const infoToast = Toastify({
+    text: "",
+    className: "info",
+    duration: 2000,
+    newWindow: true,
+    close: true,
+    gravity: "top", // `top` or `bottom`
+    position: "right", // `left`, `center` or `right`
+    stopOnFocus: true, // Prevents dismissing of toast on hover
+    style: {
+      background: "#eead2d",
+    },
+  });
+
+
 function mask(o,f){
     v_obj=o
     v_fun=f
@@ -73,10 +114,12 @@ function cadastrar(empresa){
 
 
     if(verifica_vazio){
-        alert("Os campos devem ser todos preenchidos");
+        infoToast.options.text = "Os campos devem ser todos preenchidos"
+        infoToast.showToast()
     }
     if(verifica_senha){
-        alert("Os campos não correspondem")
+        infoToast.options.text = "Os campos não correspondem"
+        infoToast.showToast()
     }
     if(!verifica_senha && !verifica_vazio){
         fetch("/usuarios/cadastrar", {
@@ -99,8 +142,13 @@ function cadastrar(empresa){
             console.log("resposta: ", resposta);
 
             if (resposta.ok) {
-                alert("Cadastro realizado com sucesso! Redirecionando para o login");
-                window.location = "login.html";
+                successToast.options.text = "Cadastro realizado com sucesso! Redirecionando para o login"
+                successToast.showToast()
+
+                setTimeout(()=>{
+                    window.location = "login.html";
+                }, 2000)
+
             } else {
                 throw ("Houve um erro ao tentar realizar o cadastro!");
             }
@@ -112,7 +160,8 @@ function cadastrar(empresa){
         return false;
 
     }else{
-        alert("campos preenchidos de maneira incorreta")
+        infoToast.options.text = "Campos preenchidos de maneira incorreta"
+        infoToast.showToast()
     }
 }
 
