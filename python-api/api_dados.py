@@ -58,8 +58,8 @@ consoleColors = {
 
 connection = mysql.connector.connect(
     host="localhost",
-    user="aluno",
-    password="sptech",
+    user="root",
+    password="1234567",
     port=3306,
     database="inkView"
 )
@@ -95,7 +95,7 @@ def ProgressBar(percentual):
             print(f"""{consoleColors['red']}{B}{consoleColors['reset']}\n""")
 
 
-cpuQuantity = psutil.cpu_count(logical=True)
+cpuQuantity = psutil.cpu_count(logical=False)
 for i in range(cpuQuantity):
     cpuName = (f"CPU{i+1}")
 

@@ -208,6 +208,8 @@ function updateDashboardGeral() {
 }
 
 function updateDashboardCpu() {
+    var dataDash = new Date();
+    data_dash.innerHTML = `${dataDash.getDate()}/${dataDash.getMonth()}/${dataDash.getFullYear()}`
     fetch(`/routeLeandro/dashboardCpu/`, { cache: 'no-store' }).then(function (response) {
         if (response.ok) {
             response.json().then(function (resposta) {
@@ -215,7 +217,9 @@ function updateDashboardCpu() {
 
                 for (i = 0; i < resposta.length; i++) {
                     let registro = resposta[i]
-                    labelsDashboardCpu.push(registro.dtHora)
+                    var data = new Date(registro.dtHora);
+                    var dataTratada = data.getHours() + ":" + data.getMinutes() + ":" + data.getSeconds();
+                    labelsDashboardCpu.push(dataTratada)
                     dataDashboardCpu.push(registro.cpu)
                 }
 
