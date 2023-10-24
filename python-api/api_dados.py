@@ -59,7 +59,7 @@ consoleColors = {
 connection = mysql.connector.connect(
     host="localhost",
     user="root",
-    password="@eduufreire",
+    password="1234567",
     port=3306,
     database="inkView"
 )
@@ -104,7 +104,7 @@ def ProgressBarGB(memoria):
         else:
             print(f"""{consoleColors['red']}{barMemoria}{consoleColors['reset']}\n""")
 
-cpuQuantity = psutil.cpu_count(logical=True)
+cpuQuantity = psutil.cpu_count(logical=False)
 for i in range(cpuQuantity):
     cpuName = (f"CPU{i+1}")
 

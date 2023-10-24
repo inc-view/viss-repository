@@ -25,7 +25,7 @@ function dashboardCpu() {
         instrucaoSql = ``;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucaoSql = `SELECT registro AS 'cpu', dtHora FROM registro
-        WHERE fkComponenteComputador = 1
+        WHERE fkHasComponente = 5
         ORDER BY dtHora DESC LIMIT 1`;
     } else {
         console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
@@ -44,7 +44,7 @@ function dashboardMemory() {
         instrucaoSql = ``;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucaoSql = `SELECT registro AS 'memory', dtHora FROM registro
-        WHERE fkComponenteComputador = 2
+        WHERE fkHasComponente = 2
         ORDER BY dtHora DESC LIMIT 1`;
     } else {
         console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
@@ -63,7 +63,7 @@ function dashboardDisk() {
         instrucaoSql = ``;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucaoSql = `SELECT registro AS 'disk', dtHora FROM registro
-        WHERE fkComponenteComputador = 3
+        WHERE fkHasComponente = 3
         ORDER BY dtHora DESC LIMIT 1`;
     } else {
         console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
