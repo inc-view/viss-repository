@@ -62,7 +62,7 @@ consoleColors = {
 #     database="inkView"
 # )
 
-cursor = connection.cursor()
+# cursor = connection.cursor()
 
 def showText():
     print(f"""{consoleColors['cyan']}
