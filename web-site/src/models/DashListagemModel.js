@@ -42,12 +42,16 @@ function ListagemCpuProblema(fkEmpresa){
     if (process.env.AMBIENTE_PROCESSO == "producao") {
         instrucaoSql = ``;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
-        instrucaoSql = `SELECT COUNT(idComputador) as totalCpuProblema from registro
-        join hasComponente on fkHasComponente = idHasComponente
-        join computador on fkComputador = idComputador 
-        join componente ON fkComponente = idComponente
-		join funcionario on fkFuncionario = idFuncionario
-        where componente.tipo = 'cpu' and registro.registro > 85 and funcionario.fkEmpresa = ${fkEmpresa}`;
+        instrucaoSql = ` SELECT  COUNT(distinct idComputador) as totalCpuProblema
+        FROM registro
+        JOIN hasComponente ON fkHasComponente = idHasComponente
+        JOIN computador ON fkComputador = idComputador
+        JOIN componente ON fkComponente = idComponente
+        JOIN funcionario ON fkFuncionario = idFuncionario
+        WHERE componente.tipo = 'cpu'
+        AND registro.registro > 85
+        AND registro.dtHora >= now() - interval 1 minute
+        AND funcionario.fkEmpresa = ${fkEmpresa};`;
     } else {
         console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
         return
@@ -88,7 +92,7 @@ function fazerLista(fkEmpresa){
         c.ativo AS 'Status',
         c.sistemaOperacional AS 'SistemaOperacional',
         (
-            SELECT MAX(r.dtHora)
+            SELECT date_format(MAX(r.dtHora), ' %H:%i %d/%m/%Y ') 
             FROM registro r
             WHERE r.fkHasComponente IN (
                 SELECT hc.idHasComponente

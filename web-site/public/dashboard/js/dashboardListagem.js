@@ -99,7 +99,7 @@ function fazerLista(){
                 for (i = 0; i < resposta.length; i++) {
                     listaHtml +=  `<tr>
                     <td class="py-1"> 
-                    <a style="text-decoration: none; color: black;" target="_blank" href="./dashboardLeandro.html?id=${resposta[i].idComputador}">${resposta[i].NomeFuncionario}</a>
+                    <a style="text-decoration: none; color: black;" target="_self" href="./dashboardLeandro.html?id=${resposta[i].idComputador}">${resposta[i].NomeFuncionario}</a>
 
                     </td>
                     <td>
@@ -150,4 +150,6 @@ function fazerLista(){
     
 }
 
+setInterval(ListagemTotalComputadores(),10000)
+setInterval(ListagemCpuProblema(),10000)
 
