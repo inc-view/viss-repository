@@ -3,7 +3,7 @@ var database = require("../database/config")
 function autenticar(email, senha) {
     console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function entrar(): ", email, senha)
     var instrucao = `
-        SELECT id, nome, email FROM funcionario WHERE email = '${email}' AND senha = '${senha}';
+        SELECT * FROM funcionario WHERE email = '${email}' AND senha = '${senha}';
     `;
     console.log("Executando a instrução SQL: \n" + instrucao);
     return database.executar(instrucao);
@@ -29,19 +29,6 @@ function cadastrar(nome, email, senha, cpf , telefone, codigoEmpresa) {
     return database.executar(instrucao);
 }
 
-function atualizarCadFunc(nome, email, cpf){
-    var instrucao = `
-    UPDATE funcionario SET fkGestor = (SELECT idFuncionario FROM (SELECT idFuncionario FROM 
-        funcionario WHERE nome='${nome}' AND 
-        email='${email}' AND cpf='${cpf}') AS t) WHERE idFuncionario = (SELECT idFuncionario FROM (SELECT idFuncionario FROM 
-        funcionario WHERE nome='${nome}' AND 
-        email='${email}' AND cpf='${cpf}') AS t);
-    
-    `;
-
-    console.log("Executando a instrução SQL: \n" + instrucao);
-    return database.executar(instrucao);
-}
 function listar(idUsuario){
     console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function cadastrar():");
     var instrucao = `SELECT nomeFuncionario, telefoneFuncionario, cpfGestor, emailFuncionario WHERE idFuncionario = '${idUsuario}';`;
@@ -51,7 +38,6 @@ function listar(idUsuario){
 module.exports = {
     autenticar,
     verificarCodEmpresa,
-    atualizarCadFunc,
     cadastrar,
     listar
 };

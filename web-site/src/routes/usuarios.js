@@ -19,7 +19,4 @@ router.get("/verificarCodEmpresa/:codEmpresa", function (req, res) {
     usuarioController.verificarCodEmpresa(req, res);
 });
 
-router.put("/atualizarCadFunc", function (req, res) {
-    usuarioController.atualizarCadFunc(req, res);
-});
 module.exports = router;
