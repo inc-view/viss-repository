@@ -4,8 +4,6 @@ function infoMaquina() {
     var brand;
     var system;
     var ip;
-    var dataDash = new Date();
-    data_dash.innerHTML = `${dataDash.getDate()}/${dataDash.getMonth() + 1}/${dataDash.getFullYear()}`
     fetch(`/routeLeandro/dashboardCpu/`, { cache: 'no-store' }).then(function (response) {
         if (response.ok) {
             response.json().then(function (resposta) {
@@ -210,6 +208,8 @@ function updateDashboardGeral() {
 }
 
 function updateDashboardCpu() {
+    var dataDash = new Date();
+    data_dash.innerHTML = `${dataDash.getDate()}/${dataDash.getMonth() + 1}/${dataDash.getFullYear()}`
     fetch(`/routeLeandro/dashboardCpu/`, { cache: 'no-store' }).then(function (response) {
         if (response.ok) {
             response.json().then(function (resposta) {
