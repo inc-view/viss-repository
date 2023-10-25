@@ -177,7 +177,7 @@ function updateDashboardGeral() {
 
                 for (i = 0; i < resposta.length; i++) {
                     let registro = resposta[i]
-                    labelsDashboardGeral.push(registro.dtHora)
+                    labelsDashboardGeral.push(registro.dthora)
                     cpuDataDashboardGeral.push(registro.cpu)
                     memoryDataDashboardGeral.push(registro.memory)
                     diskDataDashboardGeral.push(registro.disk)
@@ -208,6 +208,8 @@ function updateDashboardGeral() {
 }
 
 function updateDashboardCpu() {
+    var dataDash = new Date();
+    data_dash.innerHTML = `${dataDash.getDate()}/${dataDash.getMonth()}/${dataDash.getFullYear()}`
     fetch(`/routeLeandro/dashboardCpu/`, { cache: 'no-store' }).then(function (response) {
         if (response.ok) {
             response.json().then(function (resposta) {
@@ -215,15 +217,16 @@ function updateDashboardCpu() {
 
                 for (i = 0; i < resposta.length; i++) {
                     let registro = resposta[i]
-                    labelsDashboardCpu.push(registro.dtHora)
+                    var data = new Date(registro.dthora);
+                    var dataTratada = data.getHours() + ":" + data.getMinutes() + ":" + data.getSeconds();
+                    labelsDashboardCpu.push(dataTratada)
                     dataDashboardCpu.push(registro.cpu)
                 }
 
                 if (labelsDashboardCpu.length > 5) {
                     labelsDashboardCpu.shift()
-                }
-                if (dataDashboardCpu.length > 5) {
                     dataDashboardCpu.shift()
+                    varDashboardCpu.update()
                 }
 
                 cardCpu.innerHTML = `${resposta[0].cpu}%`
@@ -231,9 +234,9 @@ function updateDashboardCpu() {
                 if (resposta[0].cpu <= 45) {
                     cardCpu.style = `color: green !important`
                 } else if (resposta[0].cpu < 65) {
-                    cardCpu.style = `color: white !important`
+                    cardCpu.style = `color: darkgreen !important`
                 } else if (resposta[0].cpu < 80) {
-                    cardCpu.style = `color: yellow !important`
+                    cardCpu.style = `color: darkyellow !important`
                 } else if (resposta[0].cpu < 90) {
                     cardCpu.style = `color: orange !important`
                 } else {
@@ -248,7 +251,6 @@ function updateDashboardCpu() {
         .catch(function (error) {
             console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
         });
-    varDashboardCpu.update()
 }
 
 function updateDashboardMemory() {
@@ -259,15 +261,14 @@ function updateDashboardMemory() {
 
                 for (i = 0; i < resposta.length; i++) {
                     let registro = resposta[i]
-                    labelsDashboardMemory.push(registro.dtHora)
+                    labelsDashboardMemory.push(registro.dthora)
                     dataDashboardMemory.push(registro.memory)
                 }
 
                 if (labelsDashboardMemory.length > 5) {
                     labelsDashboardMemory.shift()
-                }
-                if (dataDashboardMemory.length > 5) {
                     dataDashboardMemory.shift()
+                    varDashboardMemory.update()
                 }
 
                 cardMemory.innerHTML = `${resposta[0].memory}%`
@@ -289,7 +290,6 @@ function updateDashboardMemory() {
             console.error('Nenhum dado encontrado ou erro na API');
         }
     })
-    varDashboardMemory.update()
 }
 
 function updateDashboardDisk() {
@@ -300,15 +300,14 @@ function updateDashboardDisk() {
 
                 for (i = 0; i < resposta.length; i++) {
                     let registro = resposta[i]
-                    labelsDashboardDisk.push(registro.dtHora)
+                    labelsDashboardDisk.push(registro.dthora)
                     dataDashboardDisk.push(registro.disk)
                 }
 
                 if (labelsDashboardDisk.length > 5) {
                     labelsDashboardDisk.shift()
-                }
-                if (dataDashboardDisk.length > 5) {
                     dataDashboardDisk.shift()
+                    varDashboardDisk.update()
                 }
 
                 cardDisk.innerHTML = `${resposta[0].disk}%`
@@ -318,7 +317,6 @@ function updateDashboardDisk() {
             console.error('Nenhum dado encontrado ou erro na API');
         }
     })
-    varDashboardDisk.update()
 }
 
 // setInterval(updateDashboardGeral, 2000)

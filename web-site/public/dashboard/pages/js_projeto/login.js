@@ -1,10 +1,53 @@
+const successToast = Toastify({
+    text: "Cadastro realizado com sucesso",
+    duration: 2000,
+    newWindow: true,
+    close: true,
+    gravity: "top", // `top` or `bottom`
+    position: "right", // `left`, `center` or `right`
+    stopOnFocus: true, // Prevents dismissing of toast on hover
+    style: {
+      background: "#008000",
+    },
+  });
+
+  const errorToast = Toastify({
+    text: "Não foi possível realizar o cadastro",
+    duration: 2000,
+    newWindow: true,
+    close: true,
+    gravity: "top", // `top` or `bottom`
+    position: "right", // `left`, `center` or `right`
+    stopOnFocus: true, // Prevents dismissing of toast on hover
+    style: {
+      background: "#FF2F2F",
+    },
+  });
+
+  const infoToast = Toastify({
+    text: "",
+    className: "info",
+    duration: 2000,
+    newWindow: true,
+    close: true,
+    gravity: "top", // `top` or `bottom`
+    position: "right", // `left`, `center` or `right`
+    stopOnFocus: true, // Prevents dismissing of toast on hover
+    style: {
+      background: "#eead2d",
+    },
+  });
+
+
+
 function login(){
     var email = ipt_email.value;
     var senha = ipt_senha.value;
 
     var verif_vazioLog = email == '' || senha == '';
     if(verif_vazioLog){
-        alert("Campos não podem estar vazios");
+        infoToast.options.text = "Campos não podem estar vazios"
+        infoToast.showToast()
         return false;
     }
 
@@ -22,7 +65,8 @@ function login(){
             console.log(resposta)
 
 
-            alert("Login realizado com sucesso! Redirecionando para a dashboard geral!")
+            successToast.options.text = "Login realizado com sucesso! Redirecionando para a dashboard geral!"
+            successToast.showToast()
 
             resposta.json().then(json => {
                 console.log(json)
@@ -38,7 +82,7 @@ function login(){
 
                 setTimeout(function (){
                     window.location = "../../../dashboard/index.html"
-                }, 1000);
+                }, 2000);
             })
         }else{
             console.log("Houve um erro ao tentar realizar o login!");

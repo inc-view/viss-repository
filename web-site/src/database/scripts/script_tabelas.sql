@@ -124,3 +124,4 @@ CREATE TABLE IF NOT EXISTS processo (
     CONSTRAINT fk_registros_computador1 FOREIGN KEY (fkComputador)
         REFERENCES computador (idComputador)
 );
+  

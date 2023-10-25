@@ -24,9 +24,7 @@ function dashboardCpu() {
     if (process.env.AMBIENTE_PROCESSO == "producao") {
         instrucaoSql = ``;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
-        instrucaoSql = `SELECT registro AS 'cpu', dtHora FROM registro
-        WHERE fkComponenteComputador = 1
-        ORDER BY dtHora DESC LIMIT 1`;
+        instrucaoSql = `SELECT registro AS 'cpu', dthora FROM registro JOIN hasComponente on fkHasComponente = idHasComponente JOIN componente ON fkComponente = idComponente JOIN computador ON fkComputador = idComputador WHERE componente.tipo = 'CPU' AND computador.idComputador = 1 ORDER BY dtHora DESC LIMIT 1;`;
     } else {
         console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
         return
@@ -43,9 +41,7 @@ function dashboardMemory() {
     if (process.env.AMBIENTE_PROCESSO == "producao") {
         instrucaoSql = ``;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
-        instrucaoSql = `SELECT registro AS 'memory', dtHora FROM registro
-        WHERE fkComponenteComputador = 2
-        ORDER BY dtHora DESC LIMIT 1`;
+        instrucaoSql = `SELECT registro AS 'memory', dthora FROM registro JOIN hasComponente on fkHasComponente = idHasComponente JOIN componente ON fkComponente = idComponente JOIN computador ON fkComputador = idComputador WHERE componente.tipo = 'Memoria' AND computador.idComputador = 1 ORDER BY dtHora DESC LIMIT 1;`;
     } else {
         console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
         return
@@ -62,9 +58,7 @@ function dashboardDisk() {
     if (process.env.AMBIENTE_PROCESSO == "producao") {
         instrucaoSql = ``;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
-        instrucaoSql = `SELECT registro AS 'disk', dtHora FROM registro
-        WHERE fkComponenteComputador = 3
-        ORDER BY dtHora DESC LIMIT 1`;
+        instrucaoSql = `SELECT registro AS 'disk', dthora FROM registro JOIN hasComponente on fkHasComponente = idHasComponente JOIN componente ON fkComponente = idComponente JOIN computador ON fkComputador = idComputador WHERE componente.tipo = 'Disco' AND computador.idComputador = 1 ORDER BY dtHora DESC LIMIT 1;`;
     } else {
         console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
         return
