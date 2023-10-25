@@ -72,12 +72,12 @@ function login(){
                 console.log(json)
                 console.log(JSON.stringify(json));
                 console.log(json[0].nome)
-                sessionStorage.ID_USER = json[0].idFuncionario;
-                sessionStorage.NOME_USER = json[0].nome;
-                sessionStorage.FK_GESTOR = json[0].fkGestor;
-                sessionStorage.EMAIL_USER = json[0].email;
-                sessionStorage.SENHA_USER = json[0].senha;
-                sessionStorage.FK_EMPRESA = json[0].fkEmpresa;
+                localStorage.ID_USER = json[0].idFuncionario;
+                localStorage.NOME_USER = json[0].nome;
+                localStorage.FK_GESTOR = json[0].fkGestor;
+                localStorage.EMAIL_USER = json[0].email;
+                localStorage.SENHA_USER = json[0].senha;
+                localStorage.FK_EMPRESA = json[0].fkEmpresa;
 
 
                 setTimeout(function (){
