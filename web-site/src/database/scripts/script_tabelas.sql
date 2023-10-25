@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS  funcionario  (
    fkEmpresa  INT NOT NULL,
    nome  VARCHAR(45) NULL,
    email  VARCHAR(45) NULL,
-   cpf  CHAR(11) NULL,
+   cpf  CHAR(14) NULL,
    telefone  VARCHAR(45) NULL,
    senha  VARCHAR(45) NULL,
   PRIMARY KEY ( idFuncionario ,  fkEmpresa ),
