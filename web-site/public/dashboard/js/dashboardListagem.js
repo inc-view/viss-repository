@@ -132,7 +132,7 @@ function fazerLista(){
                         <td>
                         <label class="badge badge-success">Online</label>
                       </td>` 
-                    }else if (respota[i.Status == 0]){listaHtml += `<td><label class="badge badge-danger">Offline</label></td>`}
+                    }else if (resposta[i].Status == 0 || resposta[i].Status == null){listaHtml += `<td><label class="badge badge-danger">Offline</label></td>`}
                     
                     listaHtml+= `<td>
                       ${resposta[i].UltimaSessao}
@@ -150,6 +150,5 @@ function fazerLista(){
     
 }
 
-setInterval(ListagemTotalComputadores(),10000)
-setInterval(ListagemCpuProblema(),10000)
+
 

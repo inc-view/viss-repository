@@ -592,6 +592,7 @@
                         <div class="card">
                           <div class="card-body">
                             <h4 class="card-title">Uso Memória RAM (%)</h4>
+                            <h3 id="data_dash2"></h3>
                             <canvas id="dashboardMemory"></canvas>
                           </div>
                         </div>
@@ -600,6 +601,7 @@
                         <div class="card">
                           <div class="card-body">
                             <h4 class="card-title">Uso Disco (%)</h4>
+                            <h3 id="data_dash3"></h3>
                             <canvas id="dashboardDisk"></canvas>
                           </div>
                         </div>
@@ -660,5 +662,7 @@
   function carregarInfos(){
     user_name.innerHTML = sessionStorage.NOME_USER;
     user_email.innerHTML = sessionStorage.EMAIL_USER;
+
+    infoMaquina();
   }
 </script>
