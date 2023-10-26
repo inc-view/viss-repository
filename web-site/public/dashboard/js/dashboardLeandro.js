@@ -1,10 +1,11 @@
+var dataDash = new Date();
 function infoMaquina() {
     var state;
     var name;
     var brand;
     var system;
     var ip;
-    fetch(`/routeLeandro/dashboardCpu/`, { cache: 'no-store' }).then(function (response) {
+    fetch(`/routeLeandro/infoMaquina/`, { cache: 'no-store' }).then(function (response) {
         if (response.ok) {
             response.json().then(function (resposta) {
                 console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
@@ -19,7 +20,7 @@ function infoMaquina() {
                 name = registro.NomeFuncionario
                 brand = registro.MarcaComputador
                 system = registro.SistemaOperacional
-                ip = registro.ipComputador
+                ip = registro.IpComputador
 
                 cardStatus.innerHTML = `Status: ${state}`
                 cardName.innerHTML = `Nome do Funcionário: ${name}`
@@ -208,7 +209,6 @@ function updateDashboardGeral() {
 }
 
 function updateDashboardCpu() {
-    var dataDash = new Date();
     data_dash.innerHTML = `${dataDash.getDate()}/${dataDash.getMonth() + 1}/${dataDash.getFullYear()}`
     fetch(`/routeLeandro/dashboardCpu/`, { cache: 'no-store' }).then(function (response) {
         if (response.ok) {
@@ -254,6 +254,8 @@ function updateDashboardCpu() {
 }
 
 function updateDashboardMemory() {
+   
+    data_dash2.innerHTML = `${dataDash.getDate()}/${dataDash.getMonth() + 1}/${dataDash.getFullYear()}`
     fetch(`/routeLeandro/dashboardMemory/`, { cache: 'no-store' }).then(function (response) {
         if (response.ok) {
             response.json().then(function (resposta) {
@@ -261,7 +263,9 @@ function updateDashboardMemory() {
 
                 for (i = 0; i < resposta.length; i++) {
                     let registro = resposta[i]
-                    labelsDashboardMemory.push(registro.dthora)
+                    var data = new Date(registro.dthora);
+                    var dataTratada = data.getHours() + ":" + data.getMinutes() + ":" + data.getSeconds();
+                    labelsDashboardMemory.push(dataTratada)
                     dataDashboardMemory.push(registro.memory)
                 }
 
@@ -293,6 +297,8 @@ function updateDashboardMemory() {
 }
 
 function updateDashboardDisk() {
+    data_dash3.innerHTML = `${dataDash.getDate()}/${dataDash.getMonth() + 1}/${dataDash.getFullYear()}`
+
     fetch(`/routeLeandro/dashboardDisk/`, { cache: 'no-store' }).then(function (response) {
         if (response.ok) {
             response.json().then(function (resposta) {
@@ -300,7 +306,9 @@ function updateDashboardDisk() {
 
                 for (i = 0; i < resposta.length; i++) {
                     let registro = resposta[i]
-                    labelsDashboardDisk.push(registro.dthora)
+                    var data = new Date(registro.dthora);
+                    var dataTratada = data.getHours() + ":" + data.getMinutes() + ":" + data.getSeconds();
+                    labelsDashboardDisk.push(dataTratada)
                     dataDashboardDisk.push(registro.disk)
                 }
 
