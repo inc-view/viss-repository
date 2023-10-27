@@ -1,4 +1,5 @@
 use inkView;
+-- CRIAÇÃO DA VIEW DOS REGISTROS EM TABELA
 CREATE VIEW tabelaRegistros AS
     SELECT 
          registro . registro  AS  Registro ,
@@ -19,29 +20,6 @@ CREATE VIEW tabelaRegistros AS
         unidadeMedida ON fkUnidadeMedida = idUnidadeMedida
     ORDER BY registro.dtHora
     LIMIT 1000;
-    
-SET @sql = NULL; -- Criando uma variável para armazenar o comando
-SELECT 
-    GROUP_CONCAT(DISTINCT CONCAT('max(case when Componente = \'',
-                Componente,
-                '\' then Registro end) ',
-                Componente))
-INTO @sql FROM
-    tabelaRegistros; -- Aqui vem o nome da sua view!
-
-select @sql;
-
-SET @sql = CONCAT('SELECT idComputador, MomentoRegistro, ', @sql, '
-                 
-FROM tabelaRegistros
-                   
-GROUP BY idComputador, MomentoRegistro'); -- Lembra de trocar as informações (idServidor, MomentoRegistro, tabelaRegistros) pelos nomes que você usou na view
-
-select @sql;
-
-PREPARE stmt FROM @sql; -- Prepara um statement para executar o comando guardado na variável @sql
-
-EXECUTE stmt; -- Executa o statement
 
 -- VIEW DE INFORMAÇÕES DO COMPUTADOR
 CREATE VIEW infoComputador AS
@@ -77,12 +55,8 @@ SELECT
 FROM computador c
 JOIN funcionario f ON c.fkFuncionario = f.idFuncionario;
         
-        select * from infoComputador;
-        select * from registro;
-		select * from tabelaRegistros;
-        DROP VIEW infoComputador;
+-- CRIÇÃO DA TRIGGER DE HASCOMPONENTES DOS COMPUTADORES
 DELIMITER //
-
 CREATE TRIGGER insere_hasComputadores
 AFTER INSERT ON computador
 FOR EACH ROW
@@ -97,7 +71,6 @@ END;
 //
 
 DELIMITER ;
-
 
 
 CREATE VIEW vwIdComponenteComputador AS
@@ -118,3 +91,30 @@ from computador pc
                 and  c2.tipo = 'Disco' 
                 and c1.tipo = 'Memoria' 
                 and u.tipoMedida = '%';
+
+
+/*
+-- VISUALIZAÇÃO DOS REGISTROS DE FORMA DINÂMICA
+SET @sql = NULL; -- Criando uma variável para armazenar o comando
+SELECT 
+    GROUP_CONCAT(DISTINCT CONCAT('max(case when Componente = \'',
+                Componente,
+                '\' then Registro end) ',
+                Componente))
+INTO @sql FROM
+    tabelaRegistros; -- Aqui vem o nome da sua view!
+
+select @sql;
+
+SET @sql = CONCAT('SELECT idComputador, MomentoRegistro, ', @sql, '
+                 
+FROM tabelaRegistros
+                   
+GROUP BY idComputador, MomentoRegistro'); -- Lembra de trocar as informações (idServidor, MomentoRegistro, tabelaRegistros) pelos nomes que você usou na view
+
+select @sql;
+
+PREPARE stmt FROM @sql; -- Prepara um statement para executar o comando guardado na variável @sql
+
+EXECUTE stmt; -- Executa o statement
+*/
