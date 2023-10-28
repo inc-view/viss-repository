@@ -1,18 +1,51 @@
 var leandroModel = require("../models/leandroModel");
 
-function dashboardGeral(req, res) {
-    leandroModel.dashboardGeral().then(function (resultado) {
-        if (resultado.length > 0) {
-            res.status(200).json(resultado);
-        } else {
-            res.status(204).send("Nenhum resultado encontrado!")
-        }
+function dashboardGeralCPU(req, res) {
+    let idMaquina = req.params.id
+
+    leandroModel.dadosCPU(idMaquina).then(
+        function (resultado) {
+            if (resultado.length > 0) {
+                res.status(200).json(resultado)
+            }
     }).catch(function (erro) {
         console.log(erro);
         console.log("Houve um erro ao buscar as ultimas medidas.", erro.sqlMessage);
         res.status(500).json(erro.sqlMessage);
     });
+
+
+    // leandroModel.dadosMEM(idMaquina).then(
+    //     function (resultado) {
+    //         if (resultado.length > 0) {
+    //             for(var i = 0; i < resultado.length; i++){
+    //                 jsonResult.ram.push(resultado[i].registro)
+    //             }
+    //         }
+    // }).catch(function (erro) {
+    //     console.log(erro);
+    //     console.log("Houve um erro ao buscar as ultimas medidas.", erro.sqlMessage);
+    //     res.status(500).json(erro.sqlMessage);
+    // });
+
+
+    // leandroModel.dadosDisco(idMaquina).then(
+    //     function (resultado) {
+    //         if (resultado.length > 0) {
+    //             for(var i = 0; i < resultado.length; i++){
+    //                 jsonResult.disco.push(resultado[i].registro)
+    //             }
+    //         }
+    // }).catch(function (erro) {
+    //     console.log(erro);
+    //     console.log("Houve um erro ao buscar as ultimas medidas.", erro.sqlMessage);
+    //     res.status(500).json(erro.sqlMessage);
+    // });
+
 }
+
+
+
 
 function dashboardCpu(req, res) {
     let idMaquina = req.params.id
@@ -75,7 +108,9 @@ function infoMaquina(req, res) {
 }
 
 module.exports = {
-    dashboardGeral,
+    dashboardGeralCPU,
+
+    
     dashboardCpu,
     dashboardMemory,
     dashboardDisk,

@@ -3,9 +3,12 @@ var router = express.Router();
 
 var leandroController = require("../controllers/leandroController");
 
-router.get("/dashboardGeral/:id", function (req, res) {
-    leandroController.dashboardGeral(req, res);
+router.get("/dashboardGeralCPU/:id", function (req, res) {
+    leandroController.dashboardGeralCPU(req, res);
 });
+
+
+
 
 router.get("/dashboardCpu/:id", function (req, res) {
     leandroController.dashboardCpu(req, res);
