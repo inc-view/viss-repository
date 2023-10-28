@@ -1,3 +1,14 @@
+var query = location.search.slice(1);
+var partes = query.split('&');
+var idMaquina = 0
+
+partes.forEach(function (parte) {
+    var chaveValor = parte.split('=');
+    var chave = chaveValor[0];
+    var valor = chaveValor[1];
+    idMaquina = valor;
+});
+
 var dataDash = new Date();
 function infoMaquina() {
     var state;
@@ -5,7 +16,7 @@ function infoMaquina() {
     var brand;
     var system;
     var ip;
-    fetch(`/routeLeandro/infoMaquina/`, { cache: 'no-store' }).then(function (response) {
+    fetch(`/routeLeandro/infoMaquina/${idMaquina}`, { cache: 'no-store' }).then(function (response) {
         if (response.ok) {
             response.json().then(function (resposta) {
                 console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
@@ -210,7 +221,7 @@ function updateDashboardGeral() {
 
 function updateDashboardCpu() {
     data_dash.innerHTML = `${dataDash.getDate()}/${dataDash.getMonth() + 1}/${dataDash.getFullYear()}`
-    fetch(`/routeLeandro/dashboardCpu/`, { cache: 'no-store' }).then(function (response) {
+    fetch(`/routeLeandro/dashboardCpu/${idMaquina}`, { cache: 'no-store' }).then(function (response) {
         if (response.ok) {
             response.json().then(function (resposta) {
                 console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
@@ -256,7 +267,7 @@ function updateDashboardCpu() {
 function updateDashboardMemory() {
    
     data_dash2.innerHTML = `${dataDash.getDate()}/${dataDash.getMonth() + 1}/${dataDash.getFullYear()}`
-    fetch(`/routeLeandro/dashboardMemory/`, { cache: 'no-store' }).then(function (response) {
+    fetch(`/routeLeandro/dashboardMemory/${idMaquina}`, { cache: 'no-store' }).then(function (response) {
         if (response.ok) {
             response.json().then(function (resposta) {
                 console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
@@ -299,7 +310,7 @@ function updateDashboardMemory() {
 function updateDashboardDisk() {
     data_dash3.innerHTML = `${dataDash.getDate()}/${dataDash.getMonth() + 1}/${dataDash.getFullYear()}`
 
-    fetch(`/routeLeandro/dashboardDisk/`, { cache: 'no-store' }).then(function (response) {
+    fetch(`/routeLeandro/dashboardDisk/${idMaquina}`, { cache: 'no-store' }).then(function (response) {
         if (response.ok) {
             response.json().then(function (resposta) {
                 console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);

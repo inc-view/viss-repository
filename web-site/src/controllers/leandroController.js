@@ -15,7 +15,8 @@ function dashboardGeral(req, res) {
 }
 
 function dashboardCpu(req, res) {
-    leandroModel.dashboardCpu().then(function (resultado) {
+    let idMaquina = req.params.id
+    leandroModel.dashboardCpu(idMaquina).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {
@@ -29,7 +30,8 @@ function dashboardCpu(req, res) {
 }
 
 function dashboardMemory(req, res) {
-    leandroModel.dashboardMemory().then(function (resultado) {
+    let idMaquina = req.params.id
+    leandroModel.dashboardMemory(idMaquina).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {
@@ -43,7 +45,8 @@ function dashboardMemory(req, res) {
 }
 
 function dashboardDisk(req, res) {
-    leandroModel.dashboardDisk().then(function (resultado) {
+    let idMaquina = req.params.id
+    leandroModel.dashboardDisk(idMaquina).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {
@@ -57,7 +60,8 @@ function dashboardDisk(req, res) {
 }
 
 function infoMaquina(req, res) {
-    leandroModel.infoMaquina().then(function (resultado) {
+    let idMaquina = req.params.id
+    leandroModel.infoMaquina(idMaquina).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {
