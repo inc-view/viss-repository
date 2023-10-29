@@ -29,6 +29,7 @@ SELECT
     c.ativo AS `Status`,
     c.marca AS `MarcaComputador`,
     c.sistemaOperacional AS `SistemaOperacional`,
+    computador.idComputador AS `IdComputador`
     (
         SELECT MAX(r.dtHora)
         FROM registro r
