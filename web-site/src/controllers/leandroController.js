@@ -15,33 +15,43 @@ function dashboardGeralCPU(req, res) {
     });
 
 
-    // leandroModel.dadosMEM(idMaquina).then(
-    //     function (resultado) {
-    //         if (resultado.length > 0) {
-    //             for(var i = 0; i < resultado.length; i++){
-    //                 jsonResult.ram.push(resultado[i].registro)
-    //             }
-    //         }
-    // }).catch(function (erro) {
-    //     console.log(erro);
-    //     console.log("Houve um erro ao buscar as ultimas medidas.", erro.sqlMessage);
-    //     res.status(500).json(erro.sqlMessage);
-    // });
+    // 
+
+    // 
+
+}
+
+function dashboardGeralRAM(req, res){
+    let idMaquina = req.params.id
+    leandroModel.dadosMEM(idMaquina).then(
+            function (resultado) {
+                if (resultado.length > 0) {
+                    res.status(200).json(resultado)
+                }
+                   
+        }).catch(function (erro) {
+            console.log(erro);
+            console.log("Houve um erro ao buscar as ultimas medidas.", erro.sqlMessage);
+            res.status(500).json(erro.sqlMessage);
+        });
+    
+}
 
 
-    // leandroModel.dadosDisco(idMaquina).then(
-    //     function (resultado) {
-    //         if (resultado.length > 0) {
-    //             for(var i = 0; i < resultado.length; i++){
-    //                 jsonResult.disco.push(resultado[i].registro)
-    //             }
-    //         }
-    // }).catch(function (erro) {
-    //     console.log(erro);
-    //     console.log("Houve um erro ao buscar as ultimas medidas.", erro.sqlMessage);
-    //     res.status(500).json(erro.sqlMessage);
-    // });
+function dashboardGeralDISCO(req, res){
 
+    let idMaquina = req.params.id
+    leandroModel.dadosDisco(idMaquina).then(
+        function (resultado) {
+            if (resultado.length > 0) {
+                res.status(200).json(resultado)
+            }
+    }).catch(function (erro) {
+        console.log(erro);
+        console.log("Houve um erro ao buscar as ultimas medidas.", erro.sqlMessage);
+        res.status(500).json(erro.sqlMessage);
+    });
+    
 }
 
 
@@ -109,7 +119,8 @@ function infoMaquina(req, res) {
 
 module.exports = {
     dashboardGeralCPU,
-
+    dashboardGeralRAM,
+    dashboardGeralDISCO,
     
     dashboardCpu,
     dashboardMemory,

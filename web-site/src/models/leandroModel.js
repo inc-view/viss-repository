@@ -20,7 +20,7 @@ function dadosCPU(idMaquina) {
         join computador pc on pc.idComputador = hc.fkComputador
             where c.tipo = 'CPU' 
             and pc.idComputador = ${idMaquina}
-            and r.dtHora between time(current_timestamp() - INTERVAL 5 MINUTE) and time(current_timestamp());`;
+            and r.dtHora between time(current_timestamp() - INTERVAL 5 MINUTE) and time(current_timestamp()) order by dtHora desc limit 50;`;
 
     } else {
         console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
@@ -39,8 +39,9 @@ function dadosMEM(idMaquina) {
         instrucaoSql = `select registro, dtHora from registro r
         join hasComponente hc on hc.idHasComponente = r.fkHasComponente
         join componente c on c.idComponente = hc.fkComponente
+        join unidadeMedida u on u.idUnidadeMedida = c.fkUnidadeMedida
         join computador pc on pc.idComputador = hc.fkComputador
-            where c.tipo = 'CPU' 
+        where c.tipo = 'Memoria' and u.tipoMedida = '%' 
             and pc.idComputador = ${idMaquina}
             and r.dtHora between time(current_timestamp() - INTERVAL 5 MINUTE) and time(current_timestamp());`;
 
@@ -48,10 +49,11 @@ function dadosMEM(idMaquina) {
         instrucaoSql = `select registro, dtHora from registro r
         join hasComponente hc on hc.idHasComponente = r.fkHasComponente
         join componente c on c.idComponente = hc.fkComponente
+        join unidadeMedida u on u.idUnidadeMedida = c.fkUnidadeMedida
         join computador pc on pc.idComputador = hc.fkComputador
-            where c.tipo = 'CPU' 
+            where c.tipo = 'Memoria' and u.tipoMedida = '%'
             and pc.idComputador = ${idMaquina}
-            and r.dtHora between time(current_timestamp() - INTERVAL 5 MINUTE) and time(current_timestamp());`;
+            and r.dtHora between time(current_timestamp() - INTERVAL 5 MINUTE) and time(current_timestamp()) order by dtHora desc limit 50;`;
             
     } else {
         console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
@@ -70,19 +72,21 @@ function dadosDisco(idMaquina) {
         instrucaoSql = `select registro, dtHora from registro r
         join hasComponente hc on hc.idHasComponente = r.fkHasComponente
         join componente c on c.idComponente = hc.fkComponente
+        join unidadeMedida u on u.idUnidadeMedida = c.fkUnidadeMedida
         join computador pc on pc.idComputador = hc.fkComputador
-            where c.tipo = 'CPU' 
-            and pc.idComputador = ${idMaquina}
-            and r.dtHora between time(current_timestamp() - INTERVAL 5 MINUTE) and time(current_timestamp());`;
+            where c.tipo = 'Disco' and u.tipoMedida = '%'
+                and pc.idComputador = ${idMaquina}
+                and r.dtHora between time(current_timestamp() - INTERVAL 5 MINUTE) and time(current_timestamp());`;
 
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucaoSql = `select registro, dtHora from registro r
-        join hasComponente hc on hc.idHasComponente = r.fkHasComponente
-        join componente c on c.idComponente = hc.fkComponente
-        join computador pc on pc.idComputador = hc.fkComputador
-            where c.tipo = 'CPU' 
-            and pc.idComputador = ${idMaquina}
-            and r.dtHora between time(current_timestamp() - INTERVAL 5 MINUTE) and time(current_timestamp());`;
+            join hasComponente hc on hc.idHasComponente = r.fkHasComponente
+            join componente c on c.idComponente = hc.fkComponente
+            join unidadeMedida u on u.idUnidadeMedida = c.fkUnidadeMedida
+            join computador pc on pc.idComputador = hc.fkComputador
+                where c.tipo = 'Disco' and u.tipoMedida = '%'
+                    and pc.idComputador = ${idMaquina}
+                    and r.dtHora between time(current_timestamp() - INTERVAL 5 MINUTE) and time(current_timestamp()) order by dtHora desc limit 50;`;
             
     } else {
         console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");

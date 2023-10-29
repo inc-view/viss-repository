@@ -7,7 +7,13 @@ router.get("/dashboardGeralCPU/:id", function (req, res) {
     leandroController.dashboardGeralCPU(req, res);
 });
 
+router.get("/dashboardGeralRAM/:id", function (req, res) {
+    leandroController.dashboardGeralRAM(req, res);
+});
 
+router.get("/dashboardGeralDISCO/:id", function (req, res) {
+    leandroController.dashboardGeralDISCO(req, res);
+});
 
 
 router.get("/dashboardCpu/:id", function (req, res) {
