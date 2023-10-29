@@ -56,14 +56,25 @@ var cpuDataDashboardGeral = []
 var memoryDataDashboardGeral = []
 var diskDataDashboardGeral = []
 
-var dashboardGeral = document.getElementById('dashboardGeral')
+var dashboardGeral = document.getElementById('dashboard-geral-cpu')
 var varDashboardGeral = new Chart(dashboardGeral, {
     type: `line`,
     data: {
+        labels: labelsDashboardGeral,
         datasets: [{
             label: `CPU`,
             data: cpuDataDashboardGeral,
             borderColor: '#2CA093',
+        },
+        {
+            label: `RAM`,
+            data: memoryDataDashboardGeral,
+            borderColor: '#b34db2',
+        },
+        {
+            label: `DISCO`,
+            data: diskDataDashboardGeral,
+            borderColor: '#5353ec',
         }]
     },
     options: {
@@ -173,6 +184,7 @@ function showDisk() {
 
 function updateDashboardGeral() {
 
+    
    
     fetch(`/routeLeandro/dashboardGeralCPU/${idMaquina}`, { cache: 'no-store' }).then(function (response) {
         if (response.ok) {
@@ -180,11 +192,17 @@ function updateDashboardGeral() {
 
                 console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
 
-                
                 for (i = 0; i < resposta.length; i++) {
+                    
+                    let dataFormat = new Date(resposta[i].dtHora)
+                    let dataFormatFinally = `${dataFormat.getHours()}:${dataFormat.getMinutes()}:${dataFormat.getSeconds()}`   
+                    labelsDashboardGeral.push(dataFormatFinally)
                     cpuDataDashboardGeral.push(resposta[i].registro)
                 }
-                    varDashboardGeral.update()
+
+                labelsDashboardGeral = labelsDashboardGeral.reverse()
+                cpuDataDashboardGeral = cpuDataDashboardGeral.reverse()
+
 
             });
         } else {
@@ -194,6 +212,64 @@ function updateDashboardGeral() {
         console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
     });
 
+
+
+    fetch(`/routeLeandro/dashboardGeralRAM/${idMaquina}`, { cache: 'no-store' }).then(function (response) {
+        if (response.ok) {
+            response.json().then(function (resposta) {
+
+                console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+
+                for (i = 0; i < resposta.length; i++) { 
+                    memoryDataDashboardGeral.push(resposta[i].registro)
+                }
+
+                memoryDataDashboardGeral = memoryDataDashboardGeral.reverse()
+
+
+            });
+        } else {
+            console.error('Nenhum dado encontrado ou erro na API');
+        }
+    }).catch(function (error) {
+        console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+    });
+
+
+    fetch(`/routeLeandro/dashboardGeralDISCO/${idMaquina}`, { cache: 'no-store' }).then(function (response) {
+        if (response.ok) {
+            response.json().then(function (resposta) {
+
+                console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+
+                for (i = 0; i < resposta.length; i++) { 
+                    diskDataDashboardGeral.push(resposta[i].registro)
+                }
+
+                diskDataDashboardGeral = diskDataDashboardGeral.reverse()
+
+
+                setTimeout(() => {
+
+                    cpuDataDashboardGeral = []
+                    labelsDashboardGeral = []
+                    diskDataDashboardGeral = []
+                    memoryDataDashboardGeral = []
+
+                    varDashboardGeral.update();
+
+                }, 2000)
+
+            });
+        } else {
+            console.error('Nenhum dado encontrado ou erro na API');
+        }
+    }).catch(function (error) {
+        console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+    });
+
+
+    
 
 
 }
@@ -320,7 +396,7 @@ function updateDashboardDisk() {
     })
 }
 
-setInterval(updateDashboardGeral, 1000)
+setInterval(updateDashboardGeral, 5000)
 setInterval(updateDashboardCpu, 1000)
 setInterval(updateDashboardMemory, 1000)
 setInterval(updateDashboardDisk, 1000)
