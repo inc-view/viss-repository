@@ -74,9 +74,59 @@ function infoMaquina(req, res) {
     });
 }
 
+function dashboardGeralRAM(req, res){
+    let idMaquina = req.params.idMaquina
+    leandroModel.dadosMEM(idMaquina).then(
+            function (resultado) {
+                if (resultado.length > 0) {
+                    res.status(200).json(resultado)
+                }
+
+        }).catch(function (erro) {
+            console.log(erro);
+            console.log("Houve um erro ao buscar as ultimas medidas.", erro.sqlMessage);
+            res.status(500).json(erro.sqlMessage);
+        });
+
+}
+
+
+function dashboardGeralDISCO(req, res){
+
+    let idMaquina = req.params.idMaquina
+    leandroModel.dadosDisco(idMaquina).then(
+        function (resultado) {
+            if (resultado.length > 0) {
+                res.status(200).json(resultado)
+            }
+    }).catch(function (erro) {
+        console.log(erro);
+        console.log("Houve um erro ao buscar as ultimas medidas.", erro.sqlMessage);
+        res.status(500).json(erro.sqlMessage);
+    });
+
+}
+
+function dashboardGeralCPU(req, res) {
+    let idMaquina = req.params.idMaquina
+    leandroModel.dadosCPU(idMaquina).then(
+        function (resultado) {
+            if (resultado.length > 0) {
+                res.status(200).json(resultado)
+            }
+    }).catch(function (erro) {
+        console.log(erro);
+        console.log("Houve um erro ao buscar as ultimas medidas.", erro.sqlMessage);
+        res.status(500).json(erro.sqlMessage);
+    });
+}
+
 module.exports = {
     dashboardGeral,
     dashboardCpu,
+    dashboardGeralRAM,
+    dashboardGeralCPU,
+    dashboardGeralDISCO,
     dashboardMemory,
     dashboardDisk,
     infoMaquina
