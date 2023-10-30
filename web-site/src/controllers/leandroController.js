@@ -1,7 +1,8 @@
 var leandroModel = require("../models/leandroModel");
 
 function dashboardGeral(req, res) {
-    leandroModel.dashboardGeral().then(function (resultado) {
+    var idMaquina = req.params.idMaquina;
+    leandroModel.dashboardGeral(idMaquina).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {
@@ -14,7 +15,8 @@ function dashboardGeral(req, res) {
     });
 }
 function dashboardCpu(req, res) {
-    leandroModel.dashboardCpu().then(function (resultado) {
+    var idMaquina = req.params.idMaquina;
+    leandroModel.dashboardCpu(idMaquina).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {
@@ -28,7 +30,8 @@ function dashboardCpu(req, res) {
 }
 
 function dashboardMemory(req, res) {
-    leandroModel.dashboardMemory().then(function (resultado) {
+    var idMaquina = req.params.idMaquina;
+    leandroModel.dashboardMemory(idMaquina).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {
@@ -42,7 +45,8 @@ function dashboardMemory(req, res) {
 }
 
 function dashboardDisk(req, res) {
-    leandroModel.dashboardDisk().then(function (resultado) {
+    var idMaquina = req.params.idMaquina;
+    leandroModel.dashboardDisk(idMaquina).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {
@@ -56,8 +60,8 @@ function dashboardDisk(req, res) {
 }
 
 function infoMaquina(req, res) {
-    var fk_usuario = req.query.
-    leandroModel.infoMaquina().then(function (resultado) {
+    var idMaquina = req.params.idMaquina;
+    leandroModel.infoMaquina(idMaquina).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {
