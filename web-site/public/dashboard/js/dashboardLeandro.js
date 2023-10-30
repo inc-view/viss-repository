@@ -25,6 +25,11 @@ function infoMaquina() {
 
                 if (registro.Status == 1) {
                     state = `Online`
+
+                    setInterval(updateDashboardGeral, 5000)
+                    setInterval(updateDashboardCpu, 1000)
+                    setInterval(updateDashboardMemory, 1000)
+                    setInterval(updateDashboardDisk, 1000)
                 } else {
                     state = `Offline`
                 }
@@ -190,9 +195,9 @@ function updateDashboardGeral() {
                 console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
 
                 for (i = 0; i < resposta.length; i++) {
-                    
+
                     let dataFormat = new Date(resposta[i].dtHora)
-                    let dataFormatFinally = `${dataFormat.getHours()}:${dataFormat.getMinutes()}:${dataFormat.getSeconds()}`   
+                    let dataFormatFinally = `${dataFormat.getHours()}:${dataFormat.getMinutes()}:${dataFormat.getSeconds()}`
                     labelsDashboardGeral.push(dataFormatFinally)
                     cpuDataDashboardGeral.push(resposta[i].registro)
                 }
@@ -217,7 +222,7 @@ function updateDashboardGeral() {
 
                 console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
 
-                for (i = 0; i < resposta.length; i++) { 
+                for (i = 0; i < resposta.length; i++) {
                     memoryDataDashboardGeral.push(resposta[i].registro)
                 }
 
@@ -239,7 +244,7 @@ function updateDashboardGeral() {
 
                 console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
 
-                for (i = 0; i < resposta.length; i++) { 
+                for (i = 0; i < resposta.length; i++) {
                     diskDataDashboardGeral.push(resposta[i].registro)
                 }
 
@@ -266,7 +271,7 @@ function updateDashboardGeral() {
     });
 
 
-    
+
 
 
 }
@@ -322,7 +327,7 @@ function updateDashboardCpu() {
 }
 
 function updateDashboardMemory() {
-   
+
     data_dash2.innerHTML = `${dataDash.getDate()}/${dataDash.getMonth() + 1}/${dataDash.getFullYear()}`
     fetch(`/routeLeandro/dashboardMemory/${idMaquina}`, { cache: 'no-store' }).then(function (response) {
         if (response.ok) {
@@ -395,7 +400,3 @@ function updateDashboardDisk() {
     })
 }
 
-setInterval(updateDashboardGeral, 5000)
-setInterval(updateDashboardCpu, 1000)
-setInterval(updateDashboardMemory, 1000)
-setInterval(updateDashboardDisk, 1000)
