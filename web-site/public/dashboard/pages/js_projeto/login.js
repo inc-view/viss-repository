@@ -81,7 +81,7 @@ function login(){
 
 
                 setTimeout(function (){
-                    window.location = "../../dashListagem.html"
+                    window.location = "../../../dashboard/dashListagem.html"
                 }, 2000);
             })
         }else{
