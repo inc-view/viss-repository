@@ -15,6 +15,9 @@ router.get("/fazerLista", function(req,res) {
 router.get("/fazerListaProblema", function(req,res) {
     dashListagemController.fazerListaProblema(req,res);
 });
+router.post("/fazerListaPorNome", function(req,res) {
+    dashListagemController.fazerListaPorNome(req,res);
+});
 router.get("/fazerListaCpuOnline", function(req,res) {
     dashListagemController.fazerListaCpuOnline(req,res);
 });
