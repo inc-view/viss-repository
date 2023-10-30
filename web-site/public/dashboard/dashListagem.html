@@ -597,7 +597,7 @@
               <div id="cardKpi" class="col-md-5 grid-margin stretch-card hoverCardKpi" onclick="fazerLista()" style="cursor: pointer;">
                 <div class="card">
                   <div class="card-body">
-                    <h4 class="card-title" style="justify-content: center;">Computadores c/ CPU<br> Acima De 85% </h4>
+                    <h4 class="card-title" style="justify-content: center;">Computadores c/ CPU<br> Acima De 90% </h4>
                     <div class="media" style="justify-content: center;">
 
                       <div class="media-body" style="display: flex;">
@@ -624,13 +624,21 @@
                   </div>
                 </div>
               </div>
+
+              
               
             </div>
             
             <div class="col-lg-12 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title">Computadores</h4>
+                  <div class="headerTabela " style="display: flex; justify-content: space-between;" >
+                  <h4 class="card-title ">Computadores </h4>
+                  <div class="divPesquisaNome" style="display: flex; align-items: center; ;">
+                  <input type="text" class="form-control" id="ipt_Pesquisa" placeholder="Username" style=" width: 98%;margin-right: 1rem; " oninput="fazerListaPorNome()">
+                  <i class="icon-search" style="font-size: 1.25rem; cursor: pointer;" onclick="fazerListaPorNome()" ></i>
+                </div>
+                </div>
                   <div class="table-responsive">
                     <table class="table table-striped">
                       <thead>
