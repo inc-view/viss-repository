@@ -107,7 +107,7 @@ function fazerLista() {
                     divBarraProgresso.setAttribute("id","Barra")
                     if (resposta[i].PorcentagemCPU == undefined || resposta[i].PorcentagemCPU == null || resposta[i].PorcentagemCPU < 66) {                    
                         divBarraProgresso.setAttribute("class","progress-bar bg-sucess");
-                    }else if(resposta[i].PorcentagemCPU <85 ){
+                    }else if(resposta[i].PorcentagemCPU <90 ){
                         divBarraProgresso.setAttribute("class","progress-bar bg-warning");
                     }else{
                         divBarraProgresso.setAttribute("class","progress-bar bg-danger");

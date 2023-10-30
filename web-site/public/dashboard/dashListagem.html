@@ -696,7 +696,7 @@
     <script>
       teste = ()=>{
         let data = new Date()
-        let dataHoje = `${data.getDate()}/${data.getMonth()}/${data.getFullYear()}`
+        let dataHoje = `${data.getDate()}/${data.getMonth()+1}/${data.getFullYear()}`
         document.getElementById("dataDeHoje").innerHTML = dataHoje
       }
       window.load = teste()

@@ -183,9 +183,6 @@ function showDisk() {
 }
 
 function updateDashboardGeral() {
-
-    
-   
     fetch(`/routeLeandro/dashboardGeralCPU/${idMaquina}`, { cache: 'no-store' }).then(function (response) {
         if (response.ok) {
             response.json().then(function (resposta) {

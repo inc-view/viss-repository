@@ -1,7 +1,8 @@
 var leandroModel = require("../models/leandroModel");
 
 function dashboardGeral(req, res) {
-    leandroModel.dashboardGeral().then(function (resultado) {
+    var idMaquina = req.params.idMaquina;
+    leandroModel.dashboardGeral(idMaquina).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {
@@ -14,7 +15,7 @@ function dashboardGeral(req, res) {
     });
 }
 function dashboardCpu(req, res) {
-    let idMaquina = req.params.id
+    var idMaquina = req.params.idMaquina;
     leandroModel.dashboardCpu(idMaquina).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
@@ -29,8 +30,7 @@ function dashboardCpu(req, res) {
 }
 
 function dashboardMemory(req, res) {
-    let idMaquina = req.params.id
-
+    var idMaquina = req.params.idMaquina;
     leandroModel.dashboardMemory(idMaquina).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
@@ -45,8 +45,7 @@ function dashboardMemory(req, res) {
 }
 
 function dashboardDisk(req, res) {
-    let idMaquina = req.params.id
-
+    var idMaquina = req.params.idMaquina;
     leandroModel.dashboardDisk(idMaquina).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
@@ -61,8 +60,8 @@ function dashboardDisk(req, res) {
 }
 
 function infoMaquina(req, res) {
-    var fk_usuario = req.query.
-    leandroModel.infoMaquina().then(function (resultado) {
+    var idMaquina = req.params.idMaquina;
+    leandroModel.infoMaquina(idMaquina).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {
@@ -75,9 +74,59 @@ function infoMaquina(req, res) {
     });
 }
 
+function dashboardGeralRAM(req, res){
+    let idMaquina = req.params.idMaquina
+    leandroModel.dadosMEM(idMaquina).then(
+            function (resultado) {
+                if (resultado.length > 0) {
+                    res.status(200).json(resultado)
+                }
+
+        }).catch(function (erro) {
+            console.log(erro);
+            console.log("Houve um erro ao buscar as ultimas medidas.", erro.sqlMessage);
+            res.status(500).json(erro.sqlMessage);
+        });
+
+}
+
+
+function dashboardGeralDISCO(req, res){
+
+    let idMaquina = req.params.idMaquina
+    leandroModel.dadosDisco(idMaquina).then(
+        function (resultado) {
+            if (resultado.length > 0) {
+                res.status(200).json(resultado)
+            }
+    }).catch(function (erro) {
+        console.log(erro);
+        console.log("Houve um erro ao buscar as ultimas medidas.", erro.sqlMessage);
+        res.status(500).json(erro.sqlMessage);
+    });
+
+}
+
+function dashboardGeralCPU(req, res) {
+    let idMaquina = req.params.idMaquina
+    leandroModel.dadosCPU(idMaquina).then(
+        function (resultado) {
+            if (resultado.length > 0) {
+                res.status(200).json(resultado)
+            }
+    }).catch(function (erro) {
+        console.log(erro);
+        console.log("Houve um erro ao buscar as ultimas medidas.", erro.sqlMessage);
+        res.status(500).json(erro.sqlMessage);
+    });
+}
+
 module.exports = {
     dashboardGeral,
     dashboardCpu,
+    dashboardGeralRAM,
+    dashboardGeralCPU,
+    dashboardGeralDISCO,
     dashboardMemory,
     dashboardDisk,
     infoMaquina
