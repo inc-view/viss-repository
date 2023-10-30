@@ -1,24 +1,6 @@
-fazerLista(), pegarCpuON(), pegarCpuOff(), pegarTotalComputadores(), pegarCpuProblema()
+fazerLista(), pegarCpuOff(), pegarTotalComputadores(), pegarCpuProblema()
 
-function pegarCpuON() {
-    fetch(`/routeDashListagem/ListagemCpuON?fkEmpresa=${localStorage.FK_EMPRESA}`, { cache: 'no-store' }).then(function (response) {
-        if (response.ok) {
-            response.json().then(function (resposta) {
-                console.warn(`Dados recebidos: ${JSON.stringify(resposta)}`);
-                var modificarElement = document.getElementById("TextOnline")
-                modificarHtml = modificarElement.innerHTML;
-                modificarElement.innerHTML = ``;
-                modificarHtml += `${resposta[0].TotalDeComputadoresOnline}`
 
-                modificarElement.innerHTML = modificarHtml
-
-            });
-        } else {
-            console.error('Nenhum dado encontrado ou erro na API');
-        }
-    })
-
-}
 function pegarCpuProblema() {
     fetch(`/routeDashListagem/ListagemCpusProblema?fkEmpresa=${localStorage.FK_EMPRESA}`, { cache: 'no-store' }).then(function (response) {
         if (response.ok) {
@@ -148,7 +130,7 @@ function fazerLista() {
                         labelStatus.setAttribute("class","badge badge-success");
                         labelStatus.innerHTML = `Online`;    
                     }
-                    else if(resposta[i].Status == 1 || resposta[i].Status == null){
+                    else if(resposta[i].Status == 0 || resposta[i].Status == null){
                         labelStatus.setAttribute("class","badge badge-danger");
                         labelStatus.innerHTML = `Offline`;
                     }
@@ -227,88 +209,7 @@ function fazerLista() {
     })
 
 }
-function fazerListaProblema(){
-    fetch(`/routeDashListagem/fazerListaProblema?fkEmpresa=${localStorage.FK_EMPRESA}`, { cache: 'no-store' }).then(function (response) {
-        if (response.ok) {
-            response.json().then(function (resposta) {
-                console.error(`Dados recebidos: ${JSON.stringify(resposta)}`);
-                var listaElement = document.getElementById("Lista")
-                listaElement.innerHTML = '';
-                for (let i = 0; i < resposta.length; i++) {
-                    let a = document.createElement("a");
-                    a.style.textDecoration = "none";
-                    a.style.color = "black";
-                    a.setAttribute("target", "_self");
-                    a.setAttribute("href", `./dashboardLeandro.html?id=${resposta[i].idComputador}`);
 
-                    let tr = document.createElement("tr");
-
-                    let tdNome = document.createElement("td");
-                    tdNome.setAttribute("class", "py-1");
-                    tdNome.innerHTML = `${resposta[i].NomeFuncionario}`
-                    tr.appendChild(tdNome);
-
-                    let tdIp = document.createElement("td");
-                    tdIp.innerHTML = `${resposta[i].IpComputador}`
-                    tr.appendChild(tdIp);
-
-                    let tdProgress = document.createElement("td");
-                    
-                    tr.appendChild(tdProgress);
-                    
-                    let divProgress = document.createElement("div");
-                    tdProgress.appendChild(divProgress);
-                    divProgress.setAttribute("class","progress");
-                    
-                    let divBarraProgresso = document.createElement("div");
-                    divProgress.appendChild(divBarraProgresso);
-                    divBarraProgresso.setAttribute("id","Barra")
-                    if (resposta[i].PorcentagemCPU == undefined || resposta[i].PorcentagemCPU == null || resposta[i].PorcentagemCPU < 66) {                    
-                        divBarraProgresso.setAttribute("class","progress-bar bg-sucess");
-                    }else if(resposta[i].PorcentagemCPU <85 ){
-                        divBarraProgresso.setAttribute("class","progress-bar bg-warning");
-                    }else{
-                        divBarraProgresso.setAttribute("class","progress-bar bg-danger");
-                    }
-                    divBarraProgresso.setAttribute("role","progressbar");
-                    if(resposta[i].PorcentagemCPU == null){
-                        divBarraProgresso.style.width = 0+"%";
-                    }else{
-                    divBarraProgresso.style.width = resposta[i].PorcentagemCPU+"%";}
-                    divBarraProgresso.setAttribute("aria-valuenow", 10);
-                    divBarraProgresso.setAttribute("aria-valuemin", 0);
-                    divBarraProgresso.setAttribute("aria-valuemax", 100);
-
-
-                    let tdStatus = document.createElement("td");
-                    tr.appendChild(tdStatus);
-                    let labelStatus = document.createElement("label");
-                    tdStatus.appendChild(labelStatus);
-                    if (resposta[i].Status == 1){
-                        labelStatus.setAttribute("class","badge badge-success");
-                        labelStatus.innerHTML = `Online`;    
-                    }
-                    else if(resposta[i].Status == 1 || resposta[i].Status == null){
-                        labelStatus.setAttribute("class","badge badge-danger");
-                        labelStatus.innerHTML = `Offline`;
-                    }
-
-                    let tdUltimaSessao = document.createElement("td");
-                    tr.appendChild(tdUltimaSessao);
-                    tdUltimaSessao.innerHTML = `${resposta[i].UltimaSessao}`;
-                    
-                    tr.onclick = ()=>{window.location.href = `./dashboardLeandro.html?id=${resposta[i].idComputador}`}
-                    tr.style.cursor = "pointer";
-                    listaElement.appendChild(tr);
-                }
-
-            });
-} else {
-    console.warn('Nenhum dado encontrado ou erro na API');
-}
-    }) 
-
-                }  
                 
 function fazerListaComputadoresOffline(){
     fetch(`/routeDashListagem/fazerListaCpuOffline?fkEmpresa=${localStorage.FK_EMPRESA}`, { cache: 'no-store' }).then(function (response) {
@@ -318,7 +219,7 @@ function fazerListaComputadoresOffline(){
                 var listaElement = document.getElementById("Lista")
                 listaElement.innerHTML = '';
                 for (let i = 0; i < resposta.length; i++) {
-                    if(resposta[i].Status == 0 || resposta[i].Status == null){
+                    
                     let a = document.createElement("a");
                     a.style.textDecoration = "none";
                     a.style.color = "black";
@@ -372,7 +273,7 @@ function fazerListaComputadoresOffline(){
                         labelStatus.setAttribute("class","badge badge-success");
                         labelStatus.innerHTML = `Online`;    
                     }
-                    else if(resposta[i].Status == 1 || resposta[i].Status == null){
+                    else if(resposta[i].Status == 0 || resposta[i].Status == null){
                         labelStatus.setAttribute("class","badge badge-danger");
                         labelStatus.innerHTML = `Offline`;
                     }
@@ -385,7 +286,7 @@ function fazerListaComputadoresOffline(){
                     tr.style.cursor = "pointer";
                     listaElement.appendChild(tr);
                 }
-            }
+            
 
             });
 } else {
@@ -395,90 +296,6 @@ function fazerListaComputadoresOffline(){
 
                 }  
 
-                function fazerListaComputadoresOnline(){
-                    fetch(`/routeDashListagem/fazerListaCpuOnline?fkEmpresa=${localStorage.FK_EMPRESA}`, { cache: 'no-store' }).then(function (response) {
-                        if (response.ok) {
-                            response.json().then(function (resposta) {
-                                console.error(`Dados recebidos: ${JSON.stringify(resposta)}`);
-                                var listaElement = document.getElementById("Lista")
-                                listaElement.innerHTML = '';
-                                for (let i = 0; i < resposta.length; i++) {
-                                    if(resposta[i].Status == 1 ){
-                                    let a = document.createElement("a");
-                                    a.style.textDecoration = "none";
-                                    a.style.color = "black";
-                                    a.setAttribute("target", "_self");
-                                    a.setAttribute("href", `./dashboardLeandro.html?id=${resposta[i].idComputador}`);
-                
-                                    let tr = document.createElement("tr");
-                
-                                    let tdNome = document.createElement("td");
-                                    tdNome.setAttribute("class", "py-1");
-                                    tdNome.innerHTML = `${resposta[i].NomeFuncionario}`
-                                    tr.appendChild(tdNome);
-                
-                                    let tdIp = document.createElement("td");
-                                    tdIp.innerHTML = `${resposta[i].IpComputador}`
-                                    tr.appendChild(tdIp);
-                
-                                    let tdProgress = document.createElement("td");
-                                    
-                                    tr.appendChild(tdProgress);
-                                    
-                                    let divProgress = document.createElement("div");
-                                    tdProgress.appendChild(divProgress);
-                                    divProgress.setAttribute("class","progress");
-                                    
-                                    let divBarraProgresso = document.createElement("div");
-                                    divProgress.appendChild(divBarraProgresso);
-                                    divBarraProgresso.setAttribute("id","Barra")
-                                    if (resposta[i].PorcentagemCPU == undefined || resposta[i].PorcentagemCPU == null || resposta[i].PorcentagemCPU < 66) {                    
-                                        divBarraProgresso.setAttribute("class","progress-bar bg-sucess");
-                                    }else if(resposta[i].PorcentagemCPU <85 ){
-                                        divBarraProgresso.setAttribute("class","progress-bar bg-warning");
-                                    }else{
-                                        divBarraProgresso.setAttribute("class","progress-bar bg-danger");
-                                    }
-                                    divBarraProgresso.setAttribute("role","progressbar");
-                                    if(resposta[i].PorcentagemCPU == null){
-                                        divBarraProgresso.style.width = 0+"%";
-                                    }else{
-                                    divBarraProgresso.style.width = resposta[i].PorcentagemCPU+"%";}
-                                    divBarraProgresso.setAttribute("aria-valuenow", 10);
-                                    divBarraProgresso.setAttribute("aria-valuemin", 0);
-                                    divBarraProgresso.setAttribute("aria-valuemax", 100);
-                
-                
-                                    let tdStatus = document.createElement("td");
-                                    tr.appendChild(tdStatus);
-                                    let labelStatus = document.createElement("label");
-                                    tdStatus.appendChild(labelStatus);
-                                    if (resposta[i].Status == 1){
-                                        labelStatus.setAttribute("class","badge badge-success");
-                                        labelStatus.innerHTML = `Online`;    
-                                    }
-                                    else if(resposta[i].Status == 1 || resposta[i].Status == null){
-                                        labelStatus.setAttribute("class","badge badge-danger");
-                                        labelStatus.innerHTML = `Offline`;
-                                    }
-                
-                                    let tdUltimaSessao = document.createElement("td");
-                                    tr.appendChild(tdUltimaSessao);
-                                    tdUltimaSessao.innerHTML = `${resposta[i].UltimaSessao}`;
-                                    
-                                    tr.onclick = ()=>{window.location.href = `./dashboardLeandro.html?id=${resposta[i].idComputador}`}
-                                    tr.style.cursor = "pointer";
-                                    listaElement.appendChild(tr);
-                                }
-                            }
-                
-                            });
-                } else {
-                    console.warn('Nenhum dado encontrado ou erro na API');
-                }
-                    }) 
-                
-                                }  
 
 
 

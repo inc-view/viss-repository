@@ -116,8 +116,8 @@ function fazerLista(fkEmpresa){
         ) AS 'PorcentagemCPU'
     FROM computador c
     JOIN funcionario f ON c.fkFuncionario = f.idFuncionario
-    WHERE f.fkEmpresa = ${fkEmpresa};  
-        `;
+    WHERE f.fkEmpresa = ${fkEmpresa}
+    order by PorcentagemCpu desc;`;
 
     } else {
         console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
@@ -230,7 +230,8 @@ function fazerListaCpuOffline(fkEmpresa){
         ) AS 'PorcentagemCPU'
     FROM computador c
     JOIN funcionario f ON c.fkFuncionario = f.idFuncionario
-    WHERE f.fkEmpresa = ${fkEmpresa} and c.ativo = 0;  
+    WHERE f.fkEmpresa = ${fkEmpresa} 
+    order by c.ativo;    
         `;
 
     } else {
