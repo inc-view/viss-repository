@@ -124,4 +124,14 @@ CREATE TABLE IF NOT EXISTS processo (
     CONSTRAINT fk_registros_computador1 FOREIGN KEY (fkComputador)
         REFERENCES computador (idComputador)
 );
-  
+
+SET SQL_SAFE_UPDATES = 0;
+UPDATE computador c
+LEFT JOIN (
+    SELECT hc.fkComputador, MAX(r.dtHora) AS UltimaDataHora
+    FROM hasComponente hc
+    LEFT JOIN registro r ON hc.idHasComponente = r.fkHasComponente
+    WHERE r.dtHora >= NOW() - INTERVAL 5 MINUTE
+    GROUP BY hc.fkComputador
+) subquery ON c.idComputador = subquery.fkComputador
+SET c.ativo = IF(subquery.UltimaDataHora IS NOT NULL, 1, 0);
