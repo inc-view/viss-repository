@@ -156,7 +156,7 @@ function infoMaquina(idMaquina) {
     if (process.env.AMBIENTE_PROCESSO == "producao") {
         instrucaoSql = ``;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
-        instrucaoSql = `SELECT * FROM infoComputador WHERE idComputador = ${idMaquina}`;
+        instrucaoSql = ` SELECT i.* FROM infoComputador AS i JOIN Computador AS c ON i.IpComputador = c.ipComputador AND c.idComputador=${idMaquina};`;
     } else {
         console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
         return
