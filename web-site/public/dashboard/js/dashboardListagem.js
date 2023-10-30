@@ -153,9 +153,11 @@ function fazerLista() {
                         labelStatus.innerHTML = `Offline`;
                     }
 
+
                     let tdUltimaSessao = document.createElement("td");
                     tr.appendChild(tdUltimaSessao);
                     tdUltimaSessao.innerHTML = `${resposta[i].UltimaSessao}`;
+
                     
                     tr.onclick = ()=>{window.location.href = `./dashboardLeandro.html?id=${resposta[i].idComputador}`}
                     tr.style.cursor = "pointer";
@@ -479,8 +481,6 @@ function fazerListaComputadoresOffline(){
                     }) 
                 
                                 }  
-
-
 
 
 

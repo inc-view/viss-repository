@@ -1130,11 +1130,11 @@
 </html>
 <script>
   function setNome(){
-    if(sessionStorage.EMAIL_USER == undefined || sessionStorage.NOME_USER == undefined){
+    if(localStorage.EMAIL_USER == undefined || localStorage.NOME_USER == undefined){
       window.location = "pages/samples/login.html";
     }
-    name_user.innerHTML = sessionStorage.NOME_USER;
-    user_name.innerHTML = sessionStorage.NOME_USER;
-    user_email.innerHTML = sessionStorage.EMAIL_USER;
+    name_user.innerHTML = localStorage.NOME_USER;
+    user_name.innerHTML = localStorage.NOME_USER;
+    user_email.innerHTML = localStorage.EMAIL_USER;
   }
   </script>
