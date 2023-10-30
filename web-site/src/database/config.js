@@ -22,7 +22,7 @@ var mySqlConfig = {
     host: "localhost",
     database: "inkview",
     user: "root",
-    password: "7852456",
+    password: "@eduufreire",
 };
 
 function executar(instrucao) {
