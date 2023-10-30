@@ -12,6 +12,15 @@ router.get("/ListagemCpuOff", function (req, res) {
 router.get("/fazerLista", function(req,res) {
     dashListagemController.fazerLista(req,res);
 });
+router.get("/fazerListaProblema", function(req,res) {
+    dashListagemController.fazerListaProblema(req,res);
+});
+router.get("/fazerListaCpuOnline", function(req,res) {
+    dashListagemController.fazerListaCpuOnline(req,res);
+});
+router.get("/fazerListaCpuOffline", function(req,res) {
+    dashListagemController.fazerListaCpuOffline(req,res);
+});
 router.get("/ListagemTotalComputadores", function(req, res){
         dashListagemController.ListagemTotalComputadores(req, res);
 });
