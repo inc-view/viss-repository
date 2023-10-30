@@ -275,7 +275,7 @@ function updateDashboardGeral() {
 
 
 function updateDashboardCpu() {
-    data_dash.innerHTML = `${dataDash.getDate()}/${dataDash.getMonth() + 1}/${dataDash.getFullYear()}`
+    
     fetch(`/routeLeandro/dashboardCpu/${idMaquina}`, { cache: 'no-store' }).then(function (response) {
         if (response.ok) {
             response.json().then(function (resposta) {
@@ -284,7 +284,9 @@ function updateDashboardCpu() {
                 for (i = 0; i < resposta.length; i++) {
                     let registro = resposta[i]
                     var data = new Date(registro.dthora);
+                    var dataDMATratada = `${data.getDate()}/${data.getMonth() + 1}/${data.getFullYear()}`
                     var dataTratada = data.getHours() + ":" + data.getMinutes() + ":" + data.getSeconds();
+                    data_dash.innerHTML = dataDMATratada
                     labelsDashboardCpu.push(dataTratada)
                     dataDashboardCpu.push(registro.cpu)
                 }
