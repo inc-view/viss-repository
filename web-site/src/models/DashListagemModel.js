@@ -49,7 +49,7 @@ function ListagemCpuProblema(fkEmpresa){
         JOIN componente ON fkComponente = idComponente
         JOIN funcionario ON fkFuncionario = idFuncionario
         WHERE componente.tipo = 'cpu'
-        AND registro.registro > 85
+        AND registro.registro > 90
         AND registro.dtHora >= now() - interval 1 minute
         AND funcionario.fkEmpresa = ${fkEmpresa};`;
     } else {
@@ -289,7 +289,6 @@ module.exports = {
     fazerListaPorNome,
     fazerListaCpuOffline,
     fazerListaCpuOnline,
-    fazerListaProblema,
     ListagemCpuProblema,
     ListagemCpuON,
     ListagemCpuOff,
