@@ -3,23 +3,32 @@ var router = express.Router();
 
 var leandroController = require("../controllers/leandroController");
 
-router.get("/dashboardGeral", function (req, res) {
-    leandroController.dashboardGeral(req, res);
+router.get("/dashboardGeralCPU/:id", function (req, res) {
+    leandroController.dashboardGeralCPU(req, res);
 });
 
-router.get("/dashboardCpu", function (req, res) {
+router.get("/dashboardGeralRAM/:id", function (req, res) {
+    leandroController.dashboardGeralRAM(req, res);
+});
+
+router.get("/dashboardGeralDISCO/:id", function (req, res) {
+    leandroController.dashboardGeralDISCO(req, res);
+});
+
+
+router.get("/dashboardCpu/:id", function (req, res) {
     leandroController.dashboardCpu(req, res);
 });
 
-router.get("/dashboardMemory", function (req, res) {
+router.get("/dashboardMemory/:id", function (req, res) {
     leandroController.dashboardMemory(req, res);
 });
 
-router.get("/dashboardDisk", function (req, res) {
+router.get("/dashboardDisk/:id", function (req, res) {
     leandroController.dashboardDisk(req, res);
 });
 
-router.get("/infoMaquina", function (req, res) {
+router.get("/infoMaquina/:id", function (req, res) {
     leandroController.infoMaquina(req, res);
 });
 

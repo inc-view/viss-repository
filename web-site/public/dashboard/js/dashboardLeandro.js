@@ -1,10 +1,22 @@
+var query = location.search.slice(1);
+var partes = query.split('&');
+var idMaquina = 0
+
+partes.forEach(function (parte) {
+    var chaveValor = parte.split('=');
+    var chave = chaveValor[0];
+    var valor = chaveValor[1];
+    idMaquina = valor;
+});
+
+var dataDash = new Date();
 function infoMaquina() {
     var state;
     var name;
     var brand;
     var system;
     var ip;
-    fetch(`/routeLeandro/dashboardCpu/`, { cache: 'no-store' }).then(function (response) {
+    fetch(`/routeLeandro/infoMaquina/${idMaquina}`, { cache: 'no-store' }).then(function (response) {
         if (response.ok) {
             response.json().then(function (resposta) {
                 console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
@@ -19,7 +31,7 @@ function infoMaquina() {
                 name = registro.NomeFuncionario
                 brand = registro.MarcaComputador
                 system = registro.SistemaOperacional
-                ip = registro.ipComputador
+                ip = registro.IpComputador
 
                 cardStatus.innerHTML = `Status: ${state}`
                 cardName.innerHTML = `Nome do Funcionário: ${name}`
@@ -39,11 +51,12 @@ function infoMaquina() {
 
 infoMaquina()
 
-var labelsDashboardGeral = [0, 0, 0, 0, 0]
-var cpuDataDashboardGeral = [0, 0, 0, 0, 0]
-var memoryDataDashboardGeral = [0, 0, 0, 0, 0]
-var diskDataDashboardGeral = [0, 0, 0, 0, 0]
+var labelsDashboardGeral = []
+var cpuDataDashboardGeral = []
+var memoryDataDashboardGeral = []
+var diskDataDashboardGeral = []
 
+var dashboardGeral = document.getElementById('dashboard-geral-cpu')
 var varDashboardGeral = new Chart(dashboardGeral, {
     type: `line`,
     data: {
@@ -54,14 +67,14 @@ var varDashboardGeral = new Chart(dashboardGeral, {
             borderColor: '#2CA093',
         },
         {
-            label: `Memória RAM`,
+            label: `RAM`,
             data: memoryDataDashboardGeral,
-            borderColor: '#B80096'
+            borderColor: '#b34db2',
         },
         {
-            label: `Disco`,
+            label: `DISCO`,
             data: diskDataDashboardGeral,
-            borderColor: '#0000FF'
+            borderColor: '#5353ec',
         }]
     },
     options: {
@@ -170,47 +183,103 @@ function showDisk() {
 }
 
 function updateDashboardGeral() {
-    fetch(`/routeLeandro/dashboardGeral/`, { cache: 'no-store' }).then(function (response) {
+
+    
+   
+    fetch(`/routeLeandro/dashboardGeralCPU/${idMaquina}`, { cache: 'no-store' }).then(function (response) {
         if (response.ok) {
             response.json().then(function (resposta) {
+
                 console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
 
                 for (i = 0; i < resposta.length; i++) {
-                    let registro = resposta[i]
-                    labelsDashboardGeral.push(registro.dthora)
-                    cpuDataDashboardGeral.push(registro.cpu)
-                    memoryDataDashboardGeral.push(registro.memory)
-                    diskDataDashboardGeral.push(registro.disk)
+                    
+                    let dataFormat = new Date(resposta[i].dtHora)
+                    let dataFormatFinally = `${dataFormat.getHours()}:${dataFormat.getMinutes()}:${dataFormat.getSeconds()}`   
+                    labelsDashboardGeral.push(dataFormatFinally)
+                    cpuDataDashboardGeral.push(resposta[i].registro)
                 }
 
-                if (labelsDashboardGeral.length > 5) {
-                    labelsDashboardGeral.shift()
-                }
-                if (cpuDataDashboardGeral.length > 5) {
-                    cpuDataDashboardGeral.shift()
-                }
-                if (memoryDataDashboardGeral.length > 5) {
-                    memoryDataDashboardGeral.shift()
-                }
-                if (diskDataDashboardGeral.length > 5) {
-                    diskDataDashboardGeral.shift()
-                }
+                labelsDashboardGeral = labelsDashboardGeral.reverse()
+                cpuDataDashboardGeral = cpuDataDashboardGeral.reverse()
+
 
             });
         } else {
             console.error('Nenhum dado encontrado ou erro na API');
         }
-    })
-        .catch(function (error) {
-            console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
-        });
-    varDashboardGeral.update()
+    }).catch(function (error) {
+        console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+    });
+
+
+
+    fetch(`/routeLeandro/dashboardGeralRAM/${idMaquina}`, { cache: 'no-store' }).then(function (response) {
+        if (response.ok) {
+            response.json().then(function (resposta) {
+
+                console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+
+                for (i = 0; i < resposta.length; i++) { 
+                    memoryDataDashboardGeral.push(resposta[i].registro)
+                }
+
+                memoryDataDashboardGeral = memoryDataDashboardGeral.reverse()
+
+
+            });
+        } else {
+            console.error('Nenhum dado encontrado ou erro na API');
+        }
+    }).catch(function (error) {
+        console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+    });
+
+
+    fetch(`/routeLeandro/dashboardGeralDISCO/${idMaquina}`, { cache: 'no-store' }).then(function (response) {
+        if (response.ok) {
+            response.json().then(function (resposta) {
+
+                console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+
+                for (i = 0; i < resposta.length; i++) { 
+                    diskDataDashboardGeral.push(resposta[i].registro)
+                }
+
+                diskDataDashboardGeral = diskDataDashboardGeral.reverse()
+
+
+                setTimeout(() => {
+
+                    cpuDataDashboardGeral = []
+                    labelsDashboardGeral = []
+                    diskDataDashboardGeral = []
+                    memoryDataDashboardGeral = []
+
+                    varDashboardGeral.update();
+
+                }, 2000)
+
+            });
+        } else {
+            console.error('Nenhum dado encontrado ou erro na API');
+        }
+    }).catch(function (error) {
+        console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+    });
+
+
+    
+
+
 }
 
+
+
+
 function updateDashboardCpu() {
-    var dataDash = new Date();
     data_dash.innerHTML = `${dataDash.getDate()}/${dataDash.getMonth() + 1}/${dataDash.getFullYear()}`
-    fetch(`/routeLeandro/dashboardCpu/`, { cache: 'no-store' }).then(function (response) {
+    fetch(`/routeLeandro/dashboardCpu/${idMaquina}`, { cache: 'no-store' }).then(function (response) {
         if (response.ok) {
             response.json().then(function (resposta) {
                 console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
@@ -254,14 +323,18 @@ function updateDashboardCpu() {
 }
 
 function updateDashboardMemory() {
-    fetch(`/routeLeandro/dashboardMemory/`, { cache: 'no-store' }).then(function (response) {
+   
+    data_dash2.innerHTML = `${dataDash.getDate()}/${dataDash.getMonth() + 1}/${dataDash.getFullYear()}`
+    fetch(`/routeLeandro/dashboardMemory/${idMaquina}`, { cache: 'no-store' }).then(function (response) {
         if (response.ok) {
             response.json().then(function (resposta) {
                 console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
 
                 for (i = 0; i < resposta.length; i++) {
                     let registro = resposta[i]
-                    labelsDashboardMemory.push(registro.dthora)
+                    var data = new Date(registro.dthora);
+                    var dataTratada = data.getHours() + ":" + data.getMinutes() + ":" + data.getSeconds();
+                    labelsDashboardMemory.push(dataTratada)
                     dataDashboardMemory.push(registro.memory)
                 }
 
@@ -293,14 +366,18 @@ function updateDashboardMemory() {
 }
 
 function updateDashboardDisk() {
-    fetch(`/routeLeandro/dashboardDisk/`, { cache: 'no-store' }).then(function (response) {
+    data_dash3.innerHTML = `${dataDash.getDate()}/${dataDash.getMonth() + 1}/${dataDash.getFullYear()}`
+
+    fetch(`/routeLeandro/dashboardDisk/${idMaquina}`, { cache: 'no-store' }).then(function (response) {
         if (response.ok) {
             response.json().then(function (resposta) {
                 console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
 
                 for (i = 0; i < resposta.length; i++) {
                     let registro = resposta[i]
-                    labelsDashboardDisk.push(registro.dthora)
+                    var data = new Date(registro.dthora);
+                    var dataTratada = data.getHours() + ":" + data.getMinutes() + ":" + data.getSeconds();
+                    labelsDashboardDisk.push(dataTratada)
                     dataDashboardDisk.push(registro.disk)
                 }
 
@@ -319,7 +396,7 @@ function updateDashboardDisk() {
     })
 }
 
-// setInterval(updateDashboardGeral, 2000)
+setInterval(updateDashboardGeral, 5000)
 setInterval(updateDashboardCpu, 1000)
 setInterval(updateDashboardMemory, 1000)
 setInterval(updateDashboardDisk, 1000)
