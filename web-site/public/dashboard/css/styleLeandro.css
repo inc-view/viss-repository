@@ -73,25 +73,25 @@
 }
 
 .color-green {
-background-color: green !important;
+background-color: rgba(0, 128, 0, 0.76) !important;
 padding: 0.8% 4.3% 0.2% 4.3%;
 border-radius: 10px;
 }
 
 .color-yellow {
-background-color: yellow !important;
+background-color: rgba(255, 255, 0, 0.76) !important;
 padding: 0.8% 4.3% 0.2% 4.3%;
 border-radius: 10px;
 }
 
 .color-orange {
-background-color: orange !important;
+background-color: rgba(255, 165, 0, 0.76) !important;
 padding: 0.8% 4.3% 0.2% 4.3%;
 border-radius: 10px;
 }
 
 .color-red {
-background-color: red !important;
+background-color: rgba(255, 0, 0, 0.76) !important;
 padding: 0.8% 4.3% 0.2% 4.3%;
 border-radius: 10px;
 }
