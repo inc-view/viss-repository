@@ -59,7 +59,7 @@ consoleColors = {
 connection = mysql.connector.connect(
     host="localhost",
     user="root",
-    password= "7852456",
+    password="1234567",
     port=3306,
     database="inkView"
 )
