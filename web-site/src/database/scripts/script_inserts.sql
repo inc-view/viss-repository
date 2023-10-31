@@ -58,3 +58,9 @@ INSERT INTO  processo  VALUES
 insert into registro values
 (null, 89, current_timestamp(), 1);
 -- (null, 70, current_timestamp(), 5);
+
+-- Pegar ultima sessão
+-- insert into registro values
+-- (null, 12, current_timestamp(), 1),
+-- (null, 35, current_timestamp(), 2),
+-- (null, 55, current_timestamp(), 3);
