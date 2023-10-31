@@ -1,0 +1,101 @@
+.justify-content-space-around {
+    justify-content: space-around;
+}
+
+.card-component {
+    background-color: #FFFFFF;
+    border-radius: 10px;
+    padding-top: 1.5%;
+    padding-bottom: 1.5%;
+    width: 25%;
+}
+
+.card-component:hover {
+    cursor: pointer;
+    background-color: #D8D8D8;
+    transition: 0.2s;
+}
+
+.card-component:not(:hover) {
+    transition: 0.2s;
+}
+
+.dashboardHide {
+    display: none;
+}
+
+.cpu-color-text {
+    color: #2CA093 !important;
+    font-weight: bold !important;
+}
+
+.memory-color-text {
+    color: #B80096 !important;
+    font-weight: bold !important;
+}
+
+.disk-color-text {
+    color: #0000FF !important;
+    font-weight: bold !important;
+}
+
+.card-component-text {
+    font-size: 120% !important;
+}
+
+.overflow {
+    overflow-y: scroll;
+}
+
+.process-list-height {
+    max-height: 500px !important;
+}
+
+.alert-list {
+    max-height: 300px;
+}
+
+.process-list-height-bg {
+    height: fit-content !important;
+}
+
+.table tr {
+    border-style: hidden;
+}
+
+.table td {
+    border-style: hidden;
+}
+
+.margin-0 {
+    margin: 0px !important;
+    padding: 0px 0px 0px 0px !important;
+}
+
+.color-green {
+background-color: rgba(0, 128, 0, 0.76) !important;
+padding: 0.8% 4.3% 0.2% 4.3%;
+border-radius: 10px;
+}
+
+.color-yellow {
+background-color: rgba(255, 255, 0, 0.76) !important;
+padding: 0.8% 4.3% 0.2% 4.3%;
+border-radius: 10px;
+}
+
+.color-orange {
+background-color: rgba(255, 165, 0, 0.76) !important;
+padding: 0.8% 4.3% 0.2% 4.3%;
+border-radius: 10px;
+}
+
+.color-red {
+background-color: rgba(255, 0, 0, 0.76) !important;
+padding: 0.8% 4.3% 0.2% 4.3%;
+border-radius: 10px;
+}
+
+.margin-top-0 {
+    margin-top: 0 !important;
+}

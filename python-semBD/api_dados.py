@@ -4,8 +4,6 @@ import platform
 import datetime
 from datetime import date
 import time
-import mysql.connector
-import mysql.connector.errorcode
 import socket
 
 """ webhook = "https://hooks.slack.com/services/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" """
@@ -56,15 +54,15 @@ consoleColors = {
     "reset": "\u001b[0m",
 }
 
-connection = mysql.connector.connect(
-    host="localhost",
-    user="root",
-    password= "7852456",
-    port=3306,
-    database="inkView"
-)
+# connection = mysql.connector.connect(
+#     host="localhost",
+#     user="root",
+#     password="1234567",
+#     port=3306,
+#     database="inkView"
+# )
 
-cursor = connection.cursor()
+# cursor = connection.cursor()
 
 def showText():
     print(f"""{consoleColors['cyan']}
@@ -152,36 +150,35 @@ if opcao == "1":
         ProgressBar(percentual=int(diskPercent.percent))
             
         mediaCpus = round((somaCpus / len(cpusPercent)),2)
-        print(mediaCpus)
 
-        try:
-            selectIpMaquina = f"select cpu, ram, disco from vwIdComponenteComputador where ipComputador = '{str(ipMaquina)}'"
-            cursor.execute(selectIpMaquina)
-            idsComponentes = cursor.fetchone()
+        # try:
+        #     selectIpMaquina = f"select cpu, ram, disco from vwIdComponenteComputador where ipComputador = '{str(ipMaquina)}'"
+        #     cursor.execute(selectIpMaquina)
+        #     idsComponentes = cursor.fetchone()
 
-            mySqlInsertQueryCpuPercent = f"INSERT INTO registro VALUES (null, {str(mediaCpus)},  current_timestamp(), {idsComponentes[0]});"
-            mySqlInsertQueryMemoryPercent = f"INSERT INTO registro VALUES (null, {str(memoryPercent)},  current_timestamp(), {idsComponentes[1]});"
-            mySqlInsertQueryDiskPercent = f"INSERT INTO registro VALUES (null, {str(diskPercent.percent)},  current_timestamp(), {idsComponentes[2]});"
+        #     mySqlInsertQueryCpuPercent = f"INSERT INTO registro VALUES (null, {str(mediaCpus)},  current_timestamp(), {idsComponentes[0]});"
+        #     mySqlInsertQueryMemoryPercent = f"INSERT INTO registro VALUES (null, {str(memoryPercent)},  current_timestamp(), {idsComponentes[1]});"
+        #     mySqlInsertQueryDiskPercent = f"INSERT INTO registro VALUES (null, {str(diskPercent.percent)},  current_timestamp(), {idsComponentes[2]});"
 
-            cursor.execute(mySqlInsertQueryCpuPercent)
-            cursor.execute(mySqlInsertQueryMemoryPercent)
-            cursor.execute(mySqlInsertQueryDiskPercent)
-
+        #     cursor.execute(mySqlInsertQueryCpuPercent)
+        #     cursor.execute(mySqlInsertQueryMemoryPercent)
+        #     cursor.execute(mySqlInsertQueryDiskPercent)
 
 
-            # mySqlInsertQueryMemoryUsed = "INSERT INTO registro VALUES (null, " + str(memoryUsed) + ",  current_timestamp(), 3);"
-            # mySqlInsertQueryMemoryTotal = "INSERT INTO registro VALUES (null, " + str(memoryTotal) + ",  current_timestamp(), 3);"
-            # cursor.execute(mySqlInsertQueryMemoryUsed)
-            # cursor.execute(mySqlInsertQueryMemoryTotal)
 
-            connection.commit()
+        #     # mySqlInsertQueryMemoryUsed = "INSERT INTO registro VALUES (null, " + str(memoryUsed) + ",  current_timestamp(), 3);"
+        #     # mySqlInsertQueryMemoryTotal = "INSERT INTO registro VALUES (null, " + str(memoryTotal) + ",  current_timestamp(), 3);"
+        #     # cursor.execute(mySqlInsertQueryMemoryUsed)
+        #     # cursor.execute(mySqlInsertQueryMemoryTotal)
 
-        except mysql.connector.Error as error:
-           print("Failed to insert record into Laptop table {}".format(error))
+        #     connection.commit()
+
+        # except mysql.connector.Error as error:
+        #    print("Failed to insert record into Laptop table {}".format(error))
 
         time.sleep(2)
     
 
-if connection.is_connected():
-    cursor.close()
-    connection.close()
+# if connection.is_connected():
+#     cursor.close()
+#     connection.close()

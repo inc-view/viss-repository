@@ -18,4 +18,5 @@ router.get("/informacoes/:idUsuario", function (req, res) {
 router.get("/verificarCodEmpresa/:codEmpresa", function (req, res) {
     usuarioController.verificarCodEmpresa(req, res);
 });
+
 module.exports = router;
