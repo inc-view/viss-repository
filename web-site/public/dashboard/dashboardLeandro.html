@@ -25,10 +25,21 @@
   <link rel="shortcut icon" href="images/favicon-32x32.png" />
   <style>
     .chart-style {
-      width: 720px;
+      width: auto;
       margin: 0 auto;
-      height: 250px;
+      height: auto;
     }
+
+    .badge-hint{
+      width: 25px; 
+      height: 20px; 
+      text-align: center; 
+      font-size: 10px; 
+      padding: 0.8;
+      margin-left: 1vh;
+      cursor: pointer;
+    }
+
   </style>
 </head>
 
@@ -437,9 +448,9 @@
           <div class="row flex-grow">
 
             <!-- informações -->
-            <div class="col-4 d-flex flex-column justify-content-space-between align-items-center">
+            <div class="col-12 d-flex flex-row justify-content-space-around align-items-center">
 
-              <div class="card process-list-height-bg col-12">
+              <div class="card process-list-height-bg col-5">
                 <div class="card-body">
                   <h4 class="card-title mb-0 fw-bold">Colaborador</h4>
 
@@ -464,7 +475,7 @@
                 </div>
               </div>
 
-              <div class="card process-list-height-bg col-12  mt-1">
+              <div class="card process-list-height-bg col-5">
                 <div class="card-body">
                   <h4 class="card-title mb-0 fw-bold">Máquina</h4>
 
@@ -493,188 +504,6 @@
 
             </div>
 
-
-            <!--  métricas -->
-            <div class="col-8 grid-margin stretch-card">
-              <div class="card card-rounded">
-                <div class="card-body">
-
-                  <div class="row">
-                    <div class="col-lg-4">
-
-                      <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                          <h4 class="card-title card-title-dash">Métricas CPU</h4>
-                        </div>
-                      </div>
-
-                      <div class="mt-2">
-
-                        <div class="wrapper d-flex align-items-center justify-content-between py-1 border-bottom">
-                          <div class="d-flex">
-                            <div class="img-sm rounded-10" style="background-color: #e06666" alt="profile"></div>
-                            <div class="wrapper ms-3">
-                              <p class="ms-1 mb-1 fw-bold">Urgente</p>
-                              <small class="ms-1 text-black mb-0">Maior que 90%</small>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div class="wrapper d-flex align-items-center justify-content-between py-1 border-bottom">
-                          <div class="d-flex">
-                            <div class="img-sm rounded-10" style="background-color: #f6b26b" alt="profile"></div>
-                            <div class="wrapper ms-3">
-                              <p class="ms-1 mb-1 fw-bold">Atenção</p>
-                              <small class="ms-1 text-black mb-0">Entre 80% e 90% </small>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div class="wrapper d-flex align-items-center justify-content-between py-1 border-bottom">
-                          <div class="d-flex">
-                            <div class="img-sm rounded-10" style="background-color: #ffd966" alt="profile"></div>
-                            <div class="wrapper ms-3">
-                              <p class="ms-1 mb-1 fw-bold">Acima do normal</p>
-                              <small class="ms-1 text-black mb-0">Entre 65% e 80%</small>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div class="wrapper d-flex align-items-center justify-content-between py-1 border-bottom">
-                          <div class="d-flex">
-                            <div class="img-sm rounded-10" style="background-color: #668857" alt="profile"></div>
-                            <div class="wrapper ms-3">
-                              <p class="ms-1 mb-1 fw-bold">Normal</p>
-                              <small class="ms-1 text-black mb-0">Entre 45% e 65%</small>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div class="wrapper d-flex align-items-center justify-content-between py-1 border-bottom">
-                          <div class="d-flex">
-                            <div class="img-sm rounded-10" style="background-color: #a2d48a" alt="profile"></div>
-                            <div class="wrapper ms-3">
-                              <p class="ms-1 mb-1 fw-bold">Ideal</p>
-                              <small class="ms-1 text-black mb-0">Abaixo de 45%</small>
-                            </div>
-                          </div>
-                        </div>
-
-                      </div>
-                    </div>
-
-                    <div class="col-lg-4">
-
-                      <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                          <h4 class="card-title card-title-dash">Métricas RAM</h4>
-                        </div>
-                      </div>
-
-                      <div class="mt-2">
-
-                        <div class="wrapper d-flex align-items-center justify-content-between py-1 border-bottom">
-                          <div class="d-flex">
-                            <div class="img-sm rounded-10" style="background-color: #e06666" alt="profile"></div>
-                            <div class="wrapper ms-3">
-                              <p class="ms-1 mb-1 fw-bold">Urgente</p>
-                              <small class="ms-1 text-black mb-0">Maior que 90%</small>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div class="wrapper d-flex align-items-center justify-content-between py-1 border-bottom">
-                          <div class="d-flex">
-                            <div class="img-sm rounded-10" style="background-color: #f6b26b" alt="profile"></div>
-                            <div class="wrapper ms-3">
-                              <p class="ms-1 mb-1 fw-bold">Atenção</p>
-                              <small class="ms-1 text-black mb-0">Entre 80% e 90% </small>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div class="wrapper d-flex align-items-center justify-content-between py-1 border-bottom">
-                          <div class="d-flex">
-                            <div class="img-sm rounded-10" style="background-color: #ffd966" alt="profile"></div>
-                            <div class="wrapper ms-3">
-                              <p class="ms-1 mb-1 fw-bold">Acima do normal</p>
-                              <small class="ms-1 text-black mb-0">Entre 65% e 80%</small>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div class="wrapper d-flex align-items-center justify-content-between py-1 border-bottom">
-                          <div class="d-flex">
-                            <div class="img-sm rounded-10" style="background-color: #668857" alt="profile"></div>
-                            <div class="wrapper ms-3">
-                              <p class="ms-1 mb-1 fw-bold">Normal</p>
-                              <small class="ms-1 text-black mb-0">Abaixo de 65%</small>
-                            </div>
-                          </div>
-                        </div>
-
-
-                      </div>
-                    </div>
-
-                    <div class="col-lg-4">
-
-                      <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                          <h4 class="card-title card-title-dash">Métricas DISCO</h4>
-                        </div>
-                      </div>
-
-                      <div class="mt-2">
-
-                        <div class="wrapper d-flex align-items-center justify-content-between py-1 border-bottom">
-                          <div class="d-flex">
-                            <div class="img-sm rounded-10" style="background-color: #e06666" alt="profile"></div>
-                            <div class="wrapper ms-3">
-                              <p class="ms-1 mb-1 fw-bold">Urgente</p>
-                              <small class="ms-1 text-black mb-0">Maior que 90%</small>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div class="wrapper d-flex align-items-center justify-content-between py-1 border-bottom">
-                          <div class="d-flex">
-                            <div class="img-sm rounded-10" style="background-color: #f6b26b" alt="profile"></div>
-                            <div class="wrapper ms-3">
-                              <p class="ms-1 mb-1 fw-bold">Atenção</p>
-                              <small class="ms-1 text-black mb-0">Entre 80% e 90% </small>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div class="wrapper d-flex align-items-center justify-content-between py-1 border-bottom">
-                          <div class="d-flex">
-                            <div class="img-sm rounded-10" style="background-color: #ffd966" alt="profile"></div>
-                            <div class="wrapper ms-3">
-                              <p class="ms-1 mb-1 fw-bold">Acima do normal</p>
-                              <small class="ms-1 text-black mb-0">Entre 65% e 80%</small>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div class="wrapper d-flex align-items-center justify-content-between py-1 border-bottom">
-                          <div class="d-flex">
-                            <div class="img-sm rounded-10" style="background-color: #668857" alt="profile"></div>
-                            <div class="wrapper ms-3">
-                              <p class="ms-1 mb-1 fw-bold">Normal</p>
-                              <small class="ms-1 text-black mb-0">Abaixo de 65%</small>
-                            </div>
-                          </div>
-                        </div>
-
-                      </div>
-                    </div>
-                  </div>
-
-                </div>
-              </div>
-            </div>
-
           </div>
 
 
@@ -699,14 +528,16 @@
                             <div class="col-12">
                               <div class="col-12 grid-margin stretch-card">
                                 <div class="card process-list-height-bg col-12">
-                                  <div class="card-body">
+                                  <div class="card-body" onclick="hideDashboards(), showCpu()">
 
                                     <div class="row">
                                       <div class="d-flex flex-row align-items-center justify-content-start">
                                         <h3 class="card-title mb-0 fw-bold">
                                           CPU
                                         </h3>
-                                        <span class="badge rounded-pill bg-dark" style="width: 25px; height: 15px; text-align: center; font-size: 10px; padding: 0.8">?</span>
+                                        <span class="badge rounded-pill bg-dark badge-hint" data-bs-toggle="modal"data-bs-target="#modalCPU">
+                                          ?
+                                        </span>
                                       </div>
                                     </div>
                                     
@@ -715,7 +546,7 @@
                                       <div class="d-flex align-items-center justify-content-between">
                                         <div class="col-8 d-flex align-items-start justify-content-start">
                                           <div class="col-6">
-                                            <h2 class="text-black">50%</h2>
+                                            <h2 class="text-black rate-percentage" id="cardCpu">50%</h2>
                                           </div>
                                         </div>
                                         <div class="text-black text-middle">
@@ -735,20 +566,20 @@
                             <div class="col-12">
                               <div class="col-12 grid-margin stretch-card">
                                 <div class="card process-list-height-bg col-12">
-                                  <div class="card-body">
+                                  <div class="card-body" onclick="hideDashboards(), showMemory()">
                                     <div class="row">
                                       <div class="d-flex flex-row align-items-center justify-content-start">
                                         <h3 class="card-title mb-0 fw-bold">
                                           RAM
                                         </h3>
-                                        <span class="badge rounded-pill bg-dark" style="width: 25px; height: 15px; text-align: center; font-size: 10px; padding: 0.8">?</span>
+                                        <span class="badge rounded-pill bg-dark badge-hint" data-bs-toggle="modal" data-bs-target="#modalRAM">?</span>
                                       </div>
                                     </div>
                                     <div class="row">
                                       <div class="d-flex align-items-center justify-content-between">
                                         <div class="col-8 d-flex align-items-start justify-content-start">
                                           <div class="col-6">
-                                            <h2 class="text-black">69%</h2>
+                                            <h2 class="text-black rate-percentage" id="cardMemory">69%</h2>
                                           </div>
                                         </div>
                                         <div class="text-black text-middle">
@@ -766,14 +597,14 @@
                             <div class="col-12">
                               <div class="col-12 grid-margin stretch-card">
                                 <div class="card process-list-height-bg col-12">
-                                  <div class="card-body">
+                                  <div class="card-body" onclick="hideDashboards(), showDisk()">
                                    
                                     <div class="row">
                                       <div class="d-flex flex-row align-items-center justify-content-start">
                                         <h3 class="card-title mb-0 fw-bold">
                                           Disco
                                         </h3>
-                                        <span class="badge rounded-pill bg-dark" style="width: 25px; height: 15px; text-align: center; font-size: 10px; padding: 0.8">?</span>
+                                        <span class="badge rounded-pill bg-dark badge-hint" data-bs-toggle="modal" data-bs-target="#modalDisco">?</span>
                                       </div>
                                     </div>
 
@@ -781,7 +612,7 @@
                                       <div class="d-flex align-items-center justify-content-between">
                                         <div class="col-8 d-flex align-items-start justify-content-start">
                                           <div class="col-6">
-                                            <h2 class="text-black">99%</h2>
+                                            <h2 class="text-black rate-percentage" id="cardDisk">99%</h2>
                                           </div>
                                         </div>
                                         <div class="text-black text-middle">
@@ -818,6 +649,9 @@
                             <div class="card">
                               <div class="card-body">
                                 <h4 class="card-title">Uso Memória RAM (%)</h4>
+                                <p class="card-subtitle card-subtitle-dash">
+                                  Registro dos componentes - Intervalo: 5min
+                                </p>
                                 <h3 id="data_dash2"></h3>
                                 <div class="chart-style">
                                   <canvas id="dashboardMemory"></canvas>
@@ -830,6 +664,9 @@
                             <div class="card">
                               <div class="card-body">
                                 <h4 class="card-title">Uso Disco (%)</h4>
+                                <p class="card-subtitle card-subtitle-dash">
+                                  Registro dos componentes - Intervalo: 5min
+                                </p>
                                 <h3 id="data_dash3"></h3>
                                 <div class="chart-style">
                                   <canvas id="dashboardDisk"></canvas>
@@ -872,14 +709,6 @@
     </div>
 
   </div>
-
-
-  <button type="button" class="btn btn-danger btn-lg text-white mb-0 me-0" data-bs-toggle="modal"
-    data-bs-target="#modalCPU">
-    <span class="material-symbols-outlined">
-      delete
-    </span>
-  </button>
 
   <div class="modal fade" id="modalCPU" tabindex="-1" aria-labelledby="modalLoteLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -956,15 +785,6 @@
     </div>
   </div>
 
-
-
-  <button type="button" class="btn btn-danger btn-lg text-white mb-0 me-0" data-bs-toggle="modal"
-    data-bs-target="#modalRAM">
-    <span class="material-symbols-outlined">
-      ram
-    </span>
-  </button>
-
   <div class="modal fade" id="modalRAM" tabindex="-1" aria-labelledby="modalLoteLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -1009,7 +829,7 @@
                   </div>
                 </div>
 
-                <div class="wrapper d-flex align-items-center justify-content-between py-2 border-bottom">
+                <div class="wrapper d-flex align-items-center justify-content-between py-2">
                   <div class="d-flex">
                     <div class="img-sm rounded-10" style="background-color: #668857" alt="profile"></div>
                     <div class="wrapper ms-3">
@@ -1031,15 +851,6 @@
       </div>
     </div>
   </div>
-
-
-
-  <button type="button" class="btn btn-danger btn-lg text-white mb-0 me-0" data-bs-toggle="modal"
-    data-bs-target="#modalDisco">
-    <span class="material-symbols-outlined">
-      disco
-    </span>
-  </button>
 
   <div class="modal fade" id="modalDisco" tabindex="-1" aria-labelledby="modalLoteLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -1107,20 +918,6 @@
       </div>
     </div>
   </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   <!-- content-wrapper ends -->
   <!-- partial:partials/_footer.html -->
