@@ -90,7 +90,7 @@ var varDashboardGeral = new Chart(dashboardGeral, {
                     max: 100
                 }
             }]
-        }
+        },
     }
 })
 
@@ -114,7 +114,10 @@ var varDashboardCpu = new Chart(dashboardCpu, {
                     beginAtZero: true,
                     max: 100
                 }
-            }]
+            }],
+            y:{
+                color: 'red',
+            }
         }
     }
 })
