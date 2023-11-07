@@ -80,6 +80,20 @@ var varDashboardGeral = new Chart(dashboardGeral, {
             label: `DISCO`,
             data: diskDataDashboardGeral,
             borderColor: '#5353ec',
+        },
+        {
+            data: Array(5).fill(90),
+            borderColor: '#e06666',
+            backgroundColor: 'rgba(0, 0, 0, 0)',
+            pointRadius: 0,
+            borderWidth: 2
+        },
+        {
+            data: Array(5).fill(65),
+            borderColor: '#ffc61a',
+            backgroundColor: 'rgba(0, 0, 0, 0)',
+            pointRadius: 0,
+            borderWidth: 2
         }]
     },
     options: {
@@ -91,6 +105,13 @@ var varDashboardGeral = new Chart(dashboardGeral, {
                 }
             }]
         },
+        legend: {
+            labels: {
+                filter: function(legendItem) {
+                    return legendItem.datasetIndex !== 3 && legendItem.datasetIndex !== 4;
+                }
+            }
+        }
     }
 })
 
@@ -105,6 +126,20 @@ var varDashboardCpu = new Chart(dashboardCpu, {
             label: `Uso da CPU`,
             data: dataDashboardCpu,
             borderColor: '#2CA093',
+        },
+        {
+            data: Array(5).fill(90),
+            borderColor: '#e06666',
+            backgroundColor: 'rgba(0, 0, 0, 0)',
+            pointRadius: 0,
+            borderWidth: 2
+        },
+        {
+            data: Array(5).fill(65),
+            borderColor: '#ffc61a',
+            backgroundColor: 'rgba(0, 0, 0, 0)',
+            pointRadius: 0,
+            borderWidth: 2
         }]
     },
     options: {
@@ -117,6 +152,13 @@ var varDashboardCpu = new Chart(dashboardCpu, {
             }],
             y:{
                 color: 'red',
+            }
+        },
+        legend: {
+            labels: {
+                filter: function(legendItem) {
+                    return legendItem.datasetIndex !== 1 && legendItem.datasetIndex !== 2;
+                }
             }
         }
     }
@@ -133,6 +175,20 @@ var varDashboardMemory = new Chart(dashboardMemory, {
             label: `Uso da Memória`,
             data: dataDashboardMemory,
             borderColor: '#B80096'
+        },
+        {
+            data: Array(5).fill(90),
+            borderColor: '#e06666',
+            backgroundColor: 'rgba(0, 0, 0, 0)',
+            pointRadius: 0,
+            borderWidth: 2
+        },
+        {
+            data: Array(5).fill(65),
+            borderColor: '#ffc61a',
+            backgroundColor: 'rgba(0, 0, 0, 0)',
+            pointRadius: 0,
+            borderWidth: 2
         }]
     },
     options: {
@@ -143,6 +199,13 @@ var varDashboardMemory = new Chart(dashboardMemory, {
                     max: 100
                 }
             }]
+        },
+        legend: {
+            labels: {
+                filter: function(legendItem) {
+                    return legendItem.datasetIndex !== 1 && legendItem.datasetIndex !== 2;
+                }
+            }
         }
     }
 })
@@ -158,6 +221,20 @@ var varDashboardDisk = new Chart(dashboardDisk, {
             label: `Uso do Disco`,
             data: dataDashboardDisk,
             borderColor: '#0000FF'
+        },
+        {
+            data: Array(5).fill(90),
+            borderColor: '#e06666',
+            backgroundColor: 'rgba(0, 0, 0, 0)',
+            pointRadius: 0,
+            borderWidth: 2
+        },
+        {
+            data: Array(5).fill(65),
+            borderColor: '#ffc61a',
+            backgroundColor: 'rgba(0, 0, 0, 0)',
+            pointRadius: 0,
+            borderWidth: 2
         }]
     },
     options: {
@@ -168,6 +245,13 @@ var varDashboardDisk = new Chart(dashboardDisk, {
                     max: 100
                 }
             }]
+        },
+        legend: {
+            labels: {
+                filter: function(legendItem) {
+                    return legendItem.datasetIndex !== 1 && legendItem.datasetIndex !== 2;
+                }
+            }
         }
     }
 })
