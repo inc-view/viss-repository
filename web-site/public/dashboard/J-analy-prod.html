@@ -694,66 +694,93 @@
                         </div>
 
                         <div class="col d-flex flex-column">
+                            <!-- LISTA TOP 5 -->
+                            <div class="col-lg-12 grid-margin stretch-card">
+                              <div class="card">
+                                <div class="card-body">
+                                  <div class="headerTabela " style="display: flex; justify-content: space-between;" >
+                                  <h4 class="card-title ">Computadores </h4>
+                                  <div class="divPesquisaNome" style="display: flex; align-items: center; ;">
+                                  <input type="text" class="form-control" id="ipt_Pesquisa" placeholder="Username" style=" width: 98%;margin-right: 1rem; " oninput="fazerListaPorNome()">
+                                  <i class="icon-search" style="font-size: 1.25rem; cursor: pointer;" onclick="fazerListaPorNome()" ></i>
+                                </div>
+                                </div>
+                                  <div class="table-responsive">
+                                    <table class="table table-striped">
+                                      <thead>
+                                        <tr>
+                                          
+                                          <th>
+                                            Usuario
+                                          </th>
+                                          <th>
+                                            IP Maquina
+                                          </th>
+                                          <th class="col-lg-3 ">
+                                            % Uso CPU
+                                          </th>
+                                          <th>
+                                            Status
+                                          </th>
+                                          <th>
+                                            Ultima Sessao
+                                          </th>
+                                        </tr>
+                                      </thead>
+                                      <tbody id="Lista">
+                                       
+                                      </tbody>
+                                    </table>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <!-- FIM LISTA TOP 5 -->
+
+                            <!-- LISTA BOTTOM 5 -->
+                            <div class="col-lg-12 grid-margin stretch-card">
+                              <div class="card">
+                                <div class="card-body">
+                                  <div class="headerTabela " style="display: flex; justify-content: space-between;" >
+                                  <h4 class="card-title ">Computadores </h4>
+                                  <div class="divPesquisaNome" style="display: flex; align-items: center; ;">
+                                  <input type="text" class="form-control" id="ipt_Pesquisa" placeholder="Username" style=" width: 98%;margin-right: 1rem; " oninput="fazerListaPorNome()">
+                                  <i class="icon-search" style="font-size: 1.25rem; cursor: pointer;" onclick="fazerListaPorNome()" ></i>
+                                </div>
+                                </div>
+                                  <div class="table-responsive">
+                                    <table class="table table-striped">
+                                      <thead>
+                                        <tr>
+                                          
+                                          <th>
+                                            Usuario
+                                          </th>
+                                          <th>
+                                            IP Maquina
+                                          </th>
+                                          <th class="col-lg-3 ">
+                                            % Uso CPU
+                                          </th>
+                                          <th>
+                                            Status
+                                          </th>
+                                          <th>
+                                            Ultima Sessao
+                                          </th>
+                                        </tr>
+                                      </thead>
+                                      <tbody id="Lista">
+                                       
+                                      </tbody>
+                                    </table>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <!-- FIM LISTA BOTTOM 5 -->
+                          <div class="row flex-grow">
                           
-                          <div class="row flex-grow">
-                            <div
-                              class="col-md-6 col-lg-6 grid-margin stretch-card"
-                            >
-                              <div class="card card-rounded">
-                                <div class="card-body card-rounded">
-                                  <h4 class="card-title card-title-dash">
-                                    Região - Noroeste
-                                  </h4>
-
-                                  <div id="chart"></div>
-                                </div>
-                              </div>
-                            </div>
-
-                            <div
-                              class="col-md-6 col-lg-6 grid-margin stretch-card"
-                            >
-                              <div class="card card-rounded">
-                                <div class="card-body card-rounded">
-                                  <h4 class="card-title card-title-dash">
-                                    Região - Nordeste
-                                  </h4>
-                                  <div id="chart1"></div>
-                                </div>
-                              </div>
-                            </div>
-                            
-                          </div>
-
-
-                          <div class="row flex-grow">
-                            <div
-                              class="col-md-6 col-lg-6 grid-margin stretch-card"
-                            >
-                              <div class="card card-rounded">
-                                <div class="card-body card-rounded">
-                                  <h4 class="card-title card-title-dash">
-                                    Região - Sudeste
-                                  </h4>
-
-                                  <div id="chart2"></div>
-                                </div>
-                              </div>
-                            </div>
-
-                            <div
-                              class="col-md-6 col-lg-6 grid-margin stretch-card"
-                            >
-                              <div class="card card-rounded">
-                                <div class="card-body card-rounded">
-                                  <h4 class="card-title card-title-dash">
-                                    Região - Sudoeste
-                                  </h4>
-                                  <div id="chart3"></div>
-                                </div>
-                              </div>
-                            </div>
-                            
                           </div>
                           
                         </div>
