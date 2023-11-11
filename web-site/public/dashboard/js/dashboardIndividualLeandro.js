@@ -6,7 +6,7 @@ var varDashboardMediaCpu = new Chart(dashboardMediaCpu, {
     data: {
         labels: labelsDashboardMediaCpu,
         datasets: [{
-            label: `Média de Uso da CPU (Funcionário)`,
+            label: `Uso da CPU (Funcionário)`,
             data: mediaCpuData,
             borderColor: 'red'
         }]
@@ -31,7 +31,7 @@ var varDashboardMediaCpu = new Chart(dashboardMediaMemory, {
     data: {
         labels: labelsDashboardMediaMemory,
         datasets: [{
-            label: `Média de Uso da Memória (Funcionário)`,
+            label: `Uso da Memória (Funcionário)`,
             data: mediaMemoryData,
             borderColor: 'blue'
         }]

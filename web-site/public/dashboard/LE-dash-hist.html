@@ -424,17 +424,63 @@
       <!-- partial -->
       <div class="main-panel">
         <div class="content-wrapper">
-          <div class="margin-bottom-gap">
-            <select>
-              <option>Dia</option>
-              <option>Mês</option>
-            </select>
+          <div class="row d-flex text-center">
+            <div class="margin-bottom-gap">
+              <select class="select">
+                <option>Hoje</option>
+                <option>Geral</option>
+              </select>
+            </div>
           </div>
-          <div class="row">
+          <div class="row d-flex justify-content-center">
+            <div class="col-3 grid-margin stretch-card text-center">
+              <div class="card process-list-height-bg">
+                <div class="card-body">
+
+                  <div class="row">
+                      <h3 class="card-title fw-bold">
+                        Média de Uso da CPU
+                      </h3>
+                  </div>
+
+                  <div class="row">
+                          <h2 class="text-black rate-percentage" id="cardCpu">1</h2>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+            <div class="col-3 grid-margin stretch-card text-center">
+              <div class="card process-list-height-bg">
+                <div class="card-body">
+
+                  <div class="row">
+                      <h3 class="card-title fw-bold">
+                        Média de Uso da CPU
+                      </h3>
+                  </div>
+
+                  <div class="row">
+                          <h2 class="text-black rate-percentage" id="cardCpu">1</h2>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row flex-grow">
+            <div class="margin-bottom-gap">
+              <select class="select">
+                <option>Dia</option>
+                <option>Mês</option>
+              </select>
+            </div>
+          </div>
+          <div class="row flex-grow">
             <div class="col-lg-6 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title">Line chart</h4>
+                  <h4 class="card-title">Média de Uso da CPU (Dia)</h4>
                   <canvas id="dashboardMediaCpu"></canvas>
                 </div>
               </div>
@@ -442,7 +488,7 @@
             <div class="col-lg-6 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title">Bar chart</h4>
+                  <h4 class="card-title">Média de Uso da Memória (Dia)</h4>
                   <canvas id="dashboardMediaMemory"></canvas>
                 </div>
               </div>
