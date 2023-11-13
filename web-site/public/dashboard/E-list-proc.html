@@ -7,7 +7,7 @@
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
-    <title>VISS - Processos</title>
+    <title>VISS - Gerenciado de Processos</title>
     <!-- plugins:css -->
     <link rel="stylesheet" href="vendors/feather/feather.css" />
     <link rel="stylesheet" href="vendors/mdi/css/materialdesignicons.min.css" />
@@ -63,7 +63,7 @@
           <ul class="navbar-nav">
             <li class="nav-item font-weight-semibold d-none d-lg-block ms-0">
               <h1 class="welcome-text">
-                Processos - <span class="text-black fw-bold" id="dataDeHoje"></span>
+                Gerenciador - <span class="text-black fw-bold" id="dataDeHoje"></span>
               </h1>
             </li>
           </ul>
@@ -522,7 +522,7 @@
         <nav class="sidebar sidebar-offcanvas" id="sidebar">
           <ul class="nav">
            
-            
+           
             <li class="nav-item nav-category">Dashboard</li>
             <li class="nav-item">
               <a class="nav-link" href="dashListagem.html">
@@ -584,14 +584,14 @@
                 </ul>
               </div>
             </li>
-            
+           
           </ul>
         </nav>
 
         <!-- partial -->
 
         <div class="main-panel">
-          
+         
           <div class="content-wrapper">
             <div class="row">
               <div class="col-sm-12">
@@ -604,11 +604,11 @@
                       aria-labelledby="overview"
                     >
                       <div class="col">
-                          
+                         
                         <!-- LISTA DOS PROCESSOS -->
                         <div class="col d-flex flex-column">
                           <div class="row flex-grow">
-                            
+                           
                             <div class="col-8 grid-margin stretch-card">
                               <div class="card card-rounded">
                                 <div class="card-body">
@@ -617,7 +617,7 @@
                                       <h4 class="card-title card-title-dash">Processos/Programas</h4>
                                       <p class="card-subtitle card-subtitle-dash">Listagem padrão: 5 mais usados (somatória hora)</p>
                                     </div>
-                                    
+                                   
                                     <div>
                                       <div class="dropdown">
                                         <button class="btn btn-secondary dropdown-toggle toggle-dark btn-lg mb-0 me-0" type="button" id="dropdownMenuButton3" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Month Wise </button>
@@ -633,7 +633,6 @@
                                       <thead>
                                         <tr>
                                           <th>Nome</th>
-                                          <th>Total Usuários</th>
                                           <th>Horas totais</th>
                                           <th>Consumo médio de CPU</th>
                                           <th>Consumo médio de RAM</th>
@@ -654,10 +653,6 @@
                                             <h6>Company name 1</h6>
                                           </td>
 
-                                          <td>
-                                            <h6>Qtde Users</h6>
-                                          </td>
-
 
                                           <td>
                                             <div>
@@ -684,11 +679,6 @@
                                           </td>
 
                                         </tr>
-
-                                          
-
-                                          
-                                        
                                        
                                       </tbody>
                                     </table>
@@ -697,8 +687,8 @@
                               </div>
                             </div>
 
-                            <div class="col-4  d-flex flex-column justify-content-center align-items-center">
-                              
+                            <div class="col-4  d-flex flex-column justify-content-start align-items-center">
+                             
                               <div class="col-12">
                                 <div class="col-12 grid-margin stretch-card">
                                   <div class="card card-rounded">
@@ -725,7 +715,7 @@
                                   </div>
                                 </div>
                               </div>
-                              
+                             
                               <div class="col-12">
                                 <div class="col-12 grid-margin stretch-card">
                                   <div class="card card-rounded">
@@ -752,7 +742,7 @@
                                   </div>
                                 </div>
                               </div>
-  
+ 
                               <div class="col-12 grid-margin stretch-card">
                                 <div class="card card-rounded">
                                   <div class="card-body">
@@ -772,7 +762,7 @@
                                 </div>
                               </div>
                             </div>
-                          
+                         
                           </div>
                         </div>
 
@@ -787,9 +777,9 @@
                                   <div
                                     class="d-sm-flex justify-content-between align-items-start"
                                   >
-                                    <div>
+                                    <div class="col-7">
                                       <h4 class="text-black">
-                                        Horas de uso do processo - Período de 7 dias
+                                        Horas de uso do processo
                                       </h4>
                                       <p
                                         class="card-subtitle card-subtitle-dash"
@@ -798,25 +788,35 @@
                                       </p>
                                     </div>
 
-                                    <div class="col-3 d-sm-flex justify-content-between align-items-start">
-                                      <div class="dropdown">
-                                        <button class="btn btn-secondary dropdown-toggle toggle-dark btn-lg mb-0 me-0" type="button" id="dropdownMenuButton3" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Month Wise </button>
-                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton3">
-                                          <h6 class="dropdown-header">week Wise</h6>
-                                          <a class="dropdown-item" href="#">Year Wise</a>
+                                    <div class="col-5 d-sm-flex justify-content-end align-items-start">
+
+                                     
+                                      <div class="d-sm-flex flex-row justify-content-center align-items-center">
+                                        <div class="dropdown">
+                                          <select class="form-select" aria-label="Default select example" id="selectOne">
+                                            <option selected>Open this select menu</option>
+                                            <option value="1">One</option>
+                                            <option value="2">Two</option>
+                                            <option value="3">Three</option>
+                                          </select>
+                                        </div>
+ 
+                                        <h5 style="margin: 0 6px;">x</h5>
+                                       
+                                        <div class="dropdown">
+                                          <select class="form-select" aria-label="Default select example" id="selectTwo">
+                                            <option selected>Open this select menu</option>
+                                            <option value="1">One</option>
+                                            <option value="2">Two</option>
+                                            <option value="3">Three</option>
+                                          </select>
                                         </div>
                                       </div>
 
-                                      <div class="dropdown">
-                                        <button class="btn btn-secondary dropdown-toggle toggle-dark btn-lg mb-0 me-0" type="button" id="dropdownMenuButton3" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Month Wise </button>
-                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton3">
-                                          <h6 class="dropdown-header">week Wise</h6>
-                                          <a class="dropdown-item" href="#">Year Wise</a>
-                                        </div>
-                                      </div>
+                                     
                                     </div>
 
-                                    
+                                   
                                   </div>
                                   <div
                                     class="d-sm-flex align-items-center mt-1 justify-content-between"
@@ -834,7 +834,7 @@
                           </div>
 
                           <div class="col-4  d-flex flex-column justify-content-startalign-items-center">
-                              
+                             
                             <div class="col-12">
                               <div class="col-12 grid-margin stretch-card">
                                 <div class="card card-rounded">
@@ -861,7 +861,7 @@
                                 </div>
                               </div>
                             </div>
-                            
+                           
                             <div class="col-12">
                               <div class="col-12 grid-margin stretch-card">
                                 <div class="card card-rounded">
@@ -950,43 +950,7 @@
     <!-- End custom js for this page-->
 
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-    <script>
-
-
-      var optionsColMonth = {
-          series: [{
-          name: 'series1',
-          data: [31, 40, 28, 51, 42, 109, 100]
-        }, {
-          name: 'series2',
-          data: [11, 32, 45, 32, 34, 52, 41]
-        }],
-          chart: {
-          height: 350,
-          type: 'area'
-        },
-        dataLabels: {
-          enabled: false
-        },
-        stroke: {
-          curve: 'smooth'
-        },
-        xaxis: {
-          type: 'datetime',
-          categories: ["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z", "2018-09-19T02:30:00.000Z", "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z", "2018-09-19T06:30:00.000Z"]
-        },
-        tooltip: {
-          x: {
-            format: 'dd/MM/yy HH:mm'
-          },
-        },
-        };
-
-        var chartColMonth = new ApexCharts(document.querySelector("#chartColMonth"), optionsColMonth);
-        chartColMonth.render();
-
-
-    </script>
+    <script src="./js/E-script-listProc.js"></script>
   </body>
 </html>
 
