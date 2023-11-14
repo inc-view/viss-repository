@@ -656,7 +656,7 @@
                                         </div>
                                       </div>
                                       <div class="mt-3">
-                                        <h3>125/ppm - 140/ppm</h3>
+                                        <h3><span id="ppmAtual">125</span>/ppm - <span id="ppmIdeal">140</span>/ppm</h3>
                                       </div>
                                     </div>
                                   </div>
@@ -683,7 +683,7 @@
                                         </div>
                                       </div>
                                       <div class="mt-3">
-                                        <h3>400 - 600</h3>
+                                        <h3><span id="atendimentosAtual">400</span> - <span id="atendimentosIdeal">600</span></h3>
                                       </div>
                                     </div>
                                   </div>
@@ -737,48 +737,7 @@
                             </div>
                             <!-- FIM LISTA TOP 5 -->
 
-                            <!-- LISTA BOTTOM 5 -->
-                            <div class="col-lg-12 grid-margin stretch-card">
-                              <div class="card">
-                                <div class="card-body">
-                                  <div class="headerTabela " style="display: flex; justify-content: space-between;" >
-                                  <h4 class="card-title ">Computadores </h4>
-                                  <div class="divPesquisaNome" style="display: flex; align-items: center; ;">
-                                  <input type="text" class="form-control" id="ipt_Pesquisa" placeholder="Username" style=" width: 98%;margin-right: 1rem; " oninput="fazerListaPorNome()">
-                                  <i class="icon-search" style="font-size: 1.25rem; cursor: pointer;" onclick="fazerListaPorNome()" ></i>
-                                </div>
-                                </div>
-                                  <div class="table-responsive">
-                                    <table class="table table-striped">
-                                      <thead>
-                                        <tr>
-                                          
-                                          <th>
-                                            Usuario
-                                          </th>
-                                          <th>
-                                            IP Maquina
-                                          </th>
-                                          <th class="col-lg-3 ">
-                                            % Uso CPU
-                                          </th>
-                                          <th>
-                                            Status
-                                          </th>
-                                          <th>
-                                            Ultima Sessao
-                                          </th>
-                                        </tr>
-                                      </thead>
-                                      <tbody id="Lista">
-                                       
-                                      </tbody>
-                                    </table>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            <!-- FIM LISTA BOTTOM 5 -->
+                           
                           <div class="row flex-grow">
                           
                           </div>
@@ -1029,6 +988,13 @@
     let data = new Date()
     let dataHoje = `${data.getDate()}/${data.getMonth()+1}/${data.getFullYear()}`
     document.getElementById("dataDeHoje").innerHTML = dataHoje
+
+
+    // PUXAR ROTA COM ESSE SELECT
+    document.getElementById("ppmAtual").innerHTML = dataHoje
+    document.getElementById("atendimentosAtual").innerHTML = dataHoje
+    document.getElementById("ppmIdeal").innerHTML = dataHoje
+    document.getElementById("atendimentosIdeal").innerHTML = dataHoje
   }
   window.load = teste()
 
