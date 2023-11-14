@@ -1081,7 +1081,9 @@
                             </div>
                           </div>
                         </div>
+
                         
+
                       </div>
                     </div>
                   </div>
@@ -1130,3 +1132,15 @@
 </body>
 
 </html>
+
+<script>
+  function setNome(){
+    if(localStorage.EMAIL_USER == undefined || localStorage.NOME_USER == undefined){
+      window.location = "pages/samples/login.html";
+    }
+    name_user.innerHTML = localStorage.NOME_USER;
+    user_name.innerHTML = localStorage.NOME_USER;
+    user_email.innerHTML = localStorage.EMAIL_USER;
+  }
+  </script>
+
