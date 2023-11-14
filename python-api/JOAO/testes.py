@@ -14,7 +14,7 @@ teclas_a_serem_ignoradas = {"shift", "ctrl", "alt", "alt gr", "tab", "enter", "u
 def imprimir_texto_e_contar_palavras():
     global texto_digitado, teclas_a_serem_ignoradas
     while True:
-        time.sleep(10)
+        time.sleep(60)
         if texto_digitado:
             palavras = texto_digitado.split()
             quantidade_palavras = len(palavras)
