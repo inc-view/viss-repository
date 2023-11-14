@@ -426,25 +426,25 @@
         <div class="content-wrapper">
           <div class="row d-flex text-center">
             <div class="margin-bottom-gap">
-              <select class="select">
-                <option>Hoje</option>
-                <option>Geral</option>
+              <select onchange="hideKpi()" class="select" id="selectKpi">
+                <option value=1>Hoje</option>
+                <option value=2>Geral</option>
               </select>
             </div>
           </div>
-          <div class="row d-flex justify-content-center">
+          <div class="row justify-content-center" style="display: flex;" id="rowKpiDay">
             <div class="col-3 grid-margin stretch-card text-center">
               <div class="card process-list-height-bg">
                 <div class="card-body">
 
                   <div class="row">
                       <h3 class="card-title fw-bold">
-                        Média de Uso da CPU
+                        Média Uso da CPU
                       </h3>
                   </div>
 
                   <div class="row">
-                          <h2 class="text-black rate-percentage" id="cardCpu">1</h2>
+                          <h2 class="text-black rate-percentage" id="kpiMediaCpuDay">1</h2>
                   </div>
 
                 </div>
@@ -456,12 +456,48 @@
 
                   <div class="row">
                       <h3 class="card-title fw-bold">
-                        Média de Uso da CPU
+                        Média Uso da Memória
                       </h3>
                   </div>
 
                   <div class="row">
-                          <h2 class="text-black rate-percentage" id="cardCpu">1</h2>
+                          <h2 class="text-black rate-percentage" id="kpiMediaCpuAllTime">1</h2>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row justify-content-center" style="display: none;" id="rowKpiAllTime">
+            <div class="col-3 grid-margin stretch-card text-center">
+              <div class="card process-list-height-bg">
+                <div class="card-body">
+
+                  <div class="row">
+                      <h3 class="card-title fw-bold">
+                        Média Uso da CPU
+                      </h3>
+                  </div>
+
+                  <div class="row">
+                          <h2 class="text-black rate-percentage" id="kpiMediaCpuDay">2</h2>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+            <div class="col-3 grid-margin stretch-card text-center">
+              <div class="card process-list-height-bg">
+                <div class="card-body">
+
+                  <div class="row">
+                      <h3 class="card-title fw-bold">
+                        Média Uso da Memória
+                      </h3>
+                  </div>
+
+                  <div class="row">
+                          <h2 class="text-black rate-percentage" id="kpiMediaCpuAllTime">2</h2>
                   </div>
 
                 </div>
@@ -470,26 +506,44 @@
           </div>
           <div class="row flex-grow">
             <div class="margin-bottom-gap">
-              <select class="select">
-                <option>Dia</option>
-                <option>Mês</option>
+              <select onchange="hideDash()" class="select" id="selectDash">
+                <option value=1>Dia</option>
+                <option value=2>Mês</option>
               </select>
             </div>
           </div>
-          <div class="row flex-grow">
+          <div class="row flex-grow" id="rowDashDay">
             <div class="col-lg-6 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title">Média de Uso da CPU (Dia)</h4>
-                  <canvas id="dashboardMediaCpu"></canvas>
+                  <h4 class="card-title">Média de Uso da CPU</h4>
+                  <canvas id="dashboardMediaCpuDay"></canvas>
                 </div>
               </div>
             </div>
             <div class="col-lg-6 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title">Média de Uso da Memória (Dia)</h4>
-                  <canvas id="dashboardMediaMemory"></canvas>
+                  <h4 class="card-title">Média de Uso da Memória</h4>
+                  <canvas id="dashboardMediaMemoryDay"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row flex-grow" id="rowDashMonth" style="display: none;">
+            <div class="col-lg-6 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">Média de Uso da CPU</h4>
+                  <canvas id="dashboardMediaCpuMonth"></canvas>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">Média de Uso da Memória</h4>
+                  <canvas id="dashboardMediaMemoryMonth"></canvas>
                 </div>
               </div>
             </div>

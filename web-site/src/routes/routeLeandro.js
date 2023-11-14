@@ -15,7 +15,6 @@ router.get("/dashboardGeralDISCO/:idMaquina", function (req, res) {
     leandroController.dashboardGeralDISCO(req, res);
 });
 
-
 router.get("/dashboardCpu/:idMaquina", function (req, res) {
     leandroController.dashboardCpu(req, res);
 });
@@ -29,6 +28,38 @@ router.get("/dashboardDisk/:idMaquina", function (req, res) {
 });
 
 router.get("/infoMaquina/:idMaquina", function (req, res) {
+    leandroController.infoMaquina(req, res);
+});
+
+router.get("/dashboardMediaCpuDay/:idMaquina", function (req, res) {
+    leandroController.infoMaquina(req, res);
+});
+
+router.get("/dashboardMediaCpuMonth/:idMaquina", function (req, res) {
+    leandroController.infoMaquina(req, res);
+});
+
+router.get("/dashboardMediaMemoryDay/:idMaquina", function (req, res) {
+    leandroController.infoMaquina(req, res);
+});
+
+router.get("/dashboardMediaMemoryMonth/:idMaquina", function (req, res) {
+    leandroController.infoMaquina(req, res);
+});
+
+router.get("/kpiMediaCpuDay/:idMaquina", function (req, res) {
+    leandroController.infoMaquina(req, res);
+});
+
+router.get("/kpiMediaCpuAllTime/:idMaquina", function (req, res) {
+    leandroController.infoMaquina(req, res);
+});
+
+router.get("/kpiMediaMemoryDay/:idMaquina", function (req, res) {
+    leandroController.infoMaquina(req, res);
+});
+
+router.get("/kpiMediaMemoryAllTime/:idMaquina", function (req, res) {
     leandroController.infoMaquina(req, res);
 });
 
