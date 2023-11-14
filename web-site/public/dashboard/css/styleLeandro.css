@@ -99,3 +99,13 @@ border-radius: 10px;
 .margin-top-0 {
     margin-top: 0 !important;
 }
+
+.card-hover:hover {
+    cursor: pointer;
+    background-color: #D8D8D8;
+    transition: 0.2s;
+}
+
+.card-hover:not(:hover) {
+    transition: 0.2s;
+}
