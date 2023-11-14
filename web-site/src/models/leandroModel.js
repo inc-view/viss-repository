@@ -11,7 +11,7 @@ function dadosCPU(idMaquina) {
         join computador pc on pc.idComputador = hc.fkComputador
             where c.tipo = 'CPU' 
             and pc.idComputador = ${idMaquina}
-            and r.dtHora between time(current_timestamp() - INTERVAL 5 MINUTE) and time(current_timestamp());`;
+            and r.dtHora between time(current_timestamp() - INTERVAL 60 MINUTE) and time(current_timestamp());`;
 
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucaoSql = `select registro, dtHora from registro r
@@ -20,7 +20,7 @@ function dadosCPU(idMaquina) {
         join computador pc on pc.idComputador = hc.fkComputador
             where c.tipo = 'CPU' 
             and pc.idComputador = ${idMaquina}
-            and r.dtHora between time(current_timestamp() - INTERVAL 5 MINUTE) and time(current_timestamp()) order by dtHora desc limit 50;`;
+            and r.dtHora between time(current_timestamp() - INTERVAL 60 MINUTE) and time(current_timestamp()) order by dtHora desc;`;
 
     } else {
         console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
@@ -43,7 +43,7 @@ function dadosMEM(idMaquina) {
         join computador pc on pc.idComputador = hc.fkComputador
         where c.tipo = 'Memoria' and u.tipoMedida = '%' 
             and pc.idComputador = ${idMaquina}
-            and r.dtHora between time(current_timestamp() - INTERVAL 5 MINUTE) and time(current_timestamp());`;
+            and r.dtHora between time(current_timestamp() - INTERVAL 60 MINUTE) and time(current_timestamp());`;
 
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucaoSql = `select registro, dtHora from registro r
@@ -53,7 +53,7 @@ function dadosMEM(idMaquina) {
         join computador pc on pc.idComputador = hc.fkComputador
             where c.tipo = 'Memoria' and u.tipoMedida = '%'
             and pc.idComputador = ${idMaquina}
-            and r.dtHora between time(current_timestamp() - INTERVAL 5 MINUTE) and time(current_timestamp()) order by dtHora desc limit 50;`;
+            and r.dtHora between time(current_timestamp() - INTERVAL 60 MINUTE) and time(current_timestamp()) order by dtHora desc;`;
             
     } else {
         console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
@@ -76,7 +76,7 @@ function dadosDisco(idMaquina) {
         join computador pc on pc.idComputador = hc.fkComputador
             where c.tipo = 'Disco' and u.tipoMedida = '%'
                 and pc.idComputador = ${idMaquina}
-                and r.dtHora between time(current_timestamp() - INTERVAL 5 MINUTE) and time(current_timestamp());`;
+                and r.dtHora between time(current_timestamp() - INTERVAL 60 MINUTE) and time(current_timestamp());`;
 
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucaoSql = `select registro, dtHora from registro r
@@ -86,7 +86,7 @@ function dadosDisco(idMaquina) {
             join computador pc on pc.idComputador = hc.fkComputador
                 where c.tipo = 'Disco' and u.tipoMedida = '%'
                     and pc.idComputador = ${idMaquina}
-                    and r.dtHora between time(current_timestamp() - INTERVAL 60 MINUTE) and time(current_timestamp()) order by dtHora desc limit 50;`;
+                    and r.dtHora between time(current_timestamp() - INTERVAL 60 MINUTE) and time(current_timestamp()) order by dtHora desc;`;
             
     } else {
         console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");

@@ -152,7 +152,6 @@ if opcao == "1":
         ProgressBar(percentual=int(diskPercent.percent))
             
         mediaCpus = round((somaCpus / len(cpusPercent)),2)
-        print(mediaCpus)
 
         try:
             selectIpMaquina = f"select cpu, ram, disco from vwIdComponenteComputador where ipComputador = '{str(ipMaquina)}'"

@@ -1,3 +1,4 @@
+-- Active: 1685633684430@@127.0.0.1@3306@inkview
 create database inkView;
 use inkView;
 -- DROP DATABASE inkView;
@@ -125,6 +126,21 @@ CREATE TABLE IF NOT EXISTS processo (
         REFERENCES computador (idComputador)
 );
 
+CREATE TABLE IF NOT EXISTS registroProcesso (
+  idRegistroProcesso INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  registro VARCHAR(150),
+  fkProcesso INT,
+  fkHasComponente INT,
+  FOREIGN KEY (fkProcesso) REFERENCES Processo(idProcesso),
+  FOREIGN KEY (fkHasComponente) REFERENCES hasComponente(idHasComponente)
+);
+
+CREATE TABLE processoIlicito(
+	idProcessoIlicito INT PRIMARY KEY AUTO_INCREMENT,
+    fkProcesso INT NOT NULL,
+    dtHora DATETIME NOT NULL,
+    FOREIGN KEY (fkProcesso) REFERENCES processo(idProcesso)
+);
 SET SQL_SAFE_UPDATES = 0;
 UPDATE computador c
 LEFT JOIN (
