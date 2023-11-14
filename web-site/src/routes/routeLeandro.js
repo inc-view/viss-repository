@@ -31,6 +31,8 @@ router.get("/infoMaquina/:idMaquina", function (req, res) {
     leandroController.infoMaquina(req, res);
 });
 
+//Individual Leandro
+
 router.get("/dashboardMediaCpuDay/:idMaquina", function (req, res) {
     leandroController.infoMaquina(req, res);
 });
@@ -44,6 +46,22 @@ router.get("/dashboardMediaMemoryDay/:idMaquina", function (req, res) {
 });
 
 router.get("/dashboardMediaMemoryMonth/:idMaquina", function (req, res) {
+    leandroController.infoMaquina(req, res);
+});
+
+router.get("/getMediaCpuAllDay/:idMaquina", function (req, res) {
+    leandroController.infoMaquina(req, res);
+});
+
+router.get("/getMediaCpuAllMonth/:idMaquina", function (req, res) {
+    leandroController.infoMaquina(req, res);
+});
+
+router.get("/getMediaMemoryAllDay/:idMaquina", function (req, res) {
+    leandroController.infoMaquina(req, res);
+});
+
+router.get("/getMediaMemoryAllMonth/:idMaquina", function (req, res) {
     leandroController.infoMaquina(req, res);
 });
 

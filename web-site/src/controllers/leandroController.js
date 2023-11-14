@@ -121,6 +121,176 @@ function dashboardGeralCPU(req, res) {
     });
 }
 
+//Individual Leandro
+
+function dashboardMediaCpuDay() {
+    let idMaquina = req.params.idMaquina
+    leandroModel.dashboardMediaCpuDay(idMaquina).then(
+        function (resultado) {
+            if (resultado.length > 0) {
+                res.status(200).json(resultado)
+            }
+    }).catch(function (erro) {
+        console.log(erro);
+        console.log("Houve um erro ao buscar as ultimas medidas.", erro.sqlMessage);
+        res.status(500).json(erro.sqlMessage);
+    });
+}
+
+function dashboardMediaCpuMonth() {
+    let idMaquina = req.params.idMaquina
+    leandroModel.dashboardMediaCpuMonth(idMaquina).then(
+        function (resultado) {
+            if (resultado.length > 0) {
+                res.status(200).json(resultado)
+            }
+    }).catch(function (erro) {
+        console.log(erro);
+        console.log("Houve um erro ao buscar as ultimas medidas.", erro.sqlMessage);
+        res.status(500).json(erro.sqlMessage);
+    });
+}
+
+function dashboardMediaMemoryDay() {
+    let idMaquina = req.params.idMaquina
+    leandroModel.dashboardMediaMemoryDay(idMaquina).then(
+        function (resultado) {
+            if (resultado.length > 0) {
+                res.status(200).json(resultado)
+            }
+    }).catch(function (erro) {
+        console.log(erro);
+        console.log("Houve um erro ao buscar as ultimas medidas.", erro.sqlMessage);
+        res.status(500).json(erro.sqlMessage);
+    });
+}
+
+function dashboardMediaMemoryMonth() {
+    let idMaquina = req.params.idMaquina
+    leandroModel.dashboardMediaMemoryMonth(idMaquina).then(
+        function (resultado) {
+            if (resultado.length > 0) {
+                res.status(200).json(resultado)
+            }
+    }).catch(function (erro) {
+        console.log(erro);
+        console.log("Houve um erro ao buscar as ultimas medidas.", erro.sqlMessage);
+        res.status(500).json(erro.sqlMessage);
+    });
+}
+
+function getMediaCpuAllDay() {
+    let idMaquina = req.params.idMaquina
+    leandroModel.getMediaCpuAllDay(idMaquina).then(
+        function (resultado) {
+            if (resultado.length > 0) {
+                res.status(200).json(resultado)
+            }
+    }).catch(function (erro) {
+        console.log(erro);
+        console.log("Houve um erro ao buscar as ultimas medidas.", erro.sqlMessage);
+        res.status(500).json(erro.sqlMessage);
+    });
+}
+
+function getMediaCpuAllMonth() {
+    let idMaquina = req.params.idMaquina
+    leandroModel.getMediaCpuAllMonth(idMaquina).then(
+        function (resultado) {
+            if (resultado.length > 0) {
+                res.status(200).json(resultado)
+            }
+    }).catch(function (erro) {
+        console.log(erro);
+        console.log("Houve um erro ao buscar as ultimas medidas.", erro.sqlMessage);
+        res.status(500).json(erro.sqlMessage);
+    });
+}
+
+function getMediaMemoryAllDay() {
+    let idMaquina = req.params.idMaquina
+    leandroModel.getMediaMemoryAllDay(idMaquina).then(
+        function (resultado) {
+            if (resultado.length > 0) {
+                res.status(200).json(resultado)
+            }
+    }).catch(function (erro) {
+        console.log(erro);
+        console.log("Houve um erro ao buscar as ultimas medidas.", erro.sqlMessage);
+        res.status(500).json(erro.sqlMessage);
+    });
+}
+
+function getMediaMemoryAllMonth() {
+    let idMaquina = req.params.idMaquina
+    leandroModel.getMediaMemoryAllMonth(idMaquina).then(
+        function (resultado) {
+            if (resultado.length > 0) {
+                res.status(200).json(resultado)
+            }
+    }).catch(function (erro) {
+        console.log(erro);
+        console.log("Houve um erro ao buscar as ultimas medidas.", erro.sqlMessage);
+        res.status(500).json(erro.sqlMessage);
+    });
+}
+
+function kpiMediaCpuDay() {
+    let idMaquina = req.params.idMaquina
+    leandroModel.kpiMediaCpuDay(idMaquina).then(
+        function (resultado) {
+            if (resultado.length > 0) {
+                res.status(200).json(resultado)
+            }
+    }).catch(function (erro) {
+        console.log(erro);
+        console.log("Houve um erro ao buscar as ultimas medidas.", erro.sqlMessage);
+        res.status(500).json(erro.sqlMessage);
+    });
+}
+
+function kpiMediaCpuAllTime() {
+    let idMaquina = req.params.idMaquina
+    leandroModel.kpiMediaCpuAllTime(idMaquina).then(
+        function (resultado) {
+            if (resultado.length > 0) {
+                res.status(200).json(resultado)
+            }
+    }).catch(function (erro) {
+        console.log(erro);
+        console.log("Houve um erro ao buscar as ultimas medidas.", erro.sqlMessage);
+        res.status(500).json(erro.sqlMessage);
+    });
+}
+
+function kpiMediaMemoryDay() {
+    let idMaquina = req.params.idMaquina
+    leandroModel.kpiMediaMemoryDay(idMaquina).then(
+        function (resultado) {
+            if (resultado.length > 0) {
+                res.status(200).json(resultado)
+            }
+    }).catch(function (erro) {
+        console.log(erro);
+        console.log("Houve um erro ao buscar as ultimas medidas.", erro.sqlMessage);
+        res.status(500).json(erro.sqlMessage);
+    });
+}
+
+function kpiMediaMemoryAllTime() {
+    let idMaquina = req.params.idMaquina
+    leandroModel.kpiMediaMemoryAllTime(idMaquina).then(
+        function (resultado) {
+            if (resultado.length > 0) {
+                res.status(200).json(resultado)
+            }
+    }).catch(function (erro) {
+        console.log(erro);
+        console.log("Houve um erro ao buscar as ultimas medidas.", erro.sqlMessage);
+        res.status(500).json(erro.sqlMessage);
+    });
+}
+
 module.exports = {
     dashboardGeral,
     dashboardCpu,
@@ -129,5 +299,17 @@ module.exports = {
     dashboardGeralDISCO,
     dashboardMemory,
     dashboardDisk,
-    infoMaquina
+    infoMaquina,
+    dashboardMediaCpuDay,
+    dashboardMediaCpuMonth,
+    dashboardMediaMemoryDay,
+    dashboardMediaMemoryMonth,
+    getMediaCpuAllDay,
+    getMediaCpuAllMonth,
+    getMediaMemoryAllDay,
+    getMediaMemoryAllMonth,
+    kpiMediaCpuDay,
+    kpiMediaCpuAllTime,
+    kpiMediaMemoryDay,
+    kpiMediaMemoryAllTime
 }

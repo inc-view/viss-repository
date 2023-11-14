@@ -166,6 +166,268 @@ function infoMaquina(idMaquina) {
     return database.executar(instrucaoSql);
 }
 
+//Individual Leandro
+
+function dashboardMediaCpuDay() {
+
+    instrucaoSql = ''
+
+    if (process.env.AMBIENTE_PROCESSO == "producao") {
+        instrucaoSql = ``;
+    } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
+        instrucaoSql = ``;
+    } else {
+        console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
+        return
+    }
+
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+function dashboardMediaCpuMonth() {
+
+    instrucaoSql = ''
+
+    if (process.env.AMBIENTE_PROCESSO == "producao") {
+        instrucaoSql = ``;
+    } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
+        instrucaoSql = ``;
+    } else {
+        console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
+        return
+    }
+
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+function dashboardMediaMemoryDay() {
+
+    instrucaoSql = ''
+
+    if (process.env.AMBIENTE_PROCESSO == "producao") {
+        instrucaoSql = ``;
+    } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
+        instrucaoSql = ` SELECT i.* FROM infoComputador AS i JOIN Computador AS c ON i.IpComputador = c.ipComputador AND c.idComputador=${idMaquina};`;
+    } else {
+        console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
+        return
+    }
+
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+function dashboardMediaMemoryMonth() {
+
+    instrucaoSql = ''
+
+    if (process.env.AMBIENTE_PROCESSO == "producao") {
+        instrucaoSql = ``;
+    } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
+        instrucaoSql = ` SELECT i.* FROM infoComputador AS i JOIN Computador AS c ON i.IpComputador = c.ipComputador AND c.idComputador=${idMaquina};`;
+    } else {
+        console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
+        return
+    }
+
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+function getMediaCpuAllDay() {
+
+    instrucaoSql = ''
+
+    if (process.env.AMBIENTE_PROCESSO == "producao") {
+        instrucaoSql = ``;
+    } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
+        instrucaoSql = `SELECT
+        YEAR(dtHora) AS Ano,
+        MONTH(dtHora),
+        DAY(dtHora) AS Dia,
+        AVG(registro) AS MediaRegistros
+    FROM
+        registro
+    JOIN
+        hasComponente ON fkHasComponente = idHasComponente
+        WHERE fkComponente = 1
+    GROUP BY
+        YEAR(dtHora),
+        MONTH(dtHora),
+        DAY(dtHora)
+    ORDER BY
+        YEAR(dtHora),
+        MONTH(dtHora),
+        DAY(dtHora);`;
+    } else {
+        console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
+        return
+    }
+
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+function getMediaCpuAllMonth() {
+
+    instrucaoSql = ''
+
+    if (process.env.AMBIENTE_PROCESSO == "producao") {
+        instrucaoSql = ``;
+    } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
+        instrucaoSql = `SELECT
+        YEAR(dtHora) AS Ano,
+        MONTH(dtHora) AS Mes,
+        AVG(registro) AS MediaRegistros
+    FROM
+        registro
+    JOIN
+        hasComponente ON fkHasComponente = idHasComponente
+        WHERE fkComponente = 1
+    GROUP BY
+        YEAR(dtHora),
+        MONTH(dtHora);`;
+    } else {
+        console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
+        return
+    }
+
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+function getMediaMemoryAllDay() {
+
+    instrucaoSql = ''
+
+    if (process.env.AMBIENTE_PROCESSO == "producao") {
+        instrucaoSql = ``;
+    } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
+        instrucaoSql = `SELECT
+        YEAR(dtHora) AS Ano,
+        MONTH(dtHora),
+        DAY(dtHora) AS Dia,
+        AVG(registro) AS MediaRegistros
+    FROM
+        registro
+    JOIN
+        hasComponente ON fkHasComponente = idHasComponente
+        WHERE fkComponente = 2
+    GROUP BY
+        YEAR(dtHora),
+        MONTH(dtHora),
+        DAY(dtHora)
+    ORDER BY
+        YEAR(dtHora),
+        MONTH(dtHora),
+        DAY(dtHora);`;
+    } else {
+        console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
+        return
+    }
+
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+function getMediaMemoryAllMonth() {
+
+    instrucaoSql = ''
+
+    if (process.env.AMBIENTE_PROCESSO == "producao") {
+        instrucaoSql = ``;
+    } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
+        instrucaoSql = `SELECT
+        YEAR(dtHora) AS Ano,
+        MONTH(dtHora) AS Mes,
+        AVG(registro) AS MediaRegistros
+    FROM
+        registro
+    JOIN
+        hasComponente ON fkHasComponente = idHasComponente
+        WHERE fkComponente = 2
+    GROUP BY
+        YEAR(dtHora),
+        MONTH(dtHora);`;
+    } else {
+        console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
+        return
+    }
+
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+function kpiMediaCpuDay() {
+
+    instrucaoSql = ''
+
+    if (process.env.AMBIENTE_PROCESSO == "producao") {
+        instrucaoSql = ``;
+    } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
+        instrucaoSql = ` SELECT i.* FROM infoComputador AS i JOIN Computador AS c ON i.IpComputador = c.ipComputador AND c.idComputador=${idMaquina};`;
+    } else {
+        console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
+        return
+    }
+
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+function kpiMediaCpuAllTime() {
+
+    instrucaoSql = ''
+
+    if (process.env.AMBIENTE_PROCESSO == "producao") {
+        instrucaoSql = ``;
+    } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
+        instrucaoSql = ` SELECT i.* FROM infoComputador AS i JOIN Computador AS c ON i.IpComputador = c.ipComputador AND c.idComputador=${idMaquina};`;
+    } else {
+        console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
+        return
+    }
+
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+function kpiMediaMemoryDay() {
+
+    instrucaoSql = ''
+
+    if (process.env.AMBIENTE_PROCESSO == "producao") {
+        instrucaoSql = ``;
+    } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
+        instrucaoSql = ` SELECT i.* FROM infoComputador AS i JOIN Computador AS c ON i.IpComputador = c.ipComputador AND c.idComputador=${idMaquina};`;
+    } else {
+        console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
+        return
+    }
+
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+function kpiMediaMemoryAllTime() {
+
+    instrucaoSql = ''
+
+    if (process.env.AMBIENTE_PROCESSO == "producao") {
+        instrucaoSql = ``;
+    } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
+        instrucaoSql = ` SELECT i.* FROM infoComputador AS i JOIN Computador AS c ON i.IpComputador = c.ipComputador AND c.idComputador=${idMaquina};`;
+    } else {
+        console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
+        return
+    }
+
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
 module.exports = {
     dadosCPU,
     dadosDisco,
@@ -173,5 +435,17 @@ module.exports = {
     dashboardCpu,
     dashboardMemory,
     dashboardDisk,
-    infoMaquina
+    infoMaquina,
+    dashboardMediaCpuDay,
+    dashboardMediaCpuMonth,
+    dashboardMediaMemoryDay,
+    dashboardMediaMemoryMonth,
+    getMediaCpuAllDay,
+    getMediaCpuAllMonth,
+    getMediaMemoryAllDay,
+    getMediaMemoryAllMonth,
+    kpiMediaCpuDay,
+    kpiMediaCpuAllTime,
+    kpiMediaMemoryDay,
+    kpiMediaMemoryAllTime
 }

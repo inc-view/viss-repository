@@ -160,7 +160,7 @@ function showKpiAllTime() {
 }
 
 function updateDashboardMediaCpuDay() {
-    fetch(`/routeLeandro/dashboardGeralCPU/${idMaquina}`, { cache: 'no-store' }).then(function (response) {
+    fetch(`/routeLeandro/dashboardMediaCpuDay/${idMaquina}`, { cache: 'no-store' }).then(function (response) {
         if (response.ok) {
             response.json().then(function (resposta) {
 
@@ -176,7 +176,7 @@ function updateDashboardMediaCpuDay() {
 }
 
 function updateDashboardMediaCpuMonth() {
-    fetch(`/routeLeandro/dashboardGeralCPU/${idMaquina}`, { cache: 'no-store' }).then(function (response) {
+    fetch(`/routeLeandro/dashboardMediaCpuMonth/${idMaquina}`, { cache: 'no-store' }).then(function (response) {
         if (response.ok) {
             response.json().then(function (resposta) {
 
@@ -192,7 +192,7 @@ function updateDashboardMediaCpuMonth() {
 }
 
 function updateDashboardMediaMemoryDay() {
-    fetch(`/routeLeandro/dashboardGeralCPU/${idMaquina}`, { cache: 'no-store' }).then(function (response) {
+    fetch(`/routeLeandro/dashboardMediaMemoryDay/${idMaquina}`, { cache: 'no-store' }).then(function (response) {
         if (response.ok) {
             response.json().then(function (resposta) {
 
@@ -216,7 +216,7 @@ function updateDashboardMediaMemoryDay() {
 }
 
 function updateDashboardMediaMemoryMonth() {
-    fetch(`/routeLeandro/dashboardGeralCPU/${idMaquina}`, { cache: 'no-store' }).then(function (response) {
+    fetch(`/routeLeandro/dashboardMediaMemoryMonth/${idMaquina}`, { cache: 'no-store' }).then(function (response) {
         if (response.ok) {
             response.json().then(function (resposta) {
 
@@ -229,6 +229,22 @@ function updateDashboardMediaMemoryMonth() {
     }).catch(function (error) {
         console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
     });
+}
+
+function getMediaCpuAllDay() {
+
+}
+
+function getMediaCpuAllMonth() {
+
+}
+
+function getMediaMemoryAllDay() {
+
+}
+
+function getMediaMemoryAllMonth() {
+
 }
 
 function kpiMediaCpuDay() {
@@ -280,7 +296,7 @@ function kpiMediaCpuAllTime() {
 }
 
 function kpiMediaMemoryDay() {
-    fetch(`/routeLeandro/dashboardGeralCPU/${idMaquina}`, { cache: 'no-store' }).then(function (response) {
+    fetch(`/routeLeandro/kpiMediaMemoryDay/${idMaquina}`, { cache: 'no-store' }).then(function (response) {
         if (response.ok) {
             response.json().then(function (resposta) {
 
@@ -296,7 +312,7 @@ function kpiMediaMemoryDay() {
 }
 
 function kpiMediaMemoryAllTime() {
-    fetch(`/routeLeandro/dashboardGeralCPU/${idMaquina}`, { cache: 'no-store' }).then(function (response) {
+    fetch(`/routeLeandro/kpiMediaMemoryAllTime/${idMaquina}`, { cache: 'no-store' }).then(function (response) {
         if (response.ok) {
             response.json().then(function (resposta) {
 
@@ -315,6 +331,11 @@ setInterval(updateDashboardMediaCpuDay, 1000)
 setInterval(updateDashboardMediaMemoryDay, 1000)
 setInterval(updateDashboardMediaCpuMonth, 1000)
 setInterval(updateDashboardMediaMemoryMonth, 1000)
+
+setInterval(getMediaCpuAllDay, 1000)
+setInterval(getMediaCpuAllMonth, 1000)
+setInterval(getMediaMemoryAllDay, 1000)
+setInterval(getMediaMemoryAllMonth, 1000)
 
 setInterval(kpiMediaCpuDay, 1000)
 setInterval(kpiMediaCpuAllTime, 1000)
