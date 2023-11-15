@@ -119,3 +119,24 @@ PREPARE stmt FROM @sql; -- Prepara um statement para executar o comando guardado
 
 EXECUTE stmt; -- Executa o statement
 */
+
+
+DELIMITER //
+
+CREATE PROCEDURE spInsertRegistroProcesso(vNomeProcesso varchar(255), vfkComputador int, dado float)
+BEGIN
+    -- Declare variáveis para armazenar os resultados do SELECT
+    DECLARE id INT;
+
+    -- Selecione os dados desejados
+    SELECT idProcesso INTO id
+    FROM processo
+    WHERE nomeProcesso LIKE CONCAT('%', vNomeProcesso, '%') and fkComputador = vfkComputador;
+
+    -- Faça a inserção com base nos resultados do SELECT
+    INSERT INTO registroProcesso (registro, fkProcesso, fkHasComponente, dataHora)
+    VALUES (dado, id, 1, now());
+
+END //
+
+DELIMITER ;
