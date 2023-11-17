@@ -15,9 +15,12 @@ INSERT INTO  empresa  ( idEmpresa ,  razaoSocial ,  cnpj ,  email ,  fkEndereco 
 
 -- Inserir registros na tabela funcionario
 INSERT INTO  funcionario  ( idFuncionario ,  fkGestor ,  fkEmpresa ,  nome ,  email ,  cpf ,  telefone ,  senha ) VALUES
-(null, NULL, 1, 'João Silva', 'joao@callcenterabc.com', '12345678901', '(11) 1234-5678', 'senha123'),
-(null, NULL, 1, 'Maria Santos', 'maria@callcenterabc.com', '98765432109', '(11) 5678-1234', 'senha456'),
-(null, NULL, 2, 'Pedro Almeida', 'pedro@callcenterxyz.com', '56789012345', '(22) 3456-7890', 'senha789');
+(null, NULL, 1, 'Fernando Brandão', 'fernando@callcenterabc.com', '12345678901', '(11) 1234-5678', 'senha123'),
+(null, 1, 1, 'Maria Santos', 'Maria@callcenterabc.com', '98765432109', '(11) 5678-1234', 'senha456'),
+(null, 1, 1, 'Pedro Almeida', 'Pedro@callcenterxyz.com', '56789012345', '(22) 3456-7890', 'senha789'),
+(null, 1, 1, 'Lucas Carlos', 'Lucas@callcenterxyz.com', '56789012345', '(22) 3456-7890', 'senh2345'),
+(null, 1, 1, 'Patricia De Santos', 'Patricia@callcenterxyz.com', '56789012345', '(22) 3456-7890', 'senha12349'),
+(null, 1, 1, 'Ingrid Bartolon', 'Ingrid@callcenterxyz.com', '56789012345', '(22) 3456-7890', 'senha72356');
 
 -- Inserir registros na tabela unidadeMedida
 INSERT INTO  unidadeMedida  ( idUnidadeMedida ,  tipoMedida ) VALUES 
@@ -38,9 +41,11 @@ INSERT INTO  componente  ( idComponente ,  tipo ,  fkUnidadeMedida ) VALUES
 
 -- Inserir registros na tabela computadores
 INSERT INTO computador (ipComputador, nomePatrimonio, marca, fkFuncionario, sistemaOperacional, ativo) VALUES
-('034985', 'CPO01', 'Dell', 1, 'Windows 10', true),
-('094385', 'CPO02', 'HP', 2, 'Ubuntu 20.04 LTS', true),
-('123450', 'CPO03', 'Lenovo', 3, 'Windows 11', true);
+('034985', 'CPO01', 'Dell', 2, 'Windows 10', true),
+('094385', 'CPO02', 'HP', 3, 'Ubuntu 20.04 LTS', true),
+('123450', 'CPO03', 'Lenovo', 4, 'Windows 11', true),
+('123450', 'CPO03', 'Lenovo', 5, 'Windows 11', true),
+('123450', 'CPO03', 'Lenovo', 6, 'Windows 11', true);
 
 -- Inserir componentes dos computadores na tabela hasComponente
 -- INSERT INTO hasComponente values
@@ -59,14 +64,11 @@ INSERT INTO  processo  VALUES
 
 -- Inserindo dados no ligacoesFuncionario
 INSERT INTO ligacoesFuncionario VALUES
-(null, 20, 18, 80, 7, '00:02:00', 1),
+(null, 20, 50, 80, 7, '00:02:00', 1),
 (null, 20, 18, 80, 7, '00:02:00', 2);
 
 -- Inserir registros na tabela registro
 insert into registro values
 (null, 120, current_timestamp(), 5),
 (null, 100, current_timestamp(), 10);
-
-
-
 

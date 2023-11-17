@@ -1,6 +1,8 @@
-function ppmAtual(numero) {
-    console.log('na js');
-    fetch(`/J-routes/ppmAtual`, { cache: 'no-store' }).then(function (response) {
+function ppmAtual() {
+    var valor = localStorage.getItem('FK_EMPRESA')
+    console.log(valor)
+    //mandar a variavel valor o J-routes
+    fetch(`/J-routes/ppmAtual?empresa=${valor}`, { cache: 'no-store' }).then(function (response) {
         if (response.ok) {
             response.json().then(function (resposta) {
                 console.error(`Dados recebidos: ${JSON.stringify(resposta)}`);                
@@ -15,12 +17,15 @@ function ppmAtual(numero) {
 }
 
 function ppmIdeal() {
-    fetch(`/J-dashboard/ppmIdeal/${localStorage.FK_EMPRESA}`, { cache: 'no-store' }).then(function (response) {
+    var valor = localStorage.getItem('FK_EMPRESA')
+    fetch(`/J-routes/ppmIdeal?empresa=${valor}`, { cache: 'no-store' }).then(function (response) {
         if (response.ok) {
             response.json().then(function (resposta) {
                 console.error(`Dados recebidos: ${JSON.stringify(resposta)}`);                
                 // PUXAR ROTA COM ESSE SELECT
-                // document.getElementById("atendimentosAtual").innerHTML = resposta[1]
+                // a resposta é [ { media_ppm: null } ], quero ela sem casas decimais
+
+                document.getElementById("ppmIdeal").innerHTML = resposta[0]['media_ppm'];
             });
         } else {
             console.warn('Nenhum dado encontrado ou erro na API');
@@ -30,12 +35,15 @@ function ppmIdeal() {
 }
 
 function atendimentoAtual() {
-    fetch(`/J-dashboard/atendimentoAtual/${localStorage.FK_EMPRESA}`, { cache: 'no-store' }).then(function (response) {
+    var valor = localStorage.getItem('FK_EMPRESA')
+    fetch(`/J-routes/atendimentoAtual?empresa=${valor}`, { cache: 'no-store' }).then(function (response) {
         if (response.ok) {
             response.json().then(function (resposta) {
                 console.error(`Dados recebidos: ${JSON.stringify(resposta)}`);                
                 // PUXAR ROTA COM ESSE SELECT
-                // document.getElementById("ppmIdeal").innerHTML = resposta[2]
+                // a resposta é [ { total_ligacoes_atendidas: '113' } ], quero ela sem casas decimais
+
+                document.getElementById("atendimentoAtual").innerHTML = resposta[0]['total_ligacoes_dia']
             });
         } else {
             console.warn('Nenhum dado encontrado ou erro na API');
@@ -45,12 +53,14 @@ function atendimentoAtual() {
 }
 
 function atendimentoIdeal() {
-    fetch(`/J-dashboard/atendimentoIdeal/${localStorage.FK_EMPRESA}`, { cache: 'no-store' }).then(function (response) {
+    var valor = localStorage.getItem('FK_EMPRESA')
+    fetch(`/J-routes/atendimentoIdeal?empresa=${valor}`, { cache: 'no-store' }).then(function (response) {
         if (response.ok) {
             response.json().then(function (resposta) {
                 console.error(`Dados recebidos: ${JSON.stringify(resposta)}`);                
                 // PUXAR ROTA COM ESSE SELECT
-                // document.getElementById("atendimentosIdeal").innerHTML = resposta[3]
+                // a resposta é [ { total_ligacoes_atendidas: 225 } ], quero ela sem casas decimais
+                document.getElementById("atendimentoIdeal").innerHTML = resposta[0]['total_ligacoes_atendidas']
             });
         } else {
             console.warn('Nenhum dado encontrado ou erro na API');
@@ -60,7 +70,8 @@ function atendimentoIdeal() {
 }
 
 function graficoProdutividade() {
-    fetch(`/J-dashboard/graficoProdutividade/${localStorage.FK_EMPRESA}`, { cache: 'no-store' }).then(function (response) {
+    var valor = localStorage.getItem('FK_EMPRESA')
+    fetch(`/J-routes/graficoProdutividade/${localStorage.FK_EMPRESA}`, { cache: 'no-store' }).then(function (response) {
         if (response.ok) {
             response.json().then(function (resposta) {
                 console.error(`Dados recebidos: ${JSON.stringify(resposta)}`);                

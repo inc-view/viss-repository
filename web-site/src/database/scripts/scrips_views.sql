@@ -144,7 +144,7 @@ JOIN (
 ) t2 ON t1.fkHasComponente = t2.fkHasComponente AND t1.dtHora = t2.maior_data) AS maxdatacomp;
 
 -- PPM Ideal
-SELECT AVG(r.registro) AS media_ppm
+SELECT round(AVG(r.registro), 0) AS media_ppm
 FROM registro r
 JOIN hasComponente hc ON r.fkHasComponente = hc.idHasComponente
 JOIN componente c ON hc.fkComponente = c.idComponente
@@ -156,9 +156,9 @@ WHERE c.tipo = 'PPM' AND idEmpresa = 1 AND lf.atendidas = (
     SELECT MAX(atendidas)
     FROM ligacoesFuncionario
   );
- 
+
  -- qtd atendimentos no dia
- SELECT SUM(lf.atendidas) AS total_ligacoes_atendidas
+ SELECT SUM(lf.atendidas) AS total_ligacoes_dia
 FROM ligacoesFuncionario lf
 JOIN funcionario f ON lf.fkFuncionario = f.idFuncionario
 JOIN empresa e ON f.fkEmpresa = e.idEmpresa

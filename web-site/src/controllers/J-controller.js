@@ -1,7 +1,8 @@
 var J_model = require("../models/J-model");
 
 function ppmAtual(req, res) {
-    var fkEmpresa = req.params.fkEmpresa;
+    var fkEmpresa = req.query.empresa;
+    console.log(fkEmpresa);
     J_model.ppmAtual(fkEmpresa).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
@@ -17,7 +18,7 @@ function ppmAtual(req, res) {
 }
 
 function ppmIdeal(req, res) {
-    var fkEmpresa = req.params.fkEmpresa;
+    var fkEmpresa = req.query.empresa;
     J_model.ppmIdeal(fkEmpresa).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
@@ -32,7 +33,7 @@ function ppmIdeal(req, res) {
 }
 
 function atendimentoAtual(req, res) {
-    var fkEmpresa = req.params.fkEmpresa;
+    var fkEmpresa = req.query.empresa;
     J_model.atendimentoAtual(fkEmpresa).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
@@ -47,7 +48,7 @@ function atendimentoAtual(req, res) {
 }
 
 function atendimentoIdeal(req, res) {
-    var fkEmpresa = req.params.fkEmpresa;
+    var fkEmpresa = req.query.empresa;
     J_model.atendimentoIdeal(fkEmpresa).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
@@ -62,7 +63,7 @@ function atendimentoIdeal(req, res) {
 }
 
 function graficoProdutividade(req, res) {
-    var fkEmpresa = req.params.fkEmpresa;
+    var fkEmpresa = req.query.empresa;
     J_model.graficoProdutividade(fkEmpresa).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);

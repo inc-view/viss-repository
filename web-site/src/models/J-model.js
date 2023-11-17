@@ -1,6 +1,7 @@
 var database = require("../database/config");
 
-function ppmAtual(fkEmpresa) {
+function ppmAtual(valor) {
+    var fkEmpresa = valor;
 
     instrucaoSql = `SELECT round(AVG(registro), 0) from
     (SELECT 
@@ -18,7 +19,7 @@ function ppmAtual(fkEmpresa) {
         JOIN computador ON fkComputador = idComputador
         JOIN funcionario ON fkFuncionario = idFuncionario
         join empresa on fkEmpresa = idEmpresa
-        WHERE componente.tipo = 'PPM' AND idEmpresa = 1 AND dtHora >= NOW() - INTERVAL 5 MINUTE
+        WHERE componente.tipo = 'PPM' AND idEmpresa = ${fkEmpresa} AND dtHora >= NOW() - INTERVAL 5 MINUTE
         GROUP BY fkHasComponente
     ) t2 ON t1.fkHasComponente = t2.fkHasComponente AND t1.dtHora = t2.maior_data) AS maxdatacomp;`
 
@@ -39,7 +40,7 @@ function ppmAtual(fkEmpresa) {
             JOIN computador ON fkComputador = idComputador
             JOIN funcionario ON fkFuncionario = idFuncionario
             join empresa on fkEmpresa = idEmpresa
-            WHERE componente.tipo = 'PPM' AND idEmpresa = 1 AND dtHora >= NOW() - INTERVAL 5 MINUTE
+            WHERE componente.tipo = 'PPM' AND idEmpresa = ${valor} AND dtHora >= NOW() - INTERVAL 5 MINUTE
             GROUP BY fkHasComponente
         ) t2 ON t1.fkHasComponente = t2.fkHasComponente AND t1.dtHora = t2.maior_data) AS maxdatacomp;`;
 
@@ -60,7 +61,7 @@ function ppmAtual(fkEmpresa) {
             JOIN computador ON fkComputador = idComputador
             JOIN funcionario ON fkFuncionario = idFuncionario
             join empresa on fkEmpresa = idEmpresa
-            WHERE componente.tipo = 'PPM' AND idEmpresa = 1 AND dtHora >= NOW() - INTERVAL 5 MINUTE
+            WHERE componente.tipo = 'PPM' AND idEmpresa = ${valor} AND dtHora >= NOW() - INTERVAL 5 MINUTE
             GROUP BY fkHasComponente
         ) t2 ON t1.fkHasComponente = t2.fkHasComponente AND t1.dtHora = t2.maior_data) AS maxdatacomp;`;
 
@@ -73,9 +74,10 @@ function ppmAtual(fkEmpresa) {
     return database.executar(instrucaoSql);
 }
 
-function ppmIdeal(fkEmpresa) {
+function ppmIdeal(valor) {
+    var fkEmpresa = valor;
 
-    instrucaoSql = `SELECT AVG(r.registro) AS media_ppm
+    instrucaoSql = `SELECT round(AVG(r.registro), 0) AS media_ppm
     FROM registro r
     JOIN hasComponente hc ON r.fkHasComponente = hc.idHasComponente
     JOIN componente c ON hc.fkComponente = c.idComponente
@@ -89,7 +91,7 @@ function ppmIdeal(fkEmpresa) {
       );`
 
     if (process.env.AMBIENTE_PROCESSO == "producao") {
-        instrucaoSql = `SELECT AVG(r.registro) AS media_ppm
+        instrucaoSql = `SELECT round(AVG(r.registro), 0) AS media_ppm
         FROM registro r
         JOIN hasComponente hc ON r.fkHasComponente = hc.idHasComponente
         JOIN componente c ON hc.fkComponente = c.idComponente
@@ -103,7 +105,7 @@ function ppmIdeal(fkEmpresa) {
           );`;
 
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
-        instrucaoSql = `SELECT AVG(r.registro) AS media_ppm
+        instrucaoSql = `SELECT round(AVG(r.registro), 0) AS media_ppm
         FROM registro r
         JOIN hasComponente hc ON r.fkHasComponente = hc.idHasComponente
         JOIN componente c ON hc.fkComponente = c.idComponente
@@ -125,23 +127,24 @@ function ppmIdeal(fkEmpresa) {
     return database.executar(instrucaoSql);
 }
 
-function atendimentoAtual(fkEmpresa) {
+function atendimentoAtual(valor) {
+    var fkEmpresa = valor;
 
-    instrucaoSql = ` SELECT SUM(lf.atendidas) AS total_ligacoes_atendidas
+    instrucaoSql = ` SELECT SUM(lf.atendidas) AS total_ligacoes_dia
     FROM ligacoesFuncionario lf
     JOIN funcionario f ON lf.fkFuncionario = f.idFuncionario
     JOIN empresa e ON f.fkEmpresa = e.idEmpresa
     WHERE e.idEmpresa = 1;`
 
     if (process.env.AMBIENTE_PROCESSO == "producao") {
-        instrucaoSql = ` SELECT SUM(lf.atendidas) AS total_ligacoes_atendidas
+        instrucaoSql = ` SELECT SUM(lf.atendidas) AS total_ligacoes_dia
         FROM ligacoesFuncionario lf
         JOIN funcionario f ON lf.fkFuncionario = f.idFuncionario
         JOIN empresa e ON f.fkEmpresa = e.idEmpresa
         WHERE e.idEmpresa = 1;`;
 
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
-        instrucaoSql = ` SELECT SUM(lf.atendidas) AS total_ligacoes_atendidas
+        instrucaoSql = ` SELECT SUM(lf.atendidas) AS total_ligacoes_dia
         FROM ligacoesFuncionario lf
         JOIN funcionario f ON lf.fkFuncionario = f.idFuncionario
         JOIN empresa e ON f.fkEmpresa = e.idEmpresa
@@ -156,7 +159,8 @@ function atendimentoAtual(fkEmpresa) {
     return database.executar(instrucaoSql);
 }
 
-function atendimentoIdeal(fkEmpresa) {
+function atendimentoIdeal(valor) {
+    var fkEmpresa = valor;
 
     instrucaoSql = `SELECT (SELECT COUNT(*) FROM funcionario WHERE fkEmpresa = 1) * MAX(lf.atendidas) AS total_ligacoes_atendidas
     FROM ligacoesFuncionario lf
@@ -184,7 +188,8 @@ function atendimentoIdeal(fkEmpresa) {
     return database.executar(instrucaoSql);
 }
 
-function graficoProdutividade(fkEmpresa) {
+function graficoProdutividade(valor) {
+    var fkEmpresa = valor;
 
     instrucaoSql = `SELECT 
     DATE_FORMAT(r.dtHora, '%H') AS hora_do_dia,
