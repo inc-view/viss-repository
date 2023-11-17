@@ -29,7 +29,7 @@ SELECT
     c.ativo AS `Status`,
     c.marca AS `MarcaComputador`,
     c.sistemaOperacional AS `SistemaOperacional`,
-    computador.idComputador AS `IdComputador`
+    computador.idComputador AS `IdComputador`,
     (
         SELECT MAX(r.dtHora)
         FROM registro r
@@ -66,7 +66,8 @@ BEGIN
      (1, NEW.idComputador),
      (2, NEW.idComputador),
      (3, NEW.idComputador),
-     (4, NEW.idComputador);
+     (4, NEW.idComputador),
+     (5, NEW.idComputador);
 END;
 
 //
@@ -119,3 +120,126 @@ PREPARE stmt FROM @sql; -- Prepara um statement para executar o comando guardado
 
 EXECUTE stmt; -- Executa o statement
 */
+
+-- Select para PPM IDEAL E PPM ATUAL
+-- PPM ATUAL
+SELECT round(AVG(registro), 0) from
+(SELECT 
+    t1.fkHasComponente,
+    t1.registro,
+    t1.dtHora
+FROM registro t1
+JOIN (
+    SELECT 	
+        fkHasComponente,
+        MAX(dtHora) AS maior_data
+    FROM registro
+	JOIN hasComponente ON fkHasComponente = idHasComponente
+	JOIN componente ON fkComponente = idComponente
+	JOIN computador ON fkComputador = idComputador
+    JOIN funcionario ON fkFuncionario = idFuncionario
+    join empresa on fkEmpresa = idEmpresa
+    WHERE componente.tipo = 'PPM' AND idEmpresa = 1 AND dtHora >= NOW() - INTERVAL 5 MINUTE
+    GROUP BY fkHasComponente
+) t2 ON t1.fkHasComponente = t2.fkHasComponente AND t1.dtHora = t2.maior_data) AS maxdatacomp;
+
+-- PPM Ideal
+SELECT AVG(r.registro) AS media_ppm
+FROM registro r
+JOIN hasComponente hc ON r.fkHasComponente = hc.idHasComponente
+JOIN componente c ON hc.fkComponente = c.idComponente
+JOIN computador on fkComputador = idComputador
+JOIN funcionario on fkFuncionario = idFuncionario
+JOIN ligacoesFuncionario lf ON lf.fkFuncionario = funcionario.idFuncionario
+JOIN empresa ON funcionario.fkEmpresa = empresa.idEmpresa
+WHERE c.tipo = 'PPM' AND idEmpresa = 1 AND lf.atendidas = (
+    SELECT MAX(atendidas)
+    FROM ligacoesFuncionario
+  );
+ 
+ -- qtd atendimentos no dia
+ SELECT SUM(lf.atendidas) AS total_ligacoes_atendidas
+FROM ligacoesFuncionario lf
+JOIN funcionario f ON lf.fkFuncionario = f.idFuncionario
+JOIN empresa e ON f.fkEmpresa = e.idEmpresa
+WHERE e.idEmpresa = 1;
+
+ -- meta atendimentos no dia
+SELECT (SELECT COUNT(*) FROM funcionario WHERE fkEmpresa = 1) * MAX(lf.atendidas) AS total_ligacoes_atendidas
+FROM ligacoesFuncionario lf
+JOIN funcionario f ON lf.fkFuncionario = f.idFuncionario
+WHERE f.fkEmpresa = 1;
+
+-- INFORMAÇÕES LISTA DE FUNCIONARIOS
+SELECT 
+    ID,
+    NOME,
+    COALESCE(SUM(CASE WHEN ABANDONADAS IS NOT NULL THEN ABANDONADAS ELSE 0 END), 0) AS 'ABANDONADAS',
+    COALESCE(SUM(CASE WHEN ATENDIDAS IS NOT NULL THEN ATENDIDAS ELSE 0 END), 0) AS 'ATENDIDAS',
+    SEC_TO_TIME(COALESCE(SUM(TIME_TO_SEC(DURACAO)), 0)) AS 'DURACAO'
+FROM (
+    SELECT 
+        f.idFuncionario AS ID,
+        f.nome AS NOME,
+        lf.abandonadas AS ABANDONADAS,
+        lf.atendidas AS ATENDIDAS,
+        lf.duracao AS DURACAO,
+        ROW_NUMBER() OVER (ORDER BY lf.atendidas DESC) AS rn
+    FROM funcionario f
+    LEFT JOIN ligacoesFuncionario lf ON f.idFuncionario = lf.fkFuncionario
+    WHERE f.fkEmpresa = 1
+) AS FuncionariosNumerados
+WHERE rn <= 5
+GROUP BY ID, NOME;
+
+-- INFORMAÇÕES FUNCIONARIO PARA MATRIZ
+SELECT 
+    lf.idligacoesFuncionario,
+    lf.recebidas,
+    lf.atendidas,
+    lf.porcAtendidas,
+    lf.abandonadas,
+    TIME_TO_SEC(lf.duracao) AS duracao_em_segundos
+FROM ligacoesFuncionario lf
+WHERE lf.fkFuncionario = 1;
+
+-- QUERY PARA O GRÁFICO DE PRODUTIVIDADE
+SELECT 
+    DATE_FORMAT(r.dtHora, '%H') AS hora_do_dia,
+    AVG(r.registro) AS media_registro_PPM
+FROM registro r
+JOIN hasComponente hc ON r.fkHasComponente = hc.idHasComponente
+JOIN componente c ON hc.fkComponente = c.idComponente
+JOIN computador on fkComputador = idComputador
+JOIN funcionario on fkFuncionario = idFuncionario
+JOIN ligacoesFuncionario lf ON lf.fkFuncionario = funcionario.idFuncionario
+JOIN empresa ON funcionario.fkEmpresa = empresa.idEmpresa
+WHERE c.tipo = 'PPM'
+  AND funcionario.fkEmpresa = 1
+  AND DATE(r.dtHora) = CURDATE() -- Filtra os registros para o dia de hoje
+GROUP BY hora_do_dia
+ORDER BY hora_do_dia;
+
+
+-- QUERY PARA PRODUTIVIDADE EM TEMPO REAL
+SELECT 
+    AVG(r.registro) AS media_registro_PPM
+FROM (
+    SELECT MAX(reg.registro) / COUNT(funcionario.idFuncionario) AS registro
+    FROM registro reg
+JOIN hasComponente hc ON reg.fkHasComponente = hc.idHasComponente
+JOIN componente c ON hc.fkComponente = c.idComponente
+JOIN computador on fkComputador = idComputador
+JOIN funcionario on fkFuncionario = idFuncionario
+JOIN ligacoesFuncionario lf ON lf.fkFuncionario = funcionario.idFuncionario
+JOIN empresa ON funcionario.fkEmpresa = empresa.idEmpresa
+    WHERE c.tipo = 'PPM'
+      AND funcionario.fkEmpresa = 1
+      AND reg.dtHora >= NOW() - INTERVAL 5 MINUTE
+    ORDER BY reg.dtHora DESC
+    LIMIT 500 -- Limita para os últimos 500 registros dos últimos 5 minutos
+) r;
+
+select * from funcionario;
+insert into funcionario values
+(null, null, 1, 'joao', 'joao@email.com', '123123123123', '29348756', '123');

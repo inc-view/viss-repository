@@ -25,14 +25,16 @@ INSERT INTO  unidadeMedida  ( idUnidadeMedida ,  tipoMedida ) VALUES
 (null, 'GHz'),
 (null, 'GB'),
 (null, 'MB'),
-(null, 'KB/s');
+(null, 'KB/s'),
+(null, 'Inteiro');
 
 -- Inserir registros na tabela componentes
 INSERT INTO  componente  ( idComponente ,  tipo ,  fkUnidadeMedida ) VALUES 
 (null, 'CPU', 1),
 (null, 'Memoria', 1), 
 (null, 'Memoria', 3), 
-(null, 'Disco', 1);
+(null, 'Disco', 1),
+(null, 'PPM', 6);
 
 -- Inserir registros na tabela computadores
 INSERT INTO computador (ipComputador, nomePatrimonio, marca, fkFuncionario, sistemaOperacional, ativo) VALUES
@@ -54,13 +56,17 @@ INSERT INTO  processo  VALUES
 (NULL, 'vscode.exe', 1),
 (NULL, 'google.exe', 1);
 
+
+-- Inserindo dados no ligacoesFuncionario
+INSERT INTO ligacoesFuncionario VALUES
+(null, 20, 18, 80, 7, '00:02:00', 1),
+(null, 20, 18, 80, 7, '00:02:00', 2);
+
 -- Inserir registros na tabela registro
 insert into registro values
-(null, 89, current_timestamp(), 1);
--- (null, 70, current_timestamp(), 5);
+(null, 120, current_timestamp(), 5),
+(null, 100, current_timestamp(), 10);
 
--- Pegar ultima sessão
--- insert into registro values
--- (null, 12, current_timestamp(), 1),
--- (null, 35, current_timestamp(), 2),
--- (null, 55, current_timestamp(), 3);
+
+
+

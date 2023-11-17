@@ -797,6 +797,7 @@
     <!-- Custom js for this page-->
     <script src="js/jquery.cookie.js" type="text/javascript"></script>
     <script src="js/dashboard.js"></script>
+    <script src="js/J-dashboard.js"></script>
     <script src="js/Chart.roundedBarCharts.js"></script>
     <!-- End custom js for this page-->
 
@@ -989,6 +990,15 @@
     let dataHoje = `${data.getDate()}/${data.getMonth()+1}/${data.getFullYear()}`
     document.getElementById("dataDeHoje").innerHTML = dataHoje
   }
-  window.load = teste()
+
+ppmAtual()
+console.log("funcao")
+ppmIdeal()
+  
+atendimentoAtual()
+  
+atendimentoIdeal()
+  
+graficoProdutividade()
 
 </script>

@@ -1,8 +1,69 @@
 var J_model = require("../models/J-model");
 
-function kpisProdutividade(req, res) {
+function ppmAtual(req, res) {
     var fkEmpresa = req.params.fkEmpresa;
-    J_model.kpisProdutividade(fkEmpresa).then(function (resultado) {
+    J_model.ppmAtual(fkEmpresa).then(function (resultado) {
+        if (resultado.length > 0) {
+            res.status(200).json(resultado);
+        } else {
+            console.log("NENHUM RESULTADO AQUIIIIIIIIII!")
+            res.status(204).send("Nenhum resultado encontrado!")
+        }
+    }).catch(function (erro) {
+        console.log(erro);
+        console.log("Houve um erro ao buscar as ultimas medidas.", erro.sqlMessage);
+        res.status(500).json(erro.sqlMessage);
+    });
+}
+
+function ppmIdeal(req, res) {
+    var fkEmpresa = req.params.fkEmpresa;
+    J_model.ppmIdeal(fkEmpresa).then(function (resultado) {
+        if (resultado.length > 0) {
+            res.status(200).json(resultado);
+        } else {
+            res.status(204).send("Nenhum resultado encontrado!")
+        }
+    }).catch(function (erro) {
+        console.log(erro);
+        console.log("Houve um erro ao buscar as ultimas medidas.", erro.sqlMessage);
+        res.status(500).json(erro.sqlMessage);
+    });
+}
+
+function atendimentoAtual(req, res) {
+    var fkEmpresa = req.params.fkEmpresa;
+    J_model.atendimentoAtual(fkEmpresa).then(function (resultado) {
+        if (resultado.length > 0) {
+            res.status(200).json(resultado);
+        } else {
+            res.status(204).send("Nenhum resultado encontrado!")
+        }
+    }).catch(function (erro) {
+        console.log(erro);
+        console.log("Houve um erro ao buscar as ultimas medidas.", erro.sqlMessage);
+        res.status(500).json(erro.sqlMessage);
+    });
+}
+
+function atendimentoIdeal(req, res) {
+    var fkEmpresa = req.params.fkEmpresa;
+    J_model.atendimentoIdeal(fkEmpresa).then(function (resultado) {
+        if (resultado.length > 0) {
+            res.status(200).json(resultado);
+        } else {
+            res.status(204).send("Nenhum resultado encontrado!")
+        }
+    }).catch(function (erro) {
+        console.log(erro);
+        console.log("Houve um erro ao buscar as ultimas medidas.", erro.sqlMessage);
+        res.status(500).json(erro.sqlMessage);
+    });
+}
+
+function graficoProdutividade(req, res) {
+    var fkEmpresa = req.params.fkEmpresa;
+    J_model.graficoProdutividade(fkEmpresa).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {
@@ -16,5 +77,9 @@ function kpisProdutividade(req, res) {
 }
 
 module.exports = {
-    kpisProdutividade
+    ppmAtual,
+    ppmIdeal,
+    atendimentoAtual,
+    atendimentoIdeal,
+    graficoProdutividade
 }
