@@ -140,3 +140,21 @@ BEGIN
 END //
 
 DELIMITER ;
+
+
+-- Apos inserir em softawre
+DELIMITER //
+CREATE TRIGGER insere_softwarePermitidos
+AFTER INSERT ON software
+FOR EACH ROW
+BEGIN
+    INSERT INTO softwarePermitido (bloquado, fkSoftware, fkComputador) VALUES 
+     (false, NEW.idSoftware, 1),
+     (false, NEW.idSoftware, 2),
+     (false, NEW.idSoftware, 3),
+     (false, NEW.idSoftware, 4);
+END;
+
+//
+
+DELIMITER ;
