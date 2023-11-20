@@ -205,21 +205,33 @@ WHERE lf.fkFuncionario = 1;
 
 -- QUERY PARA O GRÁFICO DE PRODUTIVIDADE
 SELECT 
-    DATE_FORMAT(r.dtHora, '%H') AS hora_do_dia,
-    AVG(r.registro) AS media_registro_PPM
-FROM registro r
-JOIN hasComponente hc ON r.fkHasComponente = hc.idHasComponente
-JOIN componente c ON hc.fkComponente = c.idComponente
-JOIN computador on fkComputador = idComputador
-JOIN funcionario on fkFuncionario = idFuncionario
-JOIN ligacoesFuncionario lf ON lf.fkFuncionario = funcionario.idFuncionario
-JOIN empresa ON funcionario.fkEmpresa = empresa.idEmpresa
-WHERE c.tipo = 'PPM'
-  AND funcionario.fkEmpresa = 1
-  AND DATE(r.dtHora) = CURDATE() -- Filtra os registros para o dia de hoje
-GROUP BY hora_do_dia
-ORDER BY hora_do_dia;
-
+    horas.hora_do_dia,
+    COALESCE(round(AVG(r.registro), 0), 0) AS media_registro_PPM
+FROM (
+    SELECT 0 AS hora_do_dia
+    UNION SELECT 1 UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5 UNION 
+    SELECT 6 UNION SELECT 7 UNION SELECT 8 UNION SELECT 9 UNION SELECT 10 UNION 
+    SELECT 11 UNION SELECT 12 UNION SELECT 13 UNION SELECT 14 UNION SELECT 15 UNION 
+    SELECT 16 UNION SELECT 17 UNION SELECT 18 UNION SELECT 19 UNION SELECT 20 UNION 
+    SELECT 21 UNION SELECT 22 UNION SELECT 23
+) horas
+LEFT JOIN (
+    SELECT 
+        DATE_FORMAT(r.dtHora, '%H') AS hora_do_dia,
+        r.registro
+    FROM registro r
+    JOIN hasComponente hc ON r.fkHasComponente = hc.idHasComponente
+    JOIN componente c ON hc.fkComponente = c.idComponente
+    JOIN computador ON fkComputador = idComputador
+    JOIN funcionario ON fkFuncionario = idFuncionario
+    JOIN ligacoesFuncionario lf ON lf.fkFuncionario = funcionario.idFuncionario
+    JOIN empresa ON funcionario.fkEmpresa = empresa.idEmpresa
+    WHERE c.tipo = 'PPM'
+      AND funcionario.fkEmpresa = 1
+      AND DATE(r.dtHora) = CURDATE() -- Filtra os registros para o dia de hoje
+) r ON horas.hora_do_dia = r.hora_do_dia
+GROUP BY horas.hora_do_dia
+ORDER BY horas.hora_do_dia;
 
 -- QUERY PARA PRODUTIVIDADE EM TEMPO REAL
 SELECT 
@@ -240,6 +252,15 @@ JOIN empresa ON funcionario.fkEmpresa = empresa.idEmpresa
     LIMIT 500 -- Limita para os últimos 500 registros dos últimos 5 minutos
 ) r;
 
-select * from funcionario;
-insert into funcionario values
-(null, null, 1, 'joao', 'joao@email.com', '123123123123', '29348756', '123');
+-- QUERY PARA LISTA DE INFORMACOES DO FUNCIONARIO
+SELECT 
+    f.nome AS nome_funcionario,
+    lf.recebidas AS chamadas_recebidas,
+    lf.atendidas AS chamadas_atendidas,
+    lf.porcAtendidas AS porcentagem_atendidas,
+    lf.abandonadas AS chamadas_abandonadas,
+    lf.duracao AS duracao_total
+FROM funcionario f
+JOIN ligacoesFuncionario lf ON f.idFuncionario = lf.fkFuncionario
+WHERE f.fkEmpresa = 1; -- Substitua 1 pelo ID da empresa desejada
+    

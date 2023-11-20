@@ -71,4 +71,18 @@ INSERT INTO ligacoesFuncionario VALUES
 insert into registro values
 (null, 120, current_timestamp(), 5),
 (null, 100, current_timestamp(), 10);
+select * from registro;
 
+-- Simulando registros de PPM para um funcionário da empresa 1 para cada hora do dia
+INSERT INTO registro (registro, dtHora, fkHasComponente)
+SELECT 
+    ROUND(RAND() * 100), -- Valor aleatório de PPM (de 0 a 100)
+    DATE_FORMAT(NOW() - INTERVAL HOUR(NOW()) HOUR + INTERVAL seq.seq HOUR, '%Y-%m-%d %H:00:00'), -- Horário específico para cada hora
+    5 -- ID de um componente PPM específico
+FROM (
+    SELECT 0 AS seq UNION SELECT 1 UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION 
+    SELECT 5 UNION SELECT 6 UNION SELECT 7 UNION SELECT 8 UNION SELECT 9 UNION 
+    SELECT 10 UNION SELECT 11 UNION SELECT 12 UNION SELECT 13 UNION SELECT 14 UNION 
+    SELECT 15 UNION SELECT 16 UNION SELECT 17 UNION SELECT 18 UNION SELECT 19 UNION 
+    SELECT 20 UNION SELECT 21 UNION SELECT 22 UNION SELECT 23
+) seq;

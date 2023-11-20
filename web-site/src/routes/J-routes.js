@@ -23,4 +23,8 @@ router.get("/graficoProdutividade", function (req, res) {
     J_controller.graficoProdutividade(req, res);
 });
 
+router.get("/fazerListaInfoFuncionario", function (req, res) {
+    J_controller.fazerListaInfoFuncionario(req, res);
+});
+
 module.exports = router; 

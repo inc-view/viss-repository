@@ -612,7 +612,7 @@
                                   >
                                     <div>
                                       <h4 class="card-title card-title-dash">
-                                        Produtividade - Dia
+                                        Produtividade - Horas do Dia
                                       </h4>
                                       <p
                                         class="card-subtitle card-subtitle-dash"
@@ -699,7 +699,7 @@
                               <div class="card">
                                 <div class="card-body">
                                   <div class="headerTabela " style="display: flex; justify-content: space-between;" >
-                                  <h4 class="card-title ">Computadores </h4>
+                                  <h4 class="card-title ">Top 5 - Produtividade de Funcionários</h4>
                                   <div class="divPesquisaNome" style="display: flex; align-items: center; ;">
                                   <input type="text" class="form-control" id="ipt_Pesquisa" placeholder="Username" style=" width: 98%;margin-right: 1rem; " oninput="fazerListaPorNome()">
                                   <i class="icon-search" style="font-size: 1.25rem; cursor: pointer;" onclick="fazerListaPorNome()" ></i>
@@ -711,19 +711,22 @@
                                         <tr>
                                           
                                           <th>
-                                            Usuario
+                                            Nome
                                           </th>
                                           <th>
-                                            IP Maquina
-                                          </th>
-                                          <th class="col-lg-3 ">
-                                            % Uso CPU
+                                            Recebidas
                                           </th>
                                           <th>
-                                            Status
+                                            Atendidas
                                           </th>
                                           <th>
-                                            Ultima Sessao
+                                            Porcentagem de Atendidas
+                                          </th>
+                                          <th>
+                                            Abandonadas
+                                          </th>
+                                          <th>
+                                            Duração Média de Atendimento
                                           </th>
                                         </tr>
                                       </thead>
@@ -802,186 +805,7 @@
     <!-- End custom js for this page-->
 
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-    <script>
-      var options = {
-        chart: {
-          type: "line",
-          height: 300,
-        },
-        colors: ['#008000'],
-        series: [
-          {
-            name: "sales",
-            data: [30, 40, 35, 50, 49, 60, 70, 91, 125],
-          },
-        ],
-        xaxis: {
-          categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999],
-        },
-        stroke: {
-          curve: 'smooth'
-        }
-      };
 
-      var options1 = {
-        chart: {
-          type: "line",
-          height: 300,
-        },
-        colors: ['#eead2d'],
-        series: [
-          {
-            name: "sales",
-            data: [30, 40, 35, 50, 49, 60, 70, 91, 125],
-          },
-        ],
-        xaxis: {
-          categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999],
-        },
-        stroke: {
-          curve: 'smooth'
-        }
-      };
-
-      var options2 = {
-        chart: {
-          type: "line",
-          height: 300,
-        },
-        colors: ['#f17ea1'],
-        series: [
-          {
-            name: "sales",
-            data: [30, 40, 35, 50, 49, 60, 70, 91, 125],
-          },
-        ],
-        xaxis: {
-          categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999],
-        },
-        stroke: {
-          curve: 'smooth'
-        }
-      };
-
-      var options3 = {
-        chart: {
-          type: "line",
-          height: 300,
-        },
-        colors: ['#e84b33'],
-        series: [
-          {
-            name: "sales",
-            data: [30, 40, 35, 50, 49, 60, 70, 91, 125],
-          },
-        ],
-        xaxis: {
-          categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999],
-        },
-        stroke: {
-          curve: 'smooth'
-        }
-      };
-
-      var chart1 = new ApexCharts(document.querySelector("#chart"), options);
-      chart1.render();
-
-      var chart2 = new ApexCharts(document.querySelector("#chart1"), options1);
-      chart2.render();
-
-      var chart3 = new ApexCharts(document.querySelector("#chart2"), options2);
-      chart3.render();
-
-      var chart4 = new ApexCharts(document.querySelector("#chart3"), options3);
-      chart4.render();
-
-
-
-
-      var optionsCol = {
-          series: [{
-          name: 'Inflation',
-          data: [2.3, 3.1, 4.0, 10.1, 4.0, 3.6, 3.2, 2.3, 1.4, 0.8, 0.5, 0.2]
-        }],
-          chart: {
-          height: 200,
-          type: 'bar',
-        },
-        plotOptions: {
-          bar: {
-            borderRadius: 10,
-            dataLabels: {
-              position: 'top', // top, center, bottom
-            },
-          }
-        },
-        dataLabels: {
-          enabled: true,
-          formatter: function (val) {
-            return val + "%";
-          },
-          offsetY: -20,
-          style: {
-            fontSize: '12px',
-            colors: ["#304758"]
-          }
-        },
-        
-        xaxis: {
-          categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-          position: 'top',
-          axisBorder: {
-            show: false
-          },
-          axisTicks: {
-            show: false
-          },
-          crosshairs: {
-            fill: {
-              type: 'gradient',
-              gradient: {
-                colorFrom: '#D8E3F0',
-                colorTo: '#BED1E6',
-                stops: [0, 100],
-                opacityFrom: 0.4,
-                opacityTo: 0.5,
-              }
-            }
-          },
-          tooltip: {
-            enabled: true,
-          }
-        },
-        yaxis: {
-          axisBorder: {
-            show: false
-          },
-          axisTicks: {
-            show: false,
-          },
-          labels: {
-            show: false,
-            formatter: function (val) {
-              return val + "%";
-            }
-          }
-        
-        },
-        title: {
-          text: 'Monthly Inflation in Argentina, 2002',
-          floating: true,
-          offsetY: 330,
-          align: 'center',
-          style: {
-            color: '#444'
-          }
-        }
-        };
-
-        var chartCol = new ApexCharts(document.querySelector("#chartCol"), optionsCol);
-        chartCol.render();
-
-    </script>
   </body>
 </html>
 <script>
@@ -991,14 +815,18 @@
     document.getElementById("dataDeHoje").innerHTML = dataHoje
   }
 
-ppmAtual()
-console.log("funcao")
-ppmIdeal()
-  
-atendimentoAtual()
-  
-atendimentoIdeal()
-  
-graficoProdutividade()
+  teste()
+
+  ppmAtual()
+
+  ppmIdeal()
+    
+  atendimentoAtual()
+    
+  atendimentoIdeal()
+    
+  graficoProdutividade()
+
+  fazerListaInfoFuncionario()
 
 </script>

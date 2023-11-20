@@ -7,7 +7,6 @@ function ppmAtual(req, res) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {
-            console.log("NENHUM RESULTADO AQUIIIIIIIIII!")
             res.status(204).send("Nenhum resultado encontrado!")
         }
     }).catch(function (erro) {
@@ -77,10 +76,26 @@ function graficoProdutividade(req, res) {
     });
 }
 
+function fazerListaInfoFuncionario(req, res) {
+    var fkEmpresa = req.query.empresa;
+    J_model.fazerListaInfoFuncionario(fkEmpresa).then(function (resultado) {
+        if (resultado.length > 0) {
+            res.status(200).json(resultado);
+        } else {
+            res.status(204).send("Nenhum resultado encontrado!")
+        }
+    }).catch(function (erro) {
+        console.log(erro);
+        console.log("Houve um erro ao buscar as ultimas medidas.", erro.sqlMessage);
+        res.status(500).json(erro.sqlMessage);
+    });
+}
+
 module.exports = {
     ppmAtual,
     ppmIdeal,
     atendimentoAtual,
     atendimentoIdeal,
-    graficoProdutividade
+    graficoProdutividade,
+    fazerListaInfoFuncionario
 }
