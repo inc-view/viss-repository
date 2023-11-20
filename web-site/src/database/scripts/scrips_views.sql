@@ -264,3 +264,40 @@ FROM funcionario f
 JOIN ligacoesFuncionario lf ON f.idFuncionario = lf.fkFuncionario
 WHERE f.fkEmpresa = 1; -- Substitua 1 pelo ID da empresa desejada
     
+DELIMITER //
+
+CREATE PROCEDURE spInsertRegistroProcesso(vNomeProcesso varchar(255), vfkComputador int, dado float)
+BEGIN
+    -- Declare variáveis para armazenar os resultados do SELECT
+    DECLARE id INT;
+
+    -- Selecione os dados desejados
+    SELECT idProcesso INTO id
+    FROM processo
+    WHERE nomeProcesso LIKE CONCAT('%', vNomeProcesso, '%') and fkComputador = vfkComputador;
+
+    -- Faça a inserção com base nos resultados do SELECT
+    INSERT INTO registroProcesso (registro, fkProcesso, fkHasComponente, dataHora)
+    VALUES (dado, id, 1, now());
+
+END //
+
+DELIMITER ;
+
+
+-- Apos inserir em softawre
+DELIMITER //
+CREATE TRIGGER insere_softwarePermitidos
+AFTER INSERT ON software
+FOR EACH ROW
+BEGIN
+    INSERT INTO softwarePermitido (bloquado, fkSoftware, fkComputador) VALUES 
+     (false, NEW.idSoftware, 1),
+     (false, NEW.idSoftware, 2),
+     (false, NEW.idSoftware, 3),
+     (false, NEW.idSoftware, 4);
+END;
+
+//
+
+DELIMITER ;
