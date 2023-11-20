@@ -72,10 +72,58 @@ function count(req, res){
 
 }
 
+function getFirstLine(req, res){
+
+  let idProcesso = req.body.fkProcesso
+  let idEmpresa = req.body.empresa
+ 
+  processoModel.getFirstLine(idProcesso, idEmpresa)
+  .then((response)=>{
+
+    if(response.length > 0){
+      res.status(200).json(response)
+    }else{
+      res.status(204).send('Nenhum resultado encontrado')
+    }
+
+
+  }).catch(function (erro) {
+    console.log(erro);
+    console.log("Houve um erro ao buscar as ultimas medidas.", erro.sqlMessage);
+    res.status(500).json(erro.sqlMessage);
+  });
+
+}
+
+function getSecondLine(req, res){
+
+  let idProcesso = req.body.fkProcesso
+  let idEmpresa = req.body.empresa
+ 
+  processoModel.getFirstLine(idProcesso, idEmpresa)
+  .then((response)=>{
+
+    if(response.length > 0){
+      res.status(200).json(response)
+    }else{
+      res.status(204).send('Nenhum resultado encontrado')
+    }
+
+
+  }).catch(function (erro) {
+    console.log(erro);
+    console.log("Houve um erro ao buscar as ultimas medidas.", erro.sqlMessage);
+    res.status(500).json(erro.sqlMessage);
+  });
+
+}
+
 
 
 module.exports ={
   listar,
   listarThree,
-  count
+  count,
+  getFirstLine,
+  getSecondLine
 }

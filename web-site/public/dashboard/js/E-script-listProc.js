@@ -4,6 +4,12 @@ let dataSerieOne = [];
 let nameSerieTwo = "";
 let dataSerieTwo = [];
 
+let labels = []
+
+var dataAtual = new Date();
+var dia = dataAtual.getDate();
+
+
 var optionsColMonth = {
   series: [
     {
@@ -29,21 +35,7 @@ var optionsColMonth = {
     curve: "smooth",
   },
   xaxis: {
-    type: "datetime",
-    categories: [
-      "2018-09-19T00:00:00.000Z",
-      "2018-09-19T01:30:00.000Z",
-      "2018-09-19T02:30:00.000Z",
-      "2018-09-19T03:30:00.000Z",
-      "2018-09-19T04:30:00.000Z",
-      "2018-09-19T05:30:00.000Z",
-      "2018-09-19T06:30:00.000Z",
-    ],
-  },
-  tooltip: {
-    x: {
-      format: "dd/MM/yy HH:mm",
-    },
+    categories: labels
   },
 };
 
@@ -74,91 +66,197 @@ let secondLine = document.getElementById("selectTwo");
 // Atualizar dados do >> Primeiro grafico
 firstLine.addEventListener("change", () => {
   if (firstLine.value != secondLine.value) {
-    nameSerieOne = dados[firstLine.value].nameSerie;
-    dataSerieOne = dados[firstLine.value].dataSerie;
 
-    chartColMonth.updateSeries([
-      {
-        name: nameSerieOne,
-        data: dataSerieOne,
+    nameSerieOne = "Primeira Linha";
+    dataSerieOne = [];
+    labels = []
+
+    var option = firstLine.children[firstLine.selectedIndex];
+    var nameSerieOne = option.textContent;
+
+    fetch(`/processo/getFirstLine/`, {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
       },
-      {
-        name: nameSerieTwo,
-        data: dataSerieTwo,
-      },
-    ]);
+      body: JSON.stringify({
+        fkProcesso: firstLine.value ,
+        empresa: localStorage.getItem("FK_EMPRESA"),
+      }),
+    }).then((response) => {
+      if (response.ok) {
+        response.json().then((data) => {
+
+          if (data.length > 0) {
+            
+            data.reverse()
+
+            for(var i = 0; i < 7; i++){
+
+              if(data[i] != undefined){
+                labels.push(data[i].dia)
+                dataSerieOne.push(data[i].cpu);
+              }else{
+                dataSerieOne.push(0);
+                labels.push(labels[i-1] - 1)
+              }
+             
+            }
+
+          }
+
+
+          chartColMonth.updateSeries([
+            {
+              name: nameSerieOne,
+              data: dataSerieOne.reverse(),
+            },
+            {
+              name: nameSerieTwo,
+              data: dataSerieTwo,
+            },
+          ]);
+      
+          chartColMonth.updateOptions({
+              xaxis: {
+                  categories: labels.reverse(),
+              },
+          });
+
+
+          document.getElementById('horasUsoOne').innerHTML = (data[data.length-1].dia == dia) ? data[data.length-1].horas_uso : "00:00:00"
+          document.getElementById('cpuUsoOne').innerHTML = (data[data.length-1].dia == dia) ? data[data.length-1].cpu : "0.0"
+        });
+      }
+    });
+
   } else {
     alert("Comparação de gráficos iguais");
   }
+
 });
+
 
 // Atualizar dados do >> Segundo grafico
 secondLine.addEventListener("change", () => {
-  if (secondLine.value != firstLine.value) {
-    nameSerieTwo = dados[secondLine.value].nameSerie;
-    dataSerieTwo = dados[secondLine.value].dataSerie;
+  if (firstLine.value != secondLine.value) {
 
-    chartColMonth.updateSeries([
-      {
-        name: nameSerieOne,
-        data: dataSerieOne,
+    nameSerieTwo = "";
+    dataSerieTwo = [];
+    labels = []
+
+    var option = secondLine.children[secondLine.selectedIndex];
+    var nameSerieTwo = option.textContent;
+
+    fetch(`/processo/getFirstLine/`, {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
       },
-      {
-        name: nameSerieTwo,
-        data: dataSerieTwo,
-      },
-    ]);
+      body: JSON.stringify({
+        fkProcesso: secondLine.value ,
+        empresa: localStorage.getItem("FK_EMPRESA"),
+      }),
+    }).then((response) => {
+      if (response.ok) {
+        response.json().then((data) => {
+
+          if (data.length > 0) {
+            
+            data.reverse()
+
+            for(var i = 0; i < 7; i++){
+
+              if(data[i] != undefined){
+                labels.push(data[i].dia)
+                dataSerieTwo.push(data[i].cpu);
+              }else{
+                dataSerieTwo.push(0);
+                labels.push(labels[i-1] - 1)
+              }
+             
+            }
+
+          }
+
+          chartColMonth.updateSeries([
+            {
+              name: nameSerieOne,
+              data: dataSerieOne.reverse(),
+            },
+            {
+              name: nameSerieTwo,
+              data: dataSerieTwo.reverse(),
+            },
+          ]);
+      
+          chartColMonth.updateOptions({
+              xaxis: {
+                  categories: labels.reverse(),
+              },
+          });
+
+          document.getElementById('horasUsoTwo').innerHTML = (data[data.length-1].dia == dia) ? data[data.length-1].horas_uso : "00:00:00"
+          document.getElementById('cpuUsoTwo').innerHTML = (data[data.length-1].dia == dia) ? data[data.length-1].cpu : "0.0"
+
+        });
+      }
+    });
+
   } else {
     alert("Comparação de gráficos iguais");
   }
 });
 
+
+
+
 // ------------------------------------
 
-function listMainProcess(){
 
+
+
+function listMainProcess() {
   let orderByQuery = selectListProcess.value;
 
-  fetch(`/processo/listar/`, 
-  { method: "post",
+  fetch(`/processo/listar/`, {
+    method: "post",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
       orderby: orderByQuery,
-      empresa: localStorage.getItem("FK_EMPRESA")  
-    })
-  }).then(
-    (response) => {
-      if (response.ok) {
-        response.json().then((data) => {
+      empresa: localStorage.getItem("FK_EMPRESA"),
+    }),
+  }).then((response) => {
+    if (response.ok) {
+      response.json().then((data) => {
+        let listMain = document.getElementById("listProcessMain");
+        let classColorCPU = "";
+        let classColorRAM = "";
+        listMain.innerHTML = "";
+        document.getElementById("selectOne").innerHTML = ""
+        document.getElementById("selectTwo").innerHTML = ""
 
-          let listMain = document.getElementById("listProcessMain");
-          let classColorCPU = "";
-          let classColorRAM = "";
-          listMain.innerHTML = "";
+        if (data.length > 0) {
+          data.forEach((row) => {
+            if (row.cpu == undefined || row.cpu == null || row.cpu < 66) {
+              classColorCPU = "bg-success";
+            } else if (row.cpu < 90) {
+              classColorCPU = "bg-warning";
+            } else {
+              classColorCPU = "bg-danger";
+            }
 
-          if(data.length > 0){
+            if (row.ram == undefined || row.ram == null || row.ram < 66) {
+              classColorRAM = "bg-success";
+            } else if (row.ram < 90) {
+              classColorRAM = "bg-warning";
+            } else {
+              classColorRAM = "bg-danger";
+            }
 
-            data.forEach((row) => {
-              
-              if (row.cpu == undefined || row.cpu == null || row.cpu < 66) {
-                classColorCPU = "bg-success";
-              } else if (row.cpu < 90) {
-                classColorCPU = "bg-warning";
-              } else {
-                classColorCPU = "bg-danger";
-              }
-
-              if (row.ram == undefined || row.ram == null || row.ram < 66) {
-                classColorRAM = "bg-success";
-              } else if (row.ram < 90) {
-                classColorRAM = "bg-warning";
-              } else {
-                classColorRAM = "bg-danger";
-              }
-
-              listMain.innerHTML += `
+            listMain.innerHTML += `
                   
                     <tr>
                       <td>
@@ -216,70 +314,64 @@ function listMainProcess(){
                     </tr>
                   
                   `;
-            });
 
-          }else{
-            listMain.innerHTML = "<h4> Nenhum resultado encontrado </h4>"
-          }
+                  document.getElementById("selectOne").innerHTML += `<option value="${row.fkProcesso}">${row.processo}</option>`
+                  document.getElementById("selectTwo").innerHTML += `<option value="${row.fkProcesso}">${row.processo}</option>`
 
-        });
-      }
+          });
+
+        } else {
+          listMain.innerHTML = "<h4> Nenhum resultado encontrado </h4>";
+        }
+      });
     }
-  );
-
+  });
 }
 
 const selectListProcess = document.getElementById("selectListProcess");
-selectListProcess.addEventListener("change", ()=>{listMainProcess()})
+selectListProcess.addEventListener("change", () => {
+  listMainProcess();
+});
 
-
-function totalProcess(){
-
-  fetch(`/processo/count/${localStorage.getItem("FK_EMPRESA")}`,).then(
+function totalProcess() {
+  fetch(`/processo/count/${localStorage.getItem("FK_EMPRESA")}`).then(
     (response) => {
       if (response.ok) {
         response.json().then((data) => {
-          document.getElementById("totalProcessDiv").innerHTML = data[0].qtde
+          document.getElementById("totalProcessDiv").innerHTML = data[0].qtde;
         });
       }
     }
   );
-
 }
 
-
-
-function listTopThreeProcess(){
-
+function listTopThreeProcess() {
   let orderByQuery = selectTopThree.value;
 
-  fetch(`/processo/listarThree/`, 
-  { method: "post",
+  fetch(`/processo/listarThree/`, {
+    method: "post",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
       orderby: orderByQuery,
-      empresa: localStorage.getItem("FK_EMPRESA")  
-    })
-  }).then(
-    (response) => {
-      if (response.ok) {
-        response.json().then((data) => {
+      empresa: localStorage.getItem("FK_EMPRESA"),
+    }),
+  }).then((response) => {
+    if (response.ok) {
+      response.json().then((data) => {
+        //let listMain = document.getElementById("listProcessMain");
 
-          //let listMain = document.getElementById("listProcessMain");
+        if (data.length > 0) {
+          document.getElementById("titleTopThree").innerHTML =
+            orderByQuery == "horas_uso" ? "Mais usados" : "Maior consumo";
 
-          if(data.length > 0){
+          let listTopThree = document.getElementById("appendTopThree");
+          listTopThree.innerHTML = "";
 
-            document.getElementById("titleTopThree").innerHTML = (orderByQuery == "horas_uso") ? "Mais usados" : "Maior consumo"
-            
-            let listTopThree = document.getElementById("appendTopThree")
-            listTopThree.innerHTML = ""
-
-            data.forEach((row) => {
-              if(orderByQuery == "horas_uso"){
-
-                listTopThree.innerHTML += `
+          data.forEach((row) => {
+            if (orderByQuery == "horas_uso") {
+              listTopThree.innerHTML += `
 
                   <div class="list align-items-center border-bottom py-2">
                     <div class="d-flex justify-content-between align-items-center">
@@ -296,10 +388,9 @@ function listTopThreeProcess(){
                       </div>
                     </div>
                   </div>
-                `
-              }else{
-
-                listTopThree.innerHTML += `
+                `;
+            } else {
+              listTopThree.innerHTML += `
 
                   <div class="list align-items-center border-bottom py-2">
                     <div class="d-flex justify-content-between align-items-center">
@@ -316,33 +407,24 @@ function listTopThreeProcess(){
                       </div>
                     </div>
                   </div>
-                `
-
-              }
-
-
-            });
-
-          }else{
-            listTopThree.innerHTML = "<h4> Nenhum resultado encontrado </h4>"
-          }
-
-        });
-      }
+                `;
+            }
+          });
+        } else {
+          listTopThree.innerHTML = "<h4> Nenhum resultado encontrado </h4>";
+        }
+      });
     }
-  );
+  });
 }
 
-const selectTopThree = document.getElementById("selectTopThree")
-selectTopThree.addEventListener("change", ()=>{listTopThreeProcess()})
+const selectTopThree = document.getElementById("selectTopThree");
+selectTopThree.addEventListener("change", () => {
+  listTopThreeProcess();
+});
 
-
-
-
-window.onload = ()=>{
-  listMainProcess()
-  listTopThreeProcess()
-  totalProcess()
-}
-
-
+window.onload = () => {
+  listMainProcess();
+  listTopThreeProcess();
+  totalProcess();
+};

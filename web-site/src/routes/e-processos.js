@@ -24,6 +24,14 @@ router.post("/listarThree", function (req, res) {
   processoController.listarThree(req, res);
 });
 
+router.post("/getFirstLine", function (req, res) {
+  processoController.getFirstLine(req, res);
+});
+
+router.post("/getSecondLine", function (req, res) {
+  processoController.getSecondLine(req, res);
+});
+
 router.get("/count/:idEmpresa", function (req, res) {
   processoController.count(req, res);
 });

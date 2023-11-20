@@ -22,8 +22,25 @@ function count(fkEmpresa) {
   return database.executar(query);
 }
 
+
+function getFirstLine(fkProcesso, fkEmpresa) {
+  var query = `select * from listDataOneProcess where fkProcesso = ${fkProcesso} and fkEmpresa = ${fkEmpresa};`;
+  console.log(query)
+
+  return database.executar(query);
+}
+
+function getSecondLine(fkProcesso, fkEmpresa) {
+  var query = `select * from listDataOneProcess where fkProcesso = ${fkProcesso} and fkEmpresa = ${fkEmpresa};`;
+  console.log(query)
+
+  return database.executar(query);
+}
+
 module.exports = { 
   listar,
   listarThree,
-  count
+  count,
+  getFirstLine,
+  getSecondLine
 };
