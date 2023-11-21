@@ -18,6 +18,9 @@ var funcionarioRouter = require("./src/routes/funcionario")
 var dashListagemRouter = require("./src/routes/routeDashListagem")
 var leandroRouter = require("./src/routes/routeLeandro")
 
+// Route Breno
+var dashAlertasCpuRouter = require("./src/routes/routeDashAlertasCpu")
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
@@ -34,6 +37,9 @@ app.use("/funcionario", funcionarioRouter);
 // Meus Route's
 app.use("/routeDashListagem",dashListagemRouter )
 app.use("/routeLeandro", leandroRouter)
+
+// Route Breno
+app.use("/routeDashAlertasCpu", dashAlertasCpuRouter)
 
 app.listen(PORTA, function () {
     console.log(`Servidor do seu site já está rodando! Acesse o caminho a seguir para visualizar: http://localhost:${PORTA} \n

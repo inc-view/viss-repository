@@ -3,7 +3,7 @@ var dashAlertasCpuModel = require("../models/dashAlertasCpuModel");
 function dashboardCpuAlertasCpu(req, res) {
     var idMaquina = req.params.idMaquina;
     dashAlertasCpuModel.dashboardCpuAlertasCpu(idMaquina).then(function (resultado) {
-        if (resultado.length > 0) {
+        if (resultado.length > 5) {
             res.status(200).json(resultado);
         } else {
             res.status(204).send("Nenhum resultado encontrado!")

@@ -1,43 +1,41 @@
 var database = require("../database/config");
 
-function updateDashboardAlertasCpu() {
-  data_dash.innerHTML = `${dataDash.getDate()}/${dataDash.getMonth() + 1}/${dataDash.getFullYear()}`
-  fetch(`/routeDashAlertasCpu/dashboardCpuAlertasCpu/${idMaquina}`, { cache: 'no-store' }).then(function (response) {
-      if (response.ok) {
-          response.json().then(function (resposta) {
-              console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+function dashboardCpuAlertasCpu(idMaquina) {
 
-              for (i = 0; i < resposta.length; i++) {
-                  let registro = resposta[i]
-                  labelsOcorrenciasCpu.push(registro.Mes)
-                  dataOcorrenciasCpu.push(registro.Ocorrencias)
-              }
+    instrucaoSql = ''
 
-              cardCpu.innerHTML = `${resposta[0].cpu}%`
+    if (process.env.AMBIENTE_PROCESSO == "producao") {
+        instrucaoSql = ``;
+    } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
+        instrucaoSql = `SELECT 
+        MONTH(dtHora) AS 'Mes',
+        COUNT(registro) AS 'Ocorrencias' 
+    FROM 
+        registro 
+    JOIN 
+        hasComponente ON fkHasComponente = idHasComponente 
+    JOIN 
+        componente ON fkComponente = idComponente 
+    JOIN 
+        computador ON fkComputador = ${idMaquina} 
+    WHERE 
+        componente.tipo = 'CPU' 
+        AND registro > 90 
+        AND YEAR(dtHora) = 2023
+    GROUP BY 
+        MONTH(dtHora)
+    ORDER BY
+        MONTH(dtHORA);`;
+    } else {
+        console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
+        return
+    }
 
-              if (resposta[0].cpu <= 45) {
-                  cardCpu.style = `color: green !important`
-              } else if (resposta[0].cpu < 65) {
-                  cardCpu.style = `color: darkgreen !important`
-              } else if (resposta[0].cpu < 80) {
-                  cardCpu.style = `color: darkyellow !important`
-              } else if (resposta[0].cpu < 90) {
-                  cardCpu.style = `color: orange !important`
-              } else {
-                  cardCpu.style = `color: red !important`
-              }
-
-          });
-      } else {
-          console.error('Nenhum dado encontrado ou erro na API');
-      }
-  })
-      .catch(function (error) {
-          console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
-      });
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
 }
 
 
 module.exports = { 
-  updateDashboardAlertasCpu
+  dashboardCpuAlertasCpu
 };
