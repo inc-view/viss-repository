@@ -123,9 +123,8 @@ firstLine.addEventListener("change", () => {
               },
           });
 
-
-          document.getElementById('horasUsoOne').innerHTML = (data[data.length-1].dia == dia) ? data[data.length-1].horas_uso : "00:00:00"
-          document.getElementById('cpuUsoOne').innerHTML = (data[data.length-1].dia == dia) ? data[data.length-1].cpu : "0.0"
+          document.getElementById('horasUsoOne').innerHTML = (data[0].dia == dia) ? data[0].horas_uso : "00:00:00"
+          document.getElementById('cpuUsoOne').innerHTML = (data[0].dia == dia) ? data[0].cpu : "0.0"
         });
       }
     });
@@ -196,8 +195,8 @@ secondLine.addEventListener("change", () => {
               },
           });
 
-          document.getElementById('horasUsoTwo').innerHTML = (data[data.length-1].dia == dia) ? data[data.length-1].horas_uso : "00:00:00"
-          document.getElementById('cpuUsoTwo').innerHTML = (data[data.length-1].dia == dia) ? data[data.length-1].cpu : "0.0"
+          document.getElementById('horasUsoTwo').innerHTML = (data[0].dia == dia) ? data[0].horas_uso : "00:00:00"
+          document.getElementById('cpuUsoTwo').innerHTML = (data[0].dia == dia) ? data[0].cpu : "0.0"
 
         });
       }
