@@ -46,22 +46,6 @@ CREATE TABLE IF NOT EXISTS  funcionario  (
     REFERENCES  empresa  ( idEmpresa )
 );
 
-CREATE TABLE IF NOT EXISTS ligacoesFuncionario (
-   idligacoesFuncionario INT NOT NULL AUTO_INCREMENT,
-   recebidas int ,
-   atendidas int,
-   porcAtendidas double,
-   abandonadas int,
-   duracao time,
-   fkFuncionario INT NOT NULL,
-   PRIMARY KEY (idLigacoesFuncionario),
-   CONSTRAINT fk_chamada_funcionario1 
-      FOREIGN KEY (fkFuncionario)
-      REFERENCES funcionario (idFuncionario)
-);
-
-
-
 CREATE TABLE IF NOT EXISTS  computador  (
    idComputador  INT NOT NULL AUTO_INCREMENT,
    ipComputador  VARCHAR(45),
@@ -93,13 +77,13 @@ CREATE TABLE IF NOT EXISTS  componente  (
 
 CREATE TABLE IF NOT EXISTS  software  (
    idSoftware  INT NOT NULL AUTO_INCREMENT,
-   nomeSoftware  VARCHAR(45) NOT NULL,
-   cartegoriaSoftware  VARCHAR(45) NULL,
+   nomeSoftware  VARCHAR(150) NOT NULL,
+   categoriaSoftware  VARCHAR(45) NULL,
   PRIMARY KEY ( idSoftware ));
 
 CREATE TABLE IF NOT EXISTS softwarePermitido (
     idSoftwarePermitido INT NOT NULL AUTO_INCREMENT,
-    bloquado BOOLEAN NULL,
+    bloqueado BOOLEAN NULL,
     fkSoftware INT NOT NULL,
     fkComputador INT NOT NULL,
     PRIMARY KEY (idSoftwarePermitido, fkSoftware, fkComputador),
@@ -135,7 +119,7 @@ CREATE TABLE IF NOT EXISTS  registro  (
 
 CREATE TABLE IF NOT EXISTS processo (
     idProcesso INT NOT NULL AUTO_INCREMENT,
-    nomeProcesso VARCHAR(50),
+    nomeProcesso VARCHAR(150),
     fkComputador INT NOT NULL,
     PRIMARY KEY (idProcesso),
     CONSTRAINT fk_registros_computador1 FOREIGN KEY (fkComputador)
@@ -147,16 +131,25 @@ CREATE TABLE IF NOT EXISTS registroProcesso (
   registro VARCHAR(150),
   fkProcesso INT,
   fkHasComponente INT,
+  dataHora DATETIME,
   FOREIGN KEY (fkProcesso) REFERENCES Processo(idProcesso),
   FOREIGN KEY (fkHasComponente) REFERENCES hasComponente(idHasComponente)
 );
 
-CREATE TABLE processoIlicito(
+CREATE TABLE if not exists processoIlicito(
 	idProcessoIlicito INT PRIMARY KEY AUTO_INCREMENT,
-    fkProcesso INT NOT NULL,
-    dtHora DATETIME NOT NULL,
-    FOREIGN KEY (fkProcesso) REFERENCES processo(idProcesso)
+    fkSoftware INT NOT NULL,
+    dataHora DATE NOT NULL,
+    FOREIGN KEY (fkSoftware) REFERENCES softwarePermitido(idSoftwarePermitido)
 );
+
+CREATE TABLE if not exists ilicitoRegistro(
+	idRegistroIlicito INT PRIMARY KEY AUTO_INCREMENT,
+    fkProcessoIlicito INT NOT NULL,
+    dtHora DATETIME NOT NULL,
+    FOREIGN KEY (fkProcessoIlicito) REFERENCES processoIlicito(idProcessoIlicito)
+);
+
 SET SQL_SAFE_UPDATES = 0;
 UPDATE computador c
 LEFT JOIN (
