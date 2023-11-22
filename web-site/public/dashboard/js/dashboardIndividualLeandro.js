@@ -166,6 +166,12 @@ function updateDashboardMediaCpuDay() {
 
                 console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
 
+                for (var i = 0; i < resposta.length; i++) {
+                    let registro = resposta[i]
+                    labelsDashboardMediaCpuDay.push(registro.data)
+                    mediaCpuDataDay.push(registro.cpu)
+                }
+
             });
         } else {
             console.error('Nenhum dado encontrado ou erro na API');
@@ -181,6 +187,12 @@ function updateDashboardMediaCpuMonth() {
             response.json().then(function (resposta) {
 
                 console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+
+                for (var i = 0; i < resposta.length; i++) {
+                    let registro = resposta[i]
+                    labelsDashboardMediaCpuMonth.push(registro.mes)
+                    mediaCpuDataMonth.push(registro.cpu)
+                }
 
             });
         } else {
@@ -198,12 +210,10 @@ function updateDashboardMediaMemoryDay() {
 
                 console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
 
-                for (i = 0; i < resposta.length; i++) {
-
-                    let dataFormat = new Date(resposta[i].dtHora)
-                    let dataFormatFinally = `${dataFormat.getHours()}:${dataFormat.getMinutes()}:${dataFormat.getSeconds()}`
-                    labelsDashboardGeral.push(dataFormatFinally)
-                    cpuDataDashboardGeral.push(resposta[i].registro)
+                for (var i = 0; i < resposta.length; i++) {
+                    let registro = resposta[i]
+                    labelsDashboardMediaMemoryDay.push(registro.data)
+                    mediaMemoryDataDay.push(registro.memory)
                 }
 
             });
@@ -222,6 +232,12 @@ function updateDashboardMediaMemoryMonth() {
 
                 console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
 
+                for (var i = 0; i < resposta.length; i++) {
+                    let registro = resposta[i]
+                    labelsDashboardMediaMemoryMonth.push(registro.mes)
+                    mediaMemoryDataMonth.push(registro.memory)
+                }
+
             });
         } else {
             console.error('Nenhum dado encontrado ou erro na API');
@@ -232,19 +248,87 @@ function updateDashboardMediaMemoryMonth() {
 }
 
 function getMediaCpuAllDay() {
+    fetch(`/routeLeandro/getMediaCpuAllDay/${idMaquina}`, { cache: 'no-store' }).then(function (response) {
+        if (response.ok) {
+            response.json().then(function (resposta) {
 
+                console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+
+                for (var i = 0; i < resposta.length; i++) {
+                    let registro = resposta[i]
+                    mediaCpuAllDay.push(registro.cpu)
+                }
+
+            });
+        } else {
+            console.error('Nenhum dado encontrado ou erro na API');
+        }
+    }).catch(function (error) {
+        console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+    });
 }
 
 function getMediaCpuAllMonth() {
+    fetch(`/routeLeandro/getMediaCpuAllMonth/${idMaquina}`, { cache: 'no-store' }).then(function (response) {
+        if (response.ok) {
+            response.json().then(function (resposta) {
 
+                console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+
+                for (var i = 0; i < resposta.length; i++) {
+                    let registro = resposta[i]
+                    mediaCpuAllMonth.push(registro.cpu)
+                }
+
+            });
+        } else {
+            console.error('Nenhum dado encontrado ou erro na API');
+        }
+    }).catch(function (error) {
+        console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+    });
 }
 
 function getMediaMemoryAllDay() {
+    fetch(`/routeLeandro/getMediaMemoryAllDay/${idMaquina}`, { cache: 'no-store' }).then(function (response) {
+        if (response.ok) {
+            response.json().then(function (resposta) {
 
+                console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+
+                for (var i = 0; i < resposta.length; i++) {
+                    let registro = resposta[i]
+                    mediaMemoryAllDay.push(registro.memory)
+                }
+
+            });
+        } else {
+            console.error('Nenhum dado encontrado ou erro na API');
+        }
+    }).catch(function (error) {
+        console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+    });
 }
 
 function getMediaMemoryAllMonth() {
+    fetch(`/routeLeandro/getMediaMemoryAllMonth/${idMaquina}`, { cache: 'no-store' }).then(function (response) {
+        if (response.ok) {
+            response.json().then(function (resposta) {
 
+                console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+
+                for (var i = 0; i < resposta.length; i++) {
+                    let registro = resposta[i]
+                    mediaMemoryAllMonth.push(registro.memory)
+                }
+
+            });
+        } else {
+            console.error('Nenhum dado encontrado ou erro na API');
+        }
+    }).catch(function (error) {
+        console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+    });
 }
 
 function kpiMediaCpuDay() {
@@ -254,13 +338,7 @@ function kpiMediaCpuDay() {
 
                 console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
 
-                for (i = 0; i < resposta.length; i++) {
-
-                    let dataFormat = new Date(resposta[i].dtHora)
-                    let dataFormatFinally = `${dataFormat.getHours()}:${dataFormat.getMinutes()}:${dataFormat.getSeconds()}`
-                    labelsDashboardGeral.push(dataFormatFinally)
-                    cpuDataDashboardGeral.push(resposta[i].registro)
-                }
+                idKpiMediaCpuDay.innerHTML = resposta[0].cpu
 
             });
         } else {
@@ -278,13 +356,7 @@ function kpiMediaCpuAllTime() {
 
                 console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
 
-                for (i = 0; i < resposta.length; i++) {
-
-                    let dataFormat = new Date(resposta[i].dtHora)
-                    let dataFormatFinally = `${dataFormat.getHours()}:${dataFormat.getMinutes()}:${dataFormat.getSeconds()}`
-                    labelsDashboardGeral.push(dataFormatFinally)
-                    cpuDataDashboardGeral.push(resposta[i].registro)
-                }
+                idKpiMediaCpuAllTime.innerHTML = reposta[0].cpu
 
             });
         } else {
@@ -302,6 +374,8 @@ function kpiMediaMemoryDay() {
 
                 console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
 
+                idKpiMediaMemoryDay.innerHTML = reposta[0].memory
+
             });
         } else {
             console.error('Nenhum dado encontrado ou erro na API');
@@ -317,6 +391,8 @@ function kpiMediaMemoryAllTime() {
             response.json().then(function (resposta) {
 
                 console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+
+                idKpiMediaMemoryAllTime.innerHTML = reposta[0].memory
 
             });
         } else {
