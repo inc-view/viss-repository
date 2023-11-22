@@ -59,7 +59,7 @@ consoleColors = {
 connection = mysql.connector.connect(
     host="localhost",
     user="root",
-    password= "7852456",
+    password="1234567",
     port=3306,
     database="inkView"
 )
@@ -152,7 +152,6 @@ if opcao == "1":
         ProgressBar(percentual=int(diskPercent.percent))
             
         mediaCpus = round((somaCpus / len(cpusPercent)),2)
-        print(mediaCpus)
 
         try:
             selectIpMaquina = f"select cpu, ram, disco from vwIdComponenteComputador where ipComputador = '{str(ipMaquina)}'"
