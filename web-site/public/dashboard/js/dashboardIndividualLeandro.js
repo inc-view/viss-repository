@@ -342,6 +342,18 @@ function kpiMediaCpuDay() {
 
                 idKpiMediaCpuDay.innerHTML = `${Math.round(resposta[0].cpu, 0)}%`
 
+                if (resposta[0].cpu <= 45) {
+                    idKpiMediaCpuDay.style = `color: green !important`
+                } else if (resposta[0].cpu < 65) {
+                    idKpiMediaCpuDay.style = `color: darkgreen !important`
+                } else if (resposta[0].cpu < 80) {
+                    idKpiMediaCpuDay.style = `color: darkyellow !important`
+                } else if (resposta[0].cpu < 90) {
+                    idKpiMediaCpuDay.style = `color: orange !important`
+                } else {
+                    idKpiMediaCpuDay.style = `color: red !important`
+                }
+
             });
         } else {
             console.error('Nenhum dado encontrado ou erro na API');
@@ -359,6 +371,18 @@ function kpiMediaCpuAllTime() {
                 console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
 
                 idKpiMediaCpuAllTime.innerHTML = `${Math.round(resposta[0].cpu, 0)}%`
+
+                if (resposta[0].cpu <= 45) {
+                    idKpiMediaCpuAllTime.style = `color: green !important`
+                } else if (resposta[0].cpu < 65) {
+                    idKpiMediaCpuAllTime.style = `color: darkgreen !important`
+                } else if (resposta[0].cpu < 80) {
+                    idKpiMediaCpuAllTime.style = `color: darkyellow !important`
+                } else if (resposta[0].cpu < 90) {
+                    idKpiMediaCpuAllTime.style = `color: orange !important`
+                } else {
+                    idKpiMediaCpuAllTime.style = `color: red !important`
+                }
 
             });
         } else {
@@ -378,6 +402,18 @@ function kpiMediaMemoryDay() {
 
                 idKpiMediaMemoryDay.innerHTML = `${Math.round(resposta[0].memory, 0)}%`
 
+                if (resposta[0].cpu <= 45) {
+                    idKpiMediaMemoryDay.style = `color: green !important`
+                } else if (resposta[0].cpu < 65) {
+                    idKpiMediaMemoryDay.style = `color: darkgreen !important`
+                } else if (resposta[0].cpu < 80) {
+                    idKpiMediaMemoryDay.style = `color: darkyellow !important`
+                } else if (resposta[0].cpu < 90) {
+                    idKpiMediaMemoryDay.style = `color: orange !important`
+                } else {
+                    idKpiMediaMemoryDay.style = `color: red !important`
+                }
+
             });
         } else {
             console.error('Nenhum dado encontrado ou erro na API');
@@ -395,6 +431,18 @@ function kpiMediaMemoryAllTime() {
                 console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
 
                 idKpiMediaMemoryAllTime.innerHTML = `${Math.round(resposta[0].memory, 0)}%`
+
+                if (resposta[0].cpu <= 45) {
+                    idKpiMediaMemoryAllTime.style = `color: green !important`
+                } else if (resposta[0].cpu < 65) {
+                    idKpiMediaMemoryAllTime.style = `color: darkgreen !important`
+                } else if (resposta[0].cpu < 80) {
+                    idKpiMediaMemoryAllTime.style = `color: darkyellow !important`
+                } else if (resposta[0].cpu < 90) {
+                    idKpiMediaMemoryAllTime.style = `color: orange !important`
+                } else {
+                    idKpiMediaMemoryAllTime.style = `color: red !important`
+                }
 
             });
         } else {
@@ -425,7 +473,7 @@ kpiMediaCpuAllTime()
 kpiMediaMemoryDay()
 kpiMediaMemoryAllTime()
 
-setTimeout(updateDashboards, 1000)
+setTimeout(updateDashboards, 500)
 
 function updateDashboards() {
     varDashboardMediaCpuDay.update()

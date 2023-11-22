@@ -176,7 +176,7 @@ function dashboardMediaCpuDay(idMaquina) {
         instrucaoSql = ``;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucaoSql = `SELECT
-        DATE_FORMAT(dtHora, '%Y-%m-%d') AS 'data',
+        DATE_FORMAT(dtHora, '%d-%m-%Y') AS 'data',
         AVG(registro) AS 'cpu'
     FROM
         registro
@@ -208,7 +208,7 @@ function dashboardMediaCpuMonth(idMaquina) {
         instrucaoSql = ``;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucaoSql = `    SELECT
-        DATE_FORMAT(dtHora, '%Y-%m') AS 'mes',
+        DATE_FORMAT(dtHora, '%m-%Y') AS 'mes',
         AVG(registro) AS 'cpu'
     FROM
         registro
@@ -240,7 +240,7 @@ function dashboardMediaMemoryDay(idMaquina) {
         instrucaoSql = ``;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucaoSql = `SELECT
-        DATE_FORMAT(dtHora, '%Y-%m-%d') AS 'data',
+        DATE_FORMAT(dtHora, '%d-%m-%Y') AS 'data',
         AVG(registro) AS 'memory'
     FROM
         registro
@@ -272,7 +272,7 @@ function dashboardMediaMemoryMonth(idMaquina) {
         instrucaoSql = ``;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucaoSql = `    SELECT
-        DATE_FORMAT(dtHora, '%Y-%m') AS 'mes',
+        DATE_FORMAT(dtHora, '%m-%Y') AS 'mes',
         AVG(registro) AS 'memory'
     FROM
         registro
@@ -333,7 +333,7 @@ function getMediaCpuAllMonth(idMaquina) {
         instrucaoSql = ``;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucaoSql = `    SELECT
-        DATE_FORMAT(dtHora, '%Y-%m') AS 'mes',
+        DATE_FORMAT(dtHora, '%mx-%Y') AS 'mes',
         AVG(registro) AS 'memory'
     FROM
         registro
