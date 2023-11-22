@@ -1,3 +1,4 @@
+-- Active: 1685633684430@@127.0.0.1@3306@inkview
 create database inkView;
 use inkView;
 -- DROP DATABASE inkView;
@@ -76,13 +77,13 @@ CREATE TABLE IF NOT EXISTS  componente  (
 
 CREATE TABLE IF NOT EXISTS  software  (
    idSoftware  INT NOT NULL AUTO_INCREMENT,
-   nomeSoftware  VARCHAR(45) NOT NULL,
-   cartegoriaSoftware  VARCHAR(45) NULL,
+   nomeSoftware  VARCHAR(150) NOT NULL,
+   categoriaSoftware  VARCHAR(45) NULL,
   PRIMARY KEY ( idSoftware ));
 
 CREATE TABLE IF NOT EXISTS softwarePermitido (
     idSoftwarePermitido INT NOT NULL AUTO_INCREMENT,
-    bloquado BOOLEAN NULL,
+    bloqueado BOOLEAN NULL,
     fkSoftware INT NOT NULL,
     fkComputador INT NOT NULL,
     PRIMARY KEY (idSoftwarePermitido, fkSoftware, fkComputador),
@@ -118,11 +119,35 @@ CREATE TABLE IF NOT EXISTS  registro  (
 
 CREATE TABLE IF NOT EXISTS processo (
     idProcesso INT NOT NULL AUTO_INCREMENT,
-    nomeProcesso VARCHAR(50),
+    nomeProcesso VARCHAR(150),
     fkComputador INT NOT NULL,
     PRIMARY KEY (idProcesso),
     CONSTRAINT fk_registros_computador1 FOREIGN KEY (fkComputador)
         REFERENCES computador (idComputador)
+);
+
+CREATE TABLE IF NOT EXISTS registroProcesso (
+  idRegistroProcesso INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  registro VARCHAR(150),
+  fkProcesso INT,
+  fkHasComponente INT,
+  dataHora DATETIME,
+  FOREIGN KEY (fkProcesso) REFERENCES Processo(idProcesso),
+  FOREIGN KEY (fkHasComponente) REFERENCES hasComponente(idHasComponente)
+);
+
+CREATE TABLE if not exists processoIlicito(
+	idProcessoIlicito INT PRIMARY KEY AUTO_INCREMENT,
+    fkSoftware INT NOT NULL,
+    dataHora DATE NOT NULL,
+    FOREIGN KEY (fkSoftware) REFERENCES softwarePermitido(idSoftwarePermitido)
+);
+
+CREATE TABLE if not exists ilicitoRegistro(
+	idRegistroIlicito INT PRIMARY KEY AUTO_INCREMENT,
+    fkProcessoIlicito INT NOT NULL,
+    dtHora DATETIME NOT NULL,
+    FOREIGN KEY (fkProcessoIlicito) REFERENCES processoIlicito(idProcessoIlicito)
 );
 
 SET SQL_SAFE_UPDATES = 0;

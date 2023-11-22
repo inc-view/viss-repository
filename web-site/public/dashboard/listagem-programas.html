@@ -7,7 +7,7 @@
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
-    <title>VISS - Processos</title>
+    <title>VISS - Programas</title>
     <!-- plugins:css -->
     <link rel="stylesheet" href="vendors/feather/feather.css" />
     <link rel="stylesheet" href="vendors/mdi/css/materialdesignicons.min.css" />
@@ -29,7 +29,19 @@
     <!-- inject:css -->
     <link rel="stylesheet" href="css/vertical-layout-light/style.css" />
     <!-- endinject -->
-    <link rel="shortcut icon" href="images/favicon-32x32.png  " />
+    <link rel="shortcut icon" href="images/favicon-32x32.png" />
+
+    <!-- toastify -->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
+    />
   </head>
   <body>
     <div class="container-scroller">
@@ -62,7 +74,8 @@
           <ul class="navbar-nav">
             <li class="nav-item font-weight-semibold d-none d-lg-block ms-0">
               <h1 class="welcome-text">
-                Processos - <span class="text-black fw-bold" id="dataDeHoje"></span>
+                Softwares Proibidos -
+                <span class="text-black fw-bold" id="dataDeHoje"></span>
               </h1>
             </li>
           </ul>
@@ -520,8 +533,6 @@
         <!-- partial:partials/_sidebar.html -->
         <nav class="sidebar sidebar-offcanvas" id="sidebar">
           <ul class="nav">
-           
-            
             <li class="nav-item nav-category">Dashboard</li>
             <li class="nav-item">
               <a class="nav-link" href="dashListagem.html">
@@ -549,9 +560,7 @@
                     >
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="./dash-teclado.html"
-                      >DPS</a
-                    >
+                    <a class="nav-link" href="./dash-teclado.html">PPM</a>
                   </li>
                 </ul>
               </div>
@@ -576,14 +585,11 @@
                     >
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="#"
-                      >Programas</a
-                    >
+                    <a class="nav-link" href="#">Programas</a>
                   </li>
                 </ul>
               </div>
             </li>
-            
           </ul>
         </nav>
 
@@ -591,7 +597,7 @@
         <div class="main-panel">
           <div class="content-wrapper">
             <div class="row">
-              <div class="col-sm-12">
+              <div class="col-sm-16">
                 <div class="home-tab">
                   <div class="tab-content tab-content-basic">
                     <div
@@ -600,191 +606,77 @@
                       role="tabpanel"
                       aria-labelledby="overview"
                     >
-                      <div class="col">
-                        <div class="row flex-grow">
-                          <div class="col-lg-6">
-                            <div class="col-12 grid-margin stretch-card">
-                              <div class="card card-rounded">
-                                <div class="card-body">
-                                  <div
-                                    class="d-sm-flex justify-content-between align-items-start"
-                                  >
-                                    <div>
-                                      <h4 class="card-title card-title-dash">
-                                        Processos abertos - Dia
-                                      </h4>
-                                      <p
-                                        class="card-subtitle card-subtitle-dash"
-                                      >
-                                        Quantidade de processos abertos durante os meses
-                                      </p>
-                                    </div>
-                                  </div>
-                                  <div
-                                    class="d-sm-flex align-items-center mt-1 justify-content-between"
-                                  >
-                                    <div class="me-3">
-                                      <div id="marketing-overview-legend"></div>
-                                    </div>
-                                  </div>
-                                  <div id="chartColMonth">
-
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-
-                          <div class="col-lg-6">
-                            <div class="col-12 grid-margin stretch-card">
-                              <div class="card card-rounded">
-                                <div class="card-body">
-                                  <div
-                                    class="d-sm-flex justify-content-between align-items-start"
-                                  >
-                                    <div>
-                                      <h4 class="card-title card-title-dash">
-                                        Processos abertos - Dia
-                                      </h4>
-                                      <p
-                                        class="card-subtitle card-subtitle-dash"
-                                      >
-                                        Quantidade de processos abertos durante os dias
-                                      </p>
-                                    </div>
-                                  </div>
-                                  <div
-                                    class="d-sm-flex align-items-center mt-1 justify-content-between"
-                                  >
-                                    <div class="me-3">
-                                      <div id="marketing-overview-legend"></div>
-                                    </div>
-                                  </div>
-                                  <div id="chartColDay">
-
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div class="col d-flex flex-column">
-                          
+                      <div class="row">
+                        <div class="col-lg-12 d-flex flex-column">
                           <div class="row flex-grow">
-
-                            <div class="col-8 grid-margin stretch-card">
+                            <div class="col-12 grid-margin stretch-card">
                               <div class="card card-rounded">
                                 <div class="card-body">
-                                  <div class="row">
-                                    <div class="col-lg-12">
-                                      <div class="d-flex justify-content-between align-items-center mb-3">
-                                        <div>
-                                          <h4 class="card-title card-title-dash">Processos mais acessados </h4>
-                                        </div>
-                                      </div>
-                                      <div class="mt-3">
-                                        
-                                        <div class="wrapper d-flex align-items-center justify-content-between py-2 border-bottom">
-                                          <div class="d-flex">
-                                            <div class="wrapper ms-3">
-                                              <p class="fw-bold">ChatGPT</p>
-                                              <small class="text-black text-middle mb-0">125 funcionários</small>
-                                            </div>
-                                          </div>
-                                          <div class="text-black text-middle">
-                                            246 vezes
-                                          </div>
-                                        </div>
-                                        <div class="wrapper d-flex align-items-center justify-content-between py-2 border-bottom">
-                                          <div class="d-flex">
-                                            <div class="wrapper ms-3">
-                                              <p class="fw-bold">Bard</p>
-                                              <small class="text-black text-middle mb-0">100 funcionários</small>
-                                            </div>
-                                          </div>
-                                          <div class="text-black text-middle">
-                                            179 vezes
-                                          </div>
-                                        </div>
-                                        <div class="wrapper d-flex align-items-center justify-content-between pt-2">
-                                          <div class="d-flex">
-                                            <div class="wrapper ms-3">
-                                              <p class="fw-bold">WhatsApp</p>
-                                              <small class="text-black text-middle mb-0">52 funcionários</small>
-                                            </div>
-                                          </div>
-                                          <div class="text-black text-middle">
-                                            68 vezes
-                                          </div>
-                                        </div>
-                                      </div>
+                                  <div
+                                    class="d-sm-flex justify-content-between align-items-start"
+                                  >
+                                    <div>
+                                      <h4 class="card-title card-title-dash">
+                                        Lista de Softwares
+                                      </h4>
+                                    </div>
+                                    <div>
+                                      <button
+                                        class="btn btn-info btn-lg text-white mb-0 me-0"
+                                        type="button"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#exampleModal"
+                                      >
+                                        <i class="mdi mdi-account-plus"></i>Novo
+                                        Programa
+                                      </button>
                                     </div>
                                   </div>
-                                </div>
-                              </div>
-                            </div>
-                            
 
-                            <div class="col-4  d-flex flex-column justify-content-center align-items-center">
-                              <div class="col-12">
-                                <div class="col-12 grid-margin stretch-card">
-                                  <div class="card card-rounded">
-                                    <div class="card-body">
-                                      <div class="row">
-                                        <div class="col-lg-12">
-                                          <div
-                                            class="d-flex justify-content-between align-items-center mb-3"
-                                          >
+                                  <div class="table-responsive mt-1">
+                                    <table class="table select-table">
+                                      <thead>
+                                        <tr>
+                                          <th>Programa</th>
+                                          <th>Categoria</th>
+                                          <th>Ações</th>
+                                        </tr>
+                                      </thead>
+
+                                      <tbody id="tabelaSoftware">
+                                        <tr>
+                                          <td>
                                             <div>
-                                              <h4
-                                                class="card-title card-title-dash"
-                                              >
-                                                Qtde processos diferentes
-                                              </h4>
+                                              <h5>Brandon Washington</h5>
                                             </div>
-                                          </div>
-                                        </div>
-                                        <div class="mt-3">
-                                          <h3>15</h3>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-  
-                              <div class="col-12">
-                                <div class="col-12 grid-margin stretch-card">
-                                  <div class="card card-rounded">
-                                    <div class="card-body">
-                                      <div class="row">
-                                        <div class="col-lg-12">
-                                          <div
-                                            class="d-flex justify-content-between align-items-center mb-3"
-                                          >
+                                          </td>
+                                          <td>
                                             <div>
-                                              <h4
-                                                class="card-title card-title-dash"
-                                              >
-                                                Qtde. Funcionários
-                                              </h4>
+                                              <h5>Brandon Washington</h5>
                                             </div>
-                                          </div>
-                                        </div>
-                                        <div class="mt-3">
-                                          <h3>122</h3>
-                                        </div>
-                                      </div>
-                                    </div>
+                                          </td>
+                                          <td>
+                                            <div>
+                                              <button
+                                                type="button"
+                                                class="btn btn-info btn-lg text-white mb-0 me-0"
+                                              >
+                                                <span
+                                                  class="material-symbols-outlined"
+                                                >
+                                                  draw
+                                                </span>
+                                              </button>
+                                            </div>
+                                          </td>
+                                        </tr>
+                                      </tbody>
+                                    </table>
                                   </div>
                                 </div>
                               </div>
                             </div>
-                          
                           </div>
-
-                          
                         </div>
                       </div>
                     </div>
@@ -793,6 +685,7 @@
               </div>
             </div>
           </div>
+
           <!-- content-wrapper ends -->
           <!-- partial:partials/_footer.html -->
           <footer class="footer">
@@ -817,9 +710,140 @@
         </div>
         <!-- main-panel ends -->
       </div>
+
       <!-- page-body-wrapper ends -->
     </div>
     <!-- container-scroller -->
+
+    <!-- MODAL CADASTRO UNITÁRIO -->
+    <div
+      class="modal fade"
+      id="exampleModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">
+              Cadastro do Software
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+
+          <div class="modal-body">
+            <div class="col-lg-14">
+              <form id="formInsertSoftware">
+                <div class="row g-2 align-items-center mb-3">
+                  <div class="col-auto">
+                    <label for="inputNome" class="col-form-label">Nome</label>
+                    <input
+                      type="text"
+                      id="inputNome"
+                      class="form-control"
+                      aria-describedby="nameHelp"
+                    />
+                  </div>
+
+                  <div class="col-auto">
+                    <label for="inputCategoria" class="col-form-label">Categoria</label>
+                    <input
+                      type="text"
+                      id="inputCategoria"
+                      class="form-control"
+                      aria-describedby="cpfHelp"
+                    />
+                  </div>
+                </div>
+                <button type="submit" class="btn btn-success">Cadastrar</button>
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  Close
+                </button>
+              </form>
+            </div>
+          </div>
+          <div class="modal-footer"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL EDIÇÃO FUNCIONÁRIO -->
+    <div
+      class="modal fade"
+      id="modalEdit"
+      tabindex="-1"
+      aria-labelledby="modalEditLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="col-lg-14">
+              <form id="formInsertFuncionario">
+                <div class="row g-3 align-items-center mb-3">
+                  <div class="col-auto">
+                    <input
+                      type="text"
+                      id="dadosSoftware"
+                      hidden
+                      data-id=""
+                    />
+                    <label for="inputNome" class="col-form-label">Nome</label>
+                    <input
+                      type="text"
+                      id="inputNomeEdit"
+                      class="form-control"
+                      aria-describedby="nameHelp"
+                    />
+                  </div>
+
+                  <div class="col-auto">
+                    <label for="inputCategoriaEdit" class="col-form-label">Categoria</label>
+                    <input
+                      type="text"
+                      id="inputCategoriaEdit"
+                      class="form-control"
+                      aria-describedby="cpfHelp"
+                    />
+                  </div>
+                </div>
+
+                <button id="editar" type="submit" class="btn btn-success">
+                  Editar
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  Cancelar
+                </button>
+              </form>
+            </div>
+          </div>
+          <div class="modal-footer"></div>
+        </div>
+      </div>
+    </div>
 
     <!-- plugins:js -->
     <script src="vendors/js/vendor.bundle.base.js"></script>
@@ -843,346 +867,235 @@
     <script src="js/Chart.roundedBarCharts.js"></script>
     <!-- End custom js for this page-->
 
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <!-- toastify -->
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/toastify-js"
+    ></script>
     <script>
-      var options = {
-        chart: {
-          type: "line",
-          height: 300,
+      const successToast = Toastify({
+        text: "Cadastro realizado com sucesso",
+        duration: 2000,
+        newWindow: true,
+        close: true,
+        gravity: "top", // `top` or `bottom`
+        position: "right", // `left`, `center` or `right`
+        stopOnFocus: true, // Prevents dismissing of toast on hover
+        style: {
+          background: "#008000",
         },
-        colors: ['#546E7A'],
-        series: [
-          {
-            name: "sales",
-            data: [30, 40, 35, 50, 49, 60, 70, 91, 125],
-          },
-        ],
-        xaxis: {
-          categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999],
-        },
-        stroke: {
-          curve: 'smooth'
-        },
-        title: {
-          text: 'Dynamic Updating Chart',
-          align: 'left'
-        },
-      };
+      });
 
-      var options1 = {
-        chart: {
-          type: "line",
-          height: 300,
+      const errorToast = Toastify({
+        text: "Não foi possível realizar o cadastro",
+        duration: 2000,
+        newWindow: true,
+        close: true,
+        gravity: "top", // `top` or `bottom`
+        position: "right", // `left`, `center` or `right`
+        stopOnFocus: true, // Prevents dismissing of toast on hover
+        style: {
+          background: "#FF2F2F",
         },
-        series: [
-          {
-            name: "sales",
-            data: [30, 40, 35, 50, 49, 60, 70, 91, 125],
-          },
-        ],
-        xaxis: {
-          categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999],
-        },
-        stroke: {
-          curve: 'smooth'
-        },
-        title: {
-          text: 'Dynamic Updating Chart',
-          align: 'left'
-        },
-      };
+      });
 
-      var options2 = {
-        chart: {
-          type: "line",
-          height: 300,
+      const infoToast = Toastify({
+        text: "",
+        className: "info",
+        duration: 2000,
+        newWindow: true,
+        close: true,
+        gravity: "top", // `top` or `bottom`
+        position: "right", // `left`, `center` or `right`
+        stopOnFocus: true, // Prevents dismissing of toast on hover
+        style: {
+          background: "#eead2d",
         },
-        series: [
-          {
-            name: "sales",
-            data: [30, 40, 35, 50, 49, 60, 70, 91, 125],
-          },
-        ],
-        xaxis: {
-          categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999],
-        },
-        stroke: {
-          curve: 'smooth'
-        },
-        title: {
-          text: 'Dynamic Updating Chart',
-          align: 'left'
-        },
-      };
+      });
 
-      var options3 = {
-        chart: {
-          type: "line",
-          height: 300,
-        },
-        series: [
-          {
-            name: "sales",
-            data: [30, 40, 35, 50, 49, 60, 70, 91, 125],
-          },
-        ],
-        xaxis: {
-          categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999],
-        },
-        stroke: {
-          curve: 'smooth'
-        },
-        title: {
-          text: 'Dynamic Updating Chart',
-          align: 'left'
-        },
-      };
+      const formInsertSoftware = document.getElementById(
+        "formInsertSoftware"
+      );
+      formInsertSoftware.addEventListener("submit", (e) => {
+        e.preventDefault();
 
-      var chart1 = new ApexCharts(document.querySelector("#chart"), options);
-      chart1.render();
+        var countValidation = 0;
+        var nomeSoftware = inputNome.value;
+        var categoriaSoftware = inputCategoria.value;
 
-      var chart2 = new ApexCharts(document.querySelector("#chart1"), options1);
-      chart2.render();
-
-      var chart3 = new ApexCharts(document.querySelector("#chart2"), options2);
-      chart3.render();
-
-      var chart4 = new ApexCharts(document.querySelector("#chart3"), options3);
-      chart4.render();
-
-
-
-
-      var optionsColMonth = {
-          series: [{
-          name: 'Inflation',
-          data: [5, 20, 11, 29, 6, 28, 9, 2, 13, 10, 17, 27]
-        }],
-          chart: {
-          height: 200,
-          type: 'bar',
-        },
-        plotOptions: {
-          bar: {
-            borderRadius: 10,
-            dataLabels: {
-              position: 'top', // top, center, bottom
-            },
-          }
-        },
-        dataLabels: {
-          enabled: true,
-          offsetY: -20,
-          style: {
-            fontSize: '12px',
-            colors: ["#304758"]
-          }
-        },
-        
-        xaxis: {
-          categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-          position: 'top',
-          axisBorder: {
-            show: false
-          },
-          axisTicks: {
-            show: false
-          },
-          crosshairs: {
-            fill: {
-              type: 'gradient',
-              gradient: {
-                colorFrom: '#D8E3F0',
-                colorTo: '#BED1E6',
-                stops: [0, 100],
-                opacityFrom: 0.4,
-                opacityTo: 0.5,
-              }
-            }
-          },
-          tooltip: {
-            enabled: true,
-          }
-        },
-        yaxis: {
-          axisBorder: {
-            show: false
-          },
-          axisTicks: {
-            show: false,
-          },
-          labels: {
-            show: false,
-            formatter: function (val) {
-              return val + "%";
-            }
-          }
-        
-        },
-        title: {
-          text: 'Monthly Inflation in Argentina, 2002',
-          floating: true,
-          offsetY: 330,
-          align: 'center',
-          style: {
-            color: '#444'
-          }
+        if (
+          nomeSoftware == "" ||
+          nomeSoftware == null ||
+          nomeSoftware == undefined
+        ) {
+          countValidation++;
+          infoToast.options.text = "Nome inserido inválido (vazio)";
+          infoToast.showToast();
         }
+
+        if (
+          categoriaSoftware == "" ||
+          categoriaSoftware == null ||
+          categoriaSoftware == undefined
+        ) {
+          countValidation++;
+          infoToast.options.text = "Categoria inválida (vazio)";
+          infoToast.showToast();
+        }
+
+
+        if (countValidation == 0) {
+          fetch("/software/cadastrar", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              nome: nomeSoftware,
+              categoria: categoriaSoftware
+            }),
+          })
+            .then((response) => {
+              if (response.ok) {
+                successToast.showToast();
+                setTimeout(() => {
+                  window.location.reload();
+                }, 2000);
+              } else {
+                errorToast.showToast();
+                throw "Erro ao realizar o cadastro";
+              }
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        } else {
+          infoToast.options.text = "Arrume todos os campos antes de prosseguir";
+          infoToast.showToast();
+        }
+      });
+
+      window.addEventListener("load", () => {
+        const tabelaSoftware = document.getElementById("tabelaSoftware");
+
+        fetch(`/software/listar`, {
+          cache: "no-store",
+        }).then((response) => {
+          if (response.status == 200) {
+            response.json().then((resposta) => {
+              console.log(resposta);
+
+              tabelaSoftware.innerHTML = "";
+              var textHtml = "";
+              for (var i = 0; i < resposta.length; i++) {
+                textHtml = `
+                  <tr>
+                    <td>
+                      <div>
+                        <h5>${resposta[i].nomeSoftware}</h5>
+                      </div>
+                    </td>
+                    <td>
+                      <h5>${resposta[i].categoriaSoftware}</h5>
+                    </td>
+                    <td>
+                      <div>
+                        <button
+                          type="button"
+                          onclick="editFuncionario(this)"
+                          class="btn btn-info btn-lg text-white mb-0 me-0"
+                          data-bs-toggle="modal"
+                          data-bs-target="#modalEdit"
+                          data-idSoftware="${resposta[i].idSoftware}"
+                        >
+                          <span
+                            class="material-symbols-outlined"
+                          >
+                            draw
+                          </span>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                `;
+
+                tabelaSoftware.innerHTML += textHtml;
+              }
+            });
+          } else {
+            console.log(response);
+            infoToast.options.text = "Nenhum dado encontrado";
+            infoToast.showToast();
+          }
+        });
+      });
+
+
+      // EDIÇÃO
+      function editFuncionario(elemento) {
+        let idSoftware1 = elemento.dataset.idsoftware;
+
+        fetch("/software/listarDadosSoftware", {
+          method: "post",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            id: idSoftware1
+          }),
+        }).then((resposta) => {
+          resposta.json().then((dados) => {
+            inputNomeEdit.value = dados[0].nomeSoftware;
+            inputCategoriaEdit.value = dados[0].categoriaSoftware;
+
+            document.getElementById("dadosSoftware").dataset.id =
+              dados[0].idSoftware;
+          });
+        });
+
+      }
+
+      document.getElementById("editar").addEventListener("click", (e) => {
+        e.preventDefault();
+
+        let dadosEdicao = {
+          nome: inputNomeEdit.value,
+          categoria: inputCategoriaEdit.value,
+          id: document.getElementById("dadosSoftware").dataset.id,
         };
 
-        var chartColMonth = new ApexCharts(document.querySelector("#chartColMonth"), optionsColMonth);
-        chartColMonth.render();
-
-
-
-        var optionsColDay = {
-          series: [{
-          name: 'Inflation',
-          data: [5, 9, 2, 6, 4, 8, 2]
-        }],
-          chart: {
-          height: 200,
-          type: 'bar',
-        },
-        colors: ['#4a00c9'],
-        plotOptions: {
-          bar: {
-            borderRadius: 10,
-            dataLabels: {
-              position: 'top', // top, center, bottom
-            },
+        fetch("/software/editarSoftware", {
+          method: "post",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            nome: inputNomeEdit.value,
+            categoria: inputCategoriaEdit.value,
+            id: document.getElementById("dadosSoftware").dataset.id,
+          }),
+        }).then((resposta) => {
+          if (resposta.ok) {
+            successToast.options.text = "Software editado com sucesso";
+            successToast.showToast();
+            setTimeout(() => {
+              window.location.reload();
+            }, 2000);
           }
-        },
-        dataLabels: {
-          offsetY: -20,
-          style: {
-            fontSize: '12px',
-            colors: ["#304758"]
-          }
-        },
-        
-        xaxis: {
-          categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"],
-          position: 'top',
-          axisBorder: {
-            show: false
-          },
-          axisTicks: {
-            show: false
-          },
-          crosshairs: {
-            fill: {
-              type: 'gradient',
-              gradient: {
-                colorFrom: '#D8E3F0',
-                colorTo: '#BED1E6',
-                stops: [0, 100],
-                opacityFrom: 0.4,
-                opacityTo: 0.5,
-              }
-            }
-          },
-          tooltip: {
-            enabled: true,
-          }
-        },
-        yaxis: {
-          axisBorder: {
-            show: false
-          },
-          axisTicks: {
-            show: false,
-          },
-          labels: {
-            show: false,
-            formatter: function (val) {
-              return val + "%";
-            }
-          }
-        
-        },
-        title: {
-          text: 'Monthly Inflation in Argentina, 2002',
-          floating: true,
-          offsetY: 330,
-          align: 'center',
-          style: {
-            color: '#444'
-          }
-        }
-        };
-
-        var chartColDay = new ApexCharts(document.querySelector("#chartColDay"), optionsColDay);
-        chartColDay.render();
-
-
-
-
-        var optionsMixed = {
-          series: [{
-          name: 'TEAM A',
-          type: 'area',
-          data: [44, 55, 31, 47, 31, 43, 26, 41, 31, 47, 33]
-        }, {
-          name: 'TEAM B',
-          type: 'line',
-          data: [55, 69, 45, 61, 43, 54, 37, 52, 44, 61, 43]
-        }],
-          chart: {
-          height: 350,
-          type: 'line',
-        },
-        stroke: {
-          curve: 'smooth'
-        },
-        fill: {
-          type:'solid',
-          opacity: [0.35, 1],
-        },
-        labels: ['Dec 01', 'Dec 02','Dec 03','Dec 04','Dec 05','Dec 06','Dec 07','Dec 08','Dec 09 ','Dec 10','Dec 11'],
-        markers: {
-          size: 0
-        },
-        yaxis: [
-          {
-            title: {
-              text: 'Series A',
-            },
-          },
-          {
-            opposite: true,
-            title: {
-              text: 'Series B',
-            },
-          },
-        ],
-        tooltip: {
-          shared: true,
-          intersect: false,
-          y: {
-            formatter: function (y) {
-              if(typeof y !== "undefined") {
-                return  y.toFixed(0) + " points";
-              }
-              return y;
-            }
-          }
-        }
-        };
-
-        var chartMixed = new ApexCharts(document.querySelector("#chartMixed"), optionsMixed);
-        chartMixed.render();
+        });
+      });
 
     </script>
   </body>
 </html>
 
 <script>
-  teste = ()=>{
-    let data = new Date()
-    let dataHoje = `${data.getDate()}/${data.getMonth()+1}/${data.getFullYear()}`
-    document.getElementById("dataDeHoje").innerHTML = dataHoje
-  }
-  window.load = teste()
-
+  teste = () => {
+    let data = new Date();
+    let dataHoje = `${data.getDate()}/${
+      data.getMonth() + 1
+    }/${data.getFullYear()}`;
+    document.getElementById("dataDeHoje").innerHTML = dataHoje;
+  };
+  window.load = teste();
 </script>

@@ -1,4 +1,5 @@
 use inkView;
+
 -- Inserir registros na tabela endereco
 INSERT INTO  endereco  ( idEndereco ,  complemento ,  cep ,  descricao ) VALUES
 (null, 'Setor de Atendimento ao Cliente', '54321987', 'Localizada em um bairro comercial movimentado, próxima a restaurantes e lojas locais.'),
@@ -54,13 +55,24 @@ INSERT INTO  processo  VALUES
 (NULL, 'vscode.exe', 1),
 (NULL, 'google.exe', 1);
 
+SELECT * FROM computador;
+SELECT * FROM hasComponente WHERE fkComputador = 2;
+SELECT * from registro;
 -- Inserir registros na tabela registro
 insert into registro values
-(null, 89, current_timestamp(), 1);
--- (null, 70, current_timestamp(), 5);
+(null, 0, current_timestamp(), 1);
+insert into registro values
+(null, 0, current_timestamp(), 5);
 
--- Pegar ultima sessão
--- insert into registro values
--- (null, 12, current_timestamp(), 1),
--- (null, 35, current_timestamp(), 2),
--- (null, 55, current_timestamp(), 3);
+SELECT * FROM funcionario;
+INSERT INTO funcionario VALUES (null, null, 1, 'Larissa Sonoda', 'larissa@callcenterabc.com', '12234996361', '(11) 97759-4567', 'admin123');
+select * FROM computador;
+DELETE from computador WHERE idComputador = 6;
+UPDATE computador SET ativo = 0 WHERE idComputador in (1,2);
+select * from hascomponente where fkComputador = 4;
+UPDATE computador SET ativo = 0 WHERE idComputador = 1;
+
+DELETE FROM computador WHERE idComputador = 4;
+DELETE FROM hascomponente WHERE idHasComponente >= 13;
+
+SELECT * FROM infoComputador WHERE ipComputador = '192.168.56.1';
