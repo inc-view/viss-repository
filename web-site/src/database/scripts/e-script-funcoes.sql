@@ -10,25 +10,24 @@ CREATE INDEX idx_fkUnidadeMedida ON componente (fkUnidadeMedida);
 
 
 -- View que lista tudo
-select count(*) from listProcessData order by processo;
-select * from listProcessData;
-
-drop view listProcessData;
-create view listProcessData as
+create view listDataOneProcess as
 SELECT
-    f.fkEmpresa,
+	f.fkEmpresa,
+	day(r.dataHora) as 'dia',
     r.fkProcesso,
     p.nomeProcesso AS 'processo',
     round(AVG(CASE WHEN c.tipo = 'CPU' THEN r.registro END), 2) AS 'cpu',
     round(AVG(CASE WHEN c.tipo = 'Memoria' AND c.fkUnidadeMedida = 1 THEN r.registro END),2) AS 'ram',
-    TIMEDIFF(MAX(r.dataHora), MIN(r.dataHora)) AS 'horas_uso'
+    TIMEDIFF(MAX(time(r.dataHora)), MIN(time(r.dataHora))) AS 'horas_uso'
 FROM processo p
 	JOIN registroProcesso r ON r.fkProcesso = p.idProcesso
 	JOIN hasComponente hc on hc.idHasComponente = r.fkHasComponente
 	JOIN componente c on c.idComponente = hc.fkComponente
 	JOIN computador pc ON pc.idComputador = p.fkComputador
 	JOIN funcionario f ON f.idFuncionario = pc.fkFuncionario
-		GROUP BY f.fkEmpresa, r.fkProcesso, p.nomeProcesso;
+		where day(r.dataHora) between day(r.dataHora) - 7 and day(now())
+			and month(now())
+			GROUP BY r.fkProcesso, day(r.dataHora), f.fkEmpresa;
   
   
   
