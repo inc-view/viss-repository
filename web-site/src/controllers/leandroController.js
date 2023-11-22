@@ -123,7 +123,7 @@ function dashboardGeralCPU(req, res) {
 
 //Individual Leandro
 
-function dashboardMediaCpuDay() {
+function dashboardMediaCpuDay(req, res) {
     let idMaquina = req.params.idMaquina
     leandroModel.dashboardMediaCpuDay(idMaquina).then(
         function (resultado) {
@@ -137,7 +137,7 @@ function dashboardMediaCpuDay() {
     });
 }
 
-function dashboardMediaCpuMonth() {
+function dashboardMediaCpuMonth(req, res) {
     let idMaquina = req.params.idMaquina
     leandroModel.dashboardMediaCpuMonth(idMaquina).then(
         function (resultado) {
@@ -151,7 +151,7 @@ function dashboardMediaCpuMonth() {
     });
 }
 
-function dashboardMediaMemoryDay() {
+function dashboardMediaMemoryDay(req, res) {
     let idMaquina = req.params.idMaquina
     leandroModel.dashboardMediaMemoryDay(idMaquina).then(
         function (resultado) {
@@ -165,7 +165,7 @@ function dashboardMediaMemoryDay() {
     });
 }
 
-function dashboardMediaMemoryMonth() {
+function dashboardMediaMemoryMonth(req, res) {
     let idMaquina = req.params.idMaquina
     leandroModel.dashboardMediaMemoryMonth(idMaquina).then(
         function (resultado) {
@@ -179,7 +179,7 @@ function dashboardMediaMemoryMonth() {
     });
 }
 
-function getMediaCpuAllDay() {
+function getMediaCpuAllDay(req, res) {
     let idMaquina = req.params.idMaquina
     leandroModel.getMediaCpuAllDay(idMaquina).then(
         function (resultado) {
@@ -193,7 +193,7 @@ function getMediaCpuAllDay() {
     });
 }
 
-function getMediaCpuAllMonth() {
+function getMediaCpuAllMonth(req, res) {
     let idMaquina = req.params.idMaquina
     leandroModel.getMediaCpuAllMonth(idMaquina).then(
         function (resultado) {
@@ -207,7 +207,7 @@ function getMediaCpuAllMonth() {
     });
 }
 
-function getMediaMemoryAllDay() {
+function getMediaMemoryAllDay(req, res) {
     let idMaquina = req.params.idMaquina
     leandroModel.getMediaMemoryAllDay(idMaquina).then(
         function (resultado) {
@@ -221,7 +221,7 @@ function getMediaMemoryAllDay() {
     });
 }
 
-function getMediaMemoryAllMonth() {
+function getMediaMemoryAllMonth(req, res) {
     let idMaquina = req.params.idMaquina
     leandroModel.getMediaMemoryAllMonth(idMaquina).then(
         function (resultado) {
@@ -235,7 +235,7 @@ function getMediaMemoryAllMonth() {
     });
 }
 
-function kpiMediaCpuDay() {
+function kpiMediaCpuDay(req, res) {
     let idMaquina = req.params.idMaquina
     leandroModel.kpiMediaCpuDay(idMaquina).then(
         function (resultado) {
@@ -249,7 +249,7 @@ function kpiMediaCpuDay() {
     });
 }
 
-function kpiMediaCpuAllTime() {
+function kpiMediaCpuAllTime(req, res) {
     let idMaquina = req.params.idMaquina
     leandroModel.kpiMediaCpuAllTime(idMaquina).then(
         function (resultado) {
@@ -263,7 +263,7 @@ function kpiMediaCpuAllTime() {
     });
 }
 
-function kpiMediaMemoryDay() {
+function kpiMediaMemoryDay(req, res) {
     let idMaquina = req.params.idMaquina
     leandroModel.kpiMediaMemoryDay(idMaquina).then(
         function (resultado) {
@@ -277,7 +277,7 @@ function kpiMediaMemoryDay() {
     });
 }
 
-function kpiMediaMemoryAllTime() {
+function kpiMediaMemoryAllTime(req, res) {
     let idMaquina = req.params.idMaquina
     leandroModel.kpiMediaMemoryAllTime(idMaquina).then(
         function (resultado) {

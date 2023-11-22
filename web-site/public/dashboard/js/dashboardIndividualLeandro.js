@@ -1,3 +1,5 @@
+var idMaquina = 0
+
 var mediaCpuAllDay = []
 var mediaCpuAllMonth = []
 var mediaMemoryAllDay = []
@@ -7,7 +9,7 @@ var labelsDashboardMediaCpuDay = []
 var mediaCpuDataDay = []
 
 var varDashboardMediaCpuDay = new Chart(dashboardMediaCpuDay, {
-    type: `bar`,
+    type: `line`,
     data: {
         labels: labelsDashboardMediaCpuDay,
         datasets: [{
@@ -37,7 +39,7 @@ var labelsDashboardMediaCpuMonth = []
 var mediaCpuDataMonth = []
 
 var varDashboardMediaCpuMonth = new Chart(dashboardMediaCpuMonth, {
-    type: `bar`,
+    type: `line`,
     data: {
         labels: labelsDashboardMediaCpuMonth,
         datasets: [{
@@ -67,13 +69,13 @@ var labelsDashboardMediaMemoryDay = []
 var mediaMemoryDataDay = []
 
 var varDashboardMediaMemoryDay = new Chart(dashboardMediaMemoryDay, {
-    type: `bar`,
+    type: `line`,
     data: {
         labels: labelsDashboardMediaMemoryDay,
         datasets: [{
             label: `Uso da Memória (Funcionário)`,
             data: mediaMemoryDataDay,
-            borderColor: 'blue'
+            borderColor: 'red'
         },
         {
             label: `Uso da Memória (Empresa)`,
@@ -97,13 +99,13 @@ var labelsDashboardMediaMemoryMonth = []
 var mediaMemoryDataMonth = []
 
 var varDashboardMediaMemoryMonth = new Chart(dashboardMediaMemoryMonth, {
-    type: `bar`,
+    type: `line`,
     data: {
         labels: labelsDashboardMediaMemoryMonth,
         datasets: [{
             label: `Uso da Memória (Funcionário)`,
             data: mediaMemoryDataMonth,
-            borderColor: 'blue'
+            borderColor: 'red'
         },
         {
             label: `Uso da Memória (Empresa)`,
@@ -338,7 +340,7 @@ function kpiMediaCpuDay() {
 
                 console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
 
-                idKpiMediaCpuDay.innerHTML = resposta[0].cpu
+                idKpiMediaCpuDay.innerHTML = `${Math.round(resposta[0].cpu, 0)}%`
 
             });
         } else {
@@ -356,7 +358,7 @@ function kpiMediaCpuAllTime() {
 
                 console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
 
-                idKpiMediaCpuAllTime.innerHTML = reposta[0].cpu
+                idKpiMediaCpuAllTime.innerHTML = `${Math.round(resposta[0].cpu, 0)}%`
 
             });
         } else {
@@ -368,13 +370,13 @@ function kpiMediaCpuAllTime() {
 }
 
 function kpiMediaMemoryDay() {
-    fetch(`/routeLeandro/kpiMediaMemoryDay/${idMaquina}`, { cache: 'no-store' }).then(function (response) {
+    fetch(`/routeLeandro/kpiMediaMemoryDay`, { cache: 'no-store' }).then(function (response) {
         if (response.ok) {
             response.json().then(function (resposta) {
 
                 console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
 
-                idKpiMediaMemoryDay.innerHTML = reposta[0].memory
+                idKpiMediaMemoryDay.innerHTML = `${Math.round(resposta[0].memory, 0)}%`
 
             });
         } else {
@@ -386,13 +388,13 @@ function kpiMediaMemoryDay() {
 }
 
 function kpiMediaMemoryAllTime() {
-    fetch(`/routeLeandro/kpiMediaMemoryAllTime/${idMaquina}`, { cache: 'no-store' }).then(function (response) {
+    fetch(`/routeLeandro/kpiMediaMemoryAllTime`, { cache: 'no-store' }).then(function (response) {
         if (response.ok) {
             response.json().then(function (resposta) {
 
                 console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
 
-                idKpiMediaMemoryAllTime.innerHTML = reposta[0].memory
+                idKpiMediaMemoryAllTime.innerHTML = `${Math.round(resposta[0].memory, 0)}%`
 
             });
         } else {
@@ -403,17 +405,31 @@ function kpiMediaMemoryAllTime() {
     });
 }
 
-setInterval(updateDashboardMediaCpuDay, 1000)
-setInterval(updateDashboardMediaMemoryDay, 1000)
-setInterval(updateDashboardMediaCpuMonth, 1000)
-setInterval(updateDashboardMediaMemoryMonth, 1000)
+updateDashboardMediaCpuDay()
+updateDashboardMediaMemoryDay()
+updateDashboardMediaCpuMonth()
+updateDashboardMediaMemoryMonth()
 
-setInterval(getMediaCpuAllDay, 1000)
-setInterval(getMediaCpuAllMonth, 1000)
-setInterval(getMediaMemoryAllDay, 1000)
-setInterval(getMediaMemoryAllMonth, 1000)
+getMediaCpuAllDay()
+getMediaCpuAllMonth()
+getMediaMemoryAllDay()
+getMediaMemoryAllMonth()
 
-setInterval(kpiMediaCpuDay, 1000)
-setInterval(kpiMediaCpuAllTime, 1000)
-setInterval(kpiMediaMemoryDay, 1000)
-setInterval(kpiMediaMemoryAllTime, 1000)
+// setInterval(kpiMediaCpuDay, 1000)
+// setInterval(kpiMediaCpuAllTime, 1000)
+// setInterval(kpiMediaMemoryDay, 1000)
+// setInterval(kpiMediaMemoryAllTime, 1000)
+
+kpiMediaCpuDay()
+kpiMediaCpuAllTime()
+kpiMediaMemoryDay()
+kpiMediaMemoryAllTime()
+
+setTimeout(updateDashboards, 1000)
+
+function updateDashboards() {
+    varDashboardMediaCpuDay.update()
+    varDashboardMediaCpuMonth.update()
+    varDashboardMediaMemoryDay.update()
+    varDashboardMediaMemoryMonth.update()
+}

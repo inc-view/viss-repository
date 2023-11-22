@@ -176,7 +176,7 @@ function dashboardMediaCpuDay(idMaquina) {
         instrucaoSql = ``;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucaoSql = `SELECT
-        DATE(dtHora) AS 'data',
+        DATE_FORMAT(dtHora, '%Y-%m-%d') AS 'data',
         AVG(registro) AS 'cpu'
     FROM
         registro
@@ -188,9 +188,9 @@ function dashboardMediaCpuDay(idMaquina) {
             AND idComputador = 1
             AND dtHora >= CURDATE() - INTERVAL 14 DAY
     GROUP BY
-        DATE(dtHora)
+        data
     ORDER BY
-        DATE(dtHora);`;
+        data;`;
     } else {
         console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
         return
@@ -240,7 +240,7 @@ function dashboardMediaMemoryDay(idMaquina) {
         instrucaoSql = ``;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucaoSql = `SELECT
-        DATE(dtHora) AS 'data',
+        DATE_FORMAT(dtHora, '%Y-%m-%d') AS 'data',
         AVG(registro) AS 'memory'
     FROM
         registro
@@ -252,9 +252,9 @@ function dashboardMediaMemoryDay(idMaquina) {
             AND idComputador = 1
             AND dtHora >= CURDATE() - INTERVAL 14 DAY
     GROUP BY
-        DATE(dtHora)
+        data
     ORDER BY
-        DATE(dtHora);`;
+        data;`;
     } else {
         console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
         return
