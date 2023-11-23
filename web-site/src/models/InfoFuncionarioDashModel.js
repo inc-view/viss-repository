@@ -1,6 +1,6 @@
 var database = require("../database/config");
 
-function ListagemCpuON(fkEmpresa){
+function ListagemTotalChamadas(fkEmpresa){
     instrucaoSql = ''
 
     if (process.env.AMBIENTE_PROCESSO == "producao") {
@@ -78,6 +78,7 @@ function ListagemTotalComputadores(fkEmpresa){
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
+
 function fazerLista(fkEmpresa){
     instrucaoSql = ''
 
@@ -290,7 +291,7 @@ module.exports = {
     fazerListaCpuOffline,
     fazerListaCpuOnline,
     ListagemCpuProblema,
-    ListagemCpuON,
+    ListagemTotalChamadas,
     ListagemCpuOff,
     ListagemTotalComputadores,
 }
