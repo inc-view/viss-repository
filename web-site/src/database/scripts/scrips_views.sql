@@ -262,8 +262,8 @@ SELECT
     lf.duracao AS duracao_total
 FROM funcionario f
 JOIN ligacoesFuncionario lf ON f.idFuncionario = lf.fkFuncionario
-WHERE f.fkEmpresa = 1; -- Substitua 1 pelo ID da empresa desejada
-    
+WHERE f.fkEmpresa = 1
+ORDER BY lf.atendidas DESC LIMIT 5; -- Substitua 1 pelo ID da empresa desejada
 DELIMITER //
 
 CREATE PROCEDURE spInsertRegistroProcesso(vNomeProcesso varchar(255), vfkComputador int, dado float)

@@ -46,6 +46,20 @@ CREATE TABLE IF NOT EXISTS  funcionario  (
     REFERENCES  empresa  ( idEmpresa )
 );
 
+CREATE TABLE IF NOT EXISTS ligacoesFuncionario (
+   idligacoesFuncionario INT NOT NULL AUTO_INCREMENT,
+   recebidas int ,
+   atendidas int,
+   porcAtendidas double,
+   abandonadas int,
+   duracao time,
+   fkFuncionario INT NOT NULL,
+   PRIMARY KEY (idLigacoesFuncionario),
+   CONSTRAINT fk_chamada_funcionario1 
+      FOREIGN KEY (fkFuncionario)
+      REFERENCES funcionario (idFuncionario)
+);
+
 CREATE TABLE IF NOT EXISTS  computador  (
    idComputador  INT NOT NULL AUTO_INCREMENT,
    ipComputador  VARCHAR(45),
