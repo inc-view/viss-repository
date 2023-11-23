@@ -64,14 +64,16 @@ INSERT INTO  processo  VALUES
 
 -- Inserindo dados no ligacoesFuncionario
 INSERT INTO ligacoesFuncionario VALUES
-(null, 20, 50, 80, 7, '00:02:00', 1),
-(null, 20, 18, 80, 7, '00:02:00', 2);
-
+(null, 30, 28, 93, 3, '00:3:21', 2),
+(null, 20, 12, 60, 2, '00:05:20', 3),
+(null, 40, 20, 50, 10, '00:02:32', 4),
+(null, 50, 42, 84, 8, '00:02:02', 5),
+(null, 12, 12, 100, 0, '00:03:30', 6);
+select * from funcionario;
 -- Inserir registros na tabela registro
 insert into registro values
 (null, 120, current_timestamp(), 5),
 (null, 100, current_timestamp(), 10);
-select * from registro;
 
 -- Simulando registros de PPM para um funcionário da empresa 1 para cada hora do dia
 INSERT INTO registro (registro, dtHora, fkHasComponente)
@@ -86,3 +88,43 @@ FROM (
     SELECT 15 UNION SELECT 16 UNION SELECT 17 UNION SELECT 18 UNION SELECT 19 UNION 
     SELECT 20 UNION SELECT 21 UNION SELECT 22 UNION SELECT 23
 ) seq;
+
+INSERT INTO registro (registro, dtHora, fkHasComponente)
+SELECT 
+    CASE 
+        WHEN seq.seq = 0 THEN 2 -- Valor para a primeira hora (0 horas)
+        WHEN seq.seq = 1 THEN 2 -- Valor para a segunda hora (1 hora)
+        WHEN seq.seq = 3 THEN 2 -- Valor para a terceira hora (2 horas)
+        WHEN seq.seq = 4 THEN 2 -- Valor para a terceira hora (2 horas)
+        WHEN seq.seq = 5 THEN 10 -- Valor para a terceira hora (2 horas)
+        WHEN seq.seq = 6 THEN 20 -- Valor para a terceira hora (2 horas)
+        WHEN seq.seq = 7 THEN 40 -- Valor para a terceira hora (2 horas)
+        WHEN seq.seq = 8 THEN 40 -- Valor para a terceira hora (2 horas)
+        WHEN seq.seq = 9 THEN 50 -- Valor para a terceira hora (2 horas)
+        WHEN seq.seq = 10 THEN 80 -- Valor para a terceira hora (2 horas)
+        WHEN seq.seq = 11 THEN 90 -- Valor para a terceira hora (2 horas)
+        WHEN seq.seq = 12 THEN 80 -- Valor para a terceira hora (2 horas)
+        WHEN seq.seq = 13 THEN 30 -- Valor para a terceira hora (2 horas)
+        WHEN seq.seq = 14 THEN 28 -- Valor para a terceira hora (2 horas)
+        WHEN seq.seq = 15 THEN 32 -- Valor para a terceira hora (2 horas)
+        WHEN seq.seq = 16 THEN 50 -- Valor para a terceira hora (2 horas)
+        WHEN seq.seq = 17 THEN 60 -- Valor para a terceira hora (2 horas)
+        WHEN seq.seq = 18 THEN 65 -- Valor para a terceira hora (2 horas)
+        WHEN seq.seq = 19 THEN 6 -- Valor para a terceira hora (2 horas)
+        WHEN seq.seq = 20 THEN 60 -- Valor para a terceira hora (2 horas)
+        WHEN seq.seq = 21 THEN 50 -- Valor para a terceira hora (2 horas)
+        WHEN seq.seq = 22 THEN 20 -- Valor para a terceira hora (2 horas)
+        WHEN seq.seq = 23 THEN 20 -- Valor para a terceira hora (2 horas)
+        -- ... adicione para as outras horas até 23
+        ELSE 40 -- Valor padrão para as horas restantes
+    END,
+    DATE_FORMAT(DATE(NOW()) + INTERVAL seq.seq HOUR, '%Y-%m-%d %H:00:00'), -- Horário específico para cada hora
+    5 -- ID de um componente PPM específico
+FROM (
+    SELECT 0 AS seq UNION SELECT 1 UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION 
+    SELECT 5 UNION SELECT 6 UNION SELECT 7 UNION SELECT 8 UNION SELECT 9 UNION 
+    SELECT 10 UNION SELECT 11 UNION SELECT 12 UNION SELECT 13 UNION SELECT 14 UNION 
+    SELECT 15 UNION SELECT 16 UNION SELECT 17 UNION SELECT 18 UNION SELECT 19 UNION 
+    SELECT 20 UNION SELECT 21 UNION SELECT 22 UNION SELECT 23
+) seq;
+
