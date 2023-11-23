@@ -20,10 +20,6 @@ router.get("/dashboardCpu/:idMaquina", function (req, res) {
     leandroController.dashboardCpu(req, res);
 });
 
-router.get("/dashboardAlertasCpu/:idMaquina", function (req, res) {
-    leandroController.dashboardCpuAlertasCpu(req, res);
-});
-
 router.get("/dashboardMemory/:idMaquina", function (req, res) {
     leandroController.dashboardMemory(req, res);
 });

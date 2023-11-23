@@ -1,4 +1,4 @@
-var query = location.search.slice(1);
+/* var query = location.search.slice(1);
 var partes = query.split('&');
 var idMaquina = 0
 
@@ -7,7 +7,7 @@ partes.forEach(function (parte) {
   var chave = chaveValor[0];
   var valor = chaveValor[1];
   idMaquina = valor;
-});
+}); */
 
 var dataDash = new Date();
 
@@ -87,7 +87,7 @@ chartColMonthCpu.render();
 
 function updateDashboardAlertasCpu() {
   data_dash.innerHTML = `${dataDash.getDate()}/${dataDash.getMonth() + 1}/${dataDash.getFullYear()}`
-  fetch(`/routeDashAlertasCpu/dashboardCpuAlertasCpu/${idMaquina}`, { cache: 'no-store' }).then(function (response) {
+  /* fetch(`/routeDashAlertasCpu/dashboardAlertasCpu/${idMaquina}`, { cache: 'no-store' }).then(function (response) {
     if (response.ok) {
       response.json().then(function (resposta) {
         console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
@@ -100,17 +100,12 @@ function updateDashboardAlertasCpu() {
 
         cardCpu.innerHTML = `${resposta[0].cpu}%`
 
-        if (resposta[0].cpu <= 45) {
-          cardCpu.style = `color: green !important`
-        } else if (resposta[0].cpu < 65) {
-          cardCpu.style = `color: darkgreen !important`
-        } else if (resposta[0].cpu < 80) {
-          cardCpu.style = `color: darkyellow !important`
-        } else if (resposta[0].cpu < 90) {
-          cardCpu.style = `color: orange !important`
-        } else {
-          cardCpu.style = `color: red !important`
-        }
+        chartColMonthCpu.updateDashboardAlertasCpu([
+          {
+            name: labelsOcorrenciasCpu,
+            data: dataOcorrenciasCpu,
+          }
+        ]);
 
       });
     } else {
@@ -119,5 +114,57 @@ function updateDashboardAlertasCpu() {
   })
     .catch(function (error) {
       console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
-    });
+    }); */
+
+
+
+  fetch(`/routeDashAlertasCpu/dashboardAlertasCpu/${idMaquina}`, {
+    method: "post",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      maquina: localStorage.getItem("ID_MAQUINA"),
+    }),
+  }).then((response) => {
+    if (response.ok) {
+      response.json().then((data) => {
+
+        if (data.length > 0) {
+
+          data.reverse()
+
+          for (var i = 0; i < 13; i++) {
+
+            if (data[i] != undefined) {
+              labelsOcorrenciasCpu.push(registro.Mes)
+              dataOcorrenciasCpu.push(registro.Ocorrencias)
+            } else {
+              dataSerieOne.push(0);
+              labels.push(labels[i - 1] - 1)
+            }
+
+          }
+
+        }
+
+
+        chartColMonthCpu.updateSeries([
+          {
+            name: 'Quantidades de ocorrências',
+            data: dataOcorrenciasCpu,
+          }
+        ]);
+
+        chartColMonthCpu.updateOptions({
+          xaxis: {
+            categories: labelsOcorrenciasCpu,
+          },
+        });
+
+        /* document.getElementById('horasUsoOne').innerHTML = (data[0].dia == dia) ? data[0].horas_uso : "00:00:00"
+        document.getElementById('cpuUsoOne').innerHTML = (data[0].dia == dia) ? data[0].cpu : "0.0" */
+      });
+    }
+  });
 }

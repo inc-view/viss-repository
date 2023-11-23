@@ -1,8 +1,8 @@
 var dashAlertasCpuModel = require("../models/dashAlertasCpuModel");
 
-function dashboardCpuAlertasCpu(req, res) {
+function dashboardAlertasCpu(req, res) {
     var idMaquina = req.params.idMaquina;
-    dashAlertasCpuModel.dashboardCpuAlertasCpu(idMaquina).then(function (resultado) {
+    dashAlertasCpuModel.dashboardAlertasCpu(idMaquina).then(function (resultado) {
         if (resultado.length > 5) {
             res.status(200).json(resultado);
         } else {
@@ -16,5 +16,5 @@ function dashboardCpuAlertasCpu(req, res) {
 }
 
 module.exports = {
-    dashboardCpuAlertasCpu
+    dashboardAlertasCpu
 }

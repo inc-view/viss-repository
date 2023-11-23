@@ -1,11 +1,29 @@
 var database = require("../database/config");
 
-function dashboardCpuAlertasCpu(idMaquina) {
+function dashboardAlertasCpu(idMaquina) {
 
     instrucaoSql = ''
 
     if (process.env.AMBIENTE_PROCESSO == "producao") {
-        instrucaoSql = ``;
+        instrucaoSql = `SELECT 
+        MONTH(dtHora) AS 'Mes',
+        COUNT(registro) AS 'Ocorrencias' 
+    FROM 
+        registro 
+    JOIN 
+        hasComponente ON fkHasComponente = idHasComponente 
+    JOIN 
+        componente ON fkComponente = idComponente 
+    JOIN 
+        computador ON fkComputador = ${idMaquina} 
+    WHERE 
+        componente.tipo = 'CPU' 
+        AND registro > 90 
+        AND YEAR(dtHora) = 2023
+    GROUP BY 
+        MONTH(dtHora)
+    ORDER BY
+        MONTH(dtHORA);`;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucaoSql = `SELECT 
         MONTH(dtHora) AS 'Mes',
@@ -36,6 +54,6 @@ function dashboardCpuAlertasCpu(idMaquina) {
 }
 
 
-module.exports = { 
-  dashboardCpuAlertasCpu
+module.exports = {
+    dashboardAlertasCpu
 };
