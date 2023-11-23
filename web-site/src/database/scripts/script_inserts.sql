@@ -69,10 +69,12 @@ INSERT INTO ligacoesFuncionario VALUES
 (null, 40, 20, 50, 10, '00:02:32', 4),
 (null, 50, 42, 84, 8, '00:02:02', 5),
 (null, 12, 12, 100, 0, '00:03:30', 6);
-
+select * from hasComponente
+join computador on idComputador = fkComputador
+where fkFuncionario = 5;
 -- Inserir registros na tabela registro
 insert into registro values
-(null, 120, current_timestamp(), 5),
+(null, 120, current_timestamp(), 20),
 (null, 100, current_timestamp(), 10);
 
 -- Simulando registros de PPM para um funcionário da empresa 1 para cada hora do dia
