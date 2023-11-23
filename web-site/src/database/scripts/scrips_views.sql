@@ -1,4 +1,5 @@
 use inkView;
+
 -- CRIAÇÃO DA VIEW DOS REGISTROS EM TABELA
 CREATE VIEW tabelaRegistros AS
     SELECT 
@@ -21,6 +22,7 @@ CREATE VIEW tabelaRegistros AS
     ORDER BY registro.dtHora
     LIMIT 1000;
 
+
 -- VIEW DE INFORMAÇÕES DO COMPUTADOR
 CREATE VIEW infoComputador AS
 SELECT 
@@ -29,7 +31,7 @@ SELECT
     c.ativo AS `Status`,
     c.marca AS `MarcaComputador`,
     c.sistemaOperacional AS `SistemaOperacional`,
-    computador.idComputador AS `IdComputador`,
+    c.idComputador AS `IdComputador`,
     (
         SELECT MAX(r.dtHora)
         FROM registro r
@@ -56,27 +58,10 @@ SELECT
 FROM computador c
 JOIN funcionario f ON c.fkFuncionario = f.idFuncionario;
         
--- CRIÇÃO DA TRIGGER DE HASCOMPONENTES DOS COMPUTADORES
-DELIMITER //
-CREATE TRIGGER insere_hasComputadores
-AFTER INSERT ON computador
-FOR EACH ROW
-BEGIN
-    INSERT INTO hasComponente (fkComponente, fkComputador) VALUES 
-     (1, NEW.idComputador),
-     (2, NEW.idComputador),
-     (3, NEW.idComputador),
-     (4, NEW.idComputador),
-     (5, NEW.idComputador);
-END;
-
-//
-
-DELIMITER ;
-
 
 CREATE VIEW vwIdComponenteComputador AS
 select 
+    idComputador,
 	ipComputador,
 	cpu1.idHasComponente as 'cpu',
 	ram1.idHasComponente as 'ram',
@@ -94,32 +79,6 @@ from computador pc
                 and c1.tipo = 'Memoria' 
                 and u.tipoMedida = '%';
 
-
-/*
--- VISUALIZAÇÃO DOS REGISTROS DE FORMA DINÂMICA
-SET @sql = NULL; -- Criando uma variável para armazenar o comando
-SELECT 
-    GROUP_CONCAT(DISTINCT CONCAT('max(case when Componente = \'',
-                Componente,
-                '\' then Registro end) ',
-                Componente))
-INTO @sql FROM
-    tabelaRegistros; -- Aqui vem o nome da sua view!
-
-select @sql;
-
-SET @sql = CONCAT('SELECT idComputador, MomentoRegistro, ', @sql, '
-                 
-FROM tabelaRegistros
-                   
-GROUP BY idComputador, MomentoRegistro'); -- Lembra de trocar as informações (idServidor, MomentoRegistro, tabelaRegistros) pelos nomes que você usou na view
-
-select @sql;
-
-PREPARE stmt FROM @sql; -- Prepara um statement para executar o comando guardado na variável @sql
-
-EXECUTE stmt; -- Executa o statement
-*/
 
 -- Select para PPM IDEAL E PPM ATUAL
 -- PPM ATUAL
@@ -143,6 +102,7 @@ JOIN (
     GROUP BY fkHasComponente
 ) t2 ON t1.fkHasComponente = t2.fkHasComponente AND t1.dtHora = t2.maior_data) AS maxdatacomp;
 
+
 -- PPM Ideal
 SELECT round(AVG(r.registro), 0) AS media_ppm
 FROM registro r
@@ -157,8 +117,9 @@ WHERE c.tipo = 'PPM' AND idEmpresa = 1 AND lf.atendidas = (
     FROM ligacoesFuncionario
   );
 
- -- qtd atendimentos no dia
- SELECT SUM(lf.atendidas) AS total_ligacoes_dia
+
+-- qtd atendimentos no dia
+SELECT SUM(lf.atendidas) AS total_ligacoes_dia
 FROM ligacoesFuncionario lf
 JOIN funcionario f ON lf.fkFuncionario = f.idFuncionario
 JOIN empresa e ON f.fkEmpresa = e.idEmpresa
@@ -169,6 +130,7 @@ SELECT (SELECT COUNT(*) FROM funcionario WHERE fkEmpresa = 1) * MAX(lf.atendidas
 FROM ligacoesFuncionario lf
 JOIN funcionario f ON lf.fkFuncionario = f.idFuncionario
 WHERE f.fkEmpresa = 1;
+
 
 -- INFORMAÇÕES LISTA DE FUNCIONARIOS
 SELECT 
@@ -192,6 +154,7 @@ FROM (
 WHERE rn <= 5
 GROUP BY ID, NOME;
 
+
 -- INFORMAÇÕES FUNCIONARIO PARA MATRIZ
 SELECT 
     lf.idligacoesFuncionario,
@@ -202,6 +165,7 @@ SELECT
     TIME_TO_SEC(lf.duracao) AS duracao_em_segundos
 FROM ligacoesFuncionario lf
 WHERE lf.fkFuncionario = 1;
+
 
 -- QUERY PARA O GRÁFICO DE PRODUTIVIDADE
 SELECT 
@@ -233,6 +197,7 @@ LEFT JOIN (
 GROUP BY horas.hora_do_dia
 ORDER BY horas.hora_do_dia;
 
+
 -- QUERY PARA PRODUTIVIDADE EM TEMPO REAL
 SELECT 
     AVG(r.registro) AS media_registro_PPM
@@ -252,6 +217,7 @@ JOIN empresa ON funcionario.fkEmpresa = empresa.idEmpresa
     LIMIT 500 -- Limita para os últimos 500 registros dos últimos 5 minutos
 ) r;
 
+
 -- QUERY PARA LISTA DE INFORMACOES DO FUNCIONARIO
 SELECT 
     f.nome AS nome_funcionario,
@@ -264,63 +230,16 @@ FROM funcionario f
 JOIN ligacoesFuncionario lf ON f.idFuncionario = lf.fkFuncionario
 WHERE f.fkEmpresa = 1
 ORDER BY lf.atendidas DESC LIMIT 5; -- Substitua 1 pelo ID da empresa desejada
-DELIMITER //
-
-CREATE PROCEDURE spInsertRegistroProcesso(vNomeProcesso varchar(255), vfkComputador int, dado float)
-BEGIN
-    -- Declare variáveis para armazenar os resultados do SELECT
-    DECLARE id INT;
-
-    -- Selecione os dados desejados
-    SELECT idProcesso INTO id
-    FROM processo
-    WHERE nomeProcesso LIKE CONCAT('%', vNomeProcesso, '%') and fkComputador = vfkComputador;
-
-    -- Faça a inserção com base nos resultados do SELECT
-    INSERT INTO registroProcesso (registro, fkProcesso, fkHasComponente, dataHora)
-    VALUES (dado, id, 1, now());
-
-END //
-
-DELIMITER ;
 
 
--- Apos inserir em softawre
-DELIMITER //
-CREATE TRIGGER insere_softwarePermitidos
-AFTER INSERT ON software
-FOR EACH ROW
-BEGIN
-    INSERT INTO softwarePermitido (bloquado, fkSoftware, fkComputador) VALUES 
-     (false, NEW.idSoftware, 1),
-     (false, NEW.idSoftware, 2),
-     (false, NEW.idSoftware, 3),
-     (false, NEW.idSoftware, 4);
-END;
-
-//
-
-DELIMITER ;
-
-
-
-CREATE INDEX idx_idComputador ON computador (idComputador);
-CREATE INDEX idx_fkComputador ON processo (fkComputador);
-CREATE INDEX idx_fkFuncionario ON computador (fkFuncionario);
-CREATE INDEX idx_fkProcesso ON registroProcesso (fkProcesso);     
-CREATE INDEX idx_fkHasComponente ON registroProcesso (fkHasCompoennte);
-CREATE INDEX idx_fkComponente ON hasComponente (fkComponente);         
-CREATE INDEX idx_fkUnidadeMedida ON componente (fkUnidadeMedida);  
-
-
--- View que lista tudo
+-- View que lista tudo dos processos
 create view listProcessData as
 SELECT
     f.fkEmpresa,
     r.fkProcesso,
     p.nomeProcesso AS 'processo',
-    AVG(CASE WHEN c.tipo = 'CPU' THEN r.registro END) AS 'cpu',
-    AVG(CASE WHEN c.tipo = 'Memoria' AND c.fkUnidadeMedida = 1 THEN r.registro END) AS 'ram',
+    round(AVG(CASE WHEN c.tipo = 'CPU' THEN r.registro END), 2) AS 'cpu',
+    round(AVG(CASE WHEN c.tipo = 'Memoria' AND c.fkUnidadeMedida = 1 THEN r.registro END), 2) AS 'ram',
     TIMEDIFF(MAX(r.dataHora), MIN(r.dataHora)) AS 'horas_uso'
 FROM processo p
 	JOIN registroProcesso r ON r.fkProcesso = p.idProcesso
@@ -331,9 +250,7 @@ FROM processo p
 		GROUP BY f.fkEmpresa, r.fkProcesso, p.nomeProcesso;
 
 
-  
--- View que lista por dia
-drop view listDataOneProcess;
+-- View que lista  os processos por dia
 create view listDataOneProcess as
 SELECT
 	day(r.dataHora) as 'dia',
@@ -351,3 +268,48 @@ FROM processo p
 		where day(r.dataHora) between day(r.dataHora) - 7 and day(now())
 			and month(now())
 			GROUP BY r.fkProcesso, day(r.dataHora);
+
+
+-- view para o primeiro gráfico
+CREATE VIEW vwGrafProcIlicitoPorDia AS
+	SELECT count(dataHora), dataHora 
+    FROM processoIlicito 
+    GROUP BY dataHora;
+    
+
+-- KPI dos processos que mais tentaram acessar (de todo o tempo)
+CREATE VIEW vwKPIMaisAcessados AS
+SELECT count(p.dataHora) AS contagem, s.nomeSoftware 
+FROM processoIlicito AS p 
+	JOIN softwarePermitido AS sp ON sp.idSoftwarePermitido = p.fkSoftware 
+    JOIN software AS s ON s.idSoftware = sp.fkSoftware 
+        GROUP BY s.nomeSoftware ORDER BY contagem DESC LIMIT 3;
+    
+
+
+
+/*
+-- VISUALIZAÇÃO DOS REGISTROS DE FORMA DINÂMICA
+SET @sql = NULL; -- Criando uma variável para armazenar o comando
+SELECT 
+    GROUP_CONCAT(DISTINCT CONCAT('max(case when Componente = \'',
+                Componente,
+                '\' then Registro end) ',
+                Componente))
+INTO @sql FROM
+    tabelaRegistros; -- Aqui vem o nome da sua view!
+
+select @sql;
+
+SET @sql = CONCAT('SELECT idComputador, MomentoRegistro, ', @sql, '
+                 
+FROM tabelaRegistros
+                   
+GROUP BY idComputador, MomentoRegistro'); -- Lembra de trocar as informações (idServidor, MomentoRegistro, tabelaRegistros) pelos nomes que você usou na view
+
+select @sql;
+
+PREPARE stmt FROM @sql; -- Prepara um statement para executar o comando guardado na variável @sql
+
+EXECUTE stmt; -- Executa o statement
+*/
