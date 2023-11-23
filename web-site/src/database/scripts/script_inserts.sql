@@ -1,4 +1,5 @@
 use inkView;
+
 -- Inserir registros na tabela endereco
 INSERT INTO  endereco  ( idEndereco ,  complemento ,  cep ,  descricao ) VALUES
 (null, 'Setor de Atendimento ao Cliente', '54321987', 'Localizada em um bairro comercial movimentado, próxima a restaurantes e lojas locais.'),
@@ -60,7 +61,6 @@ INSERT INTO  processo  VALUES
 (NULL, 'intellij.exe', 1),
 (NULL, 'vscode.exe', 1),
 (NULL, 'google.exe', 1);
-
 
 -- Inserindo dados no ligacoesFuncionario
 INSERT INTO ligacoesFuncionario VALUES
