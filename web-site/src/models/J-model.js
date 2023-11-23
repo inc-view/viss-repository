@@ -303,6 +303,7 @@ JOIN ligacoesFuncionario lf ON f.idFuncionario = lf.fkFuncionario
 WHERE f.fkEmpresa = ${fkEmpresa}
 ORDER BY lf.atendidas DESC LIMIT 5;`;
 
+
   if (process.env.AMBIENTE_PROCESSO == "producao") {
     instrucaoSql = `SELECT 
     f.nome AS nome_funcionario,
@@ -315,6 +316,7 @@ FROM funcionario f
 JOIN ligacoesFuncionario lf ON f.idFuncionario = lf.fkFuncionario
 WHERE f.fkEmpresa = ${fkEmpresa}
 ORDER BY lf.atendidas DESC LIMIT 5;`;
+
   } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
     instrucaoSql = `SELECT 
     f.nome AS nome_funcionario,
@@ -327,6 +329,7 @@ FROM funcionario f
 JOIN ligacoesFuncionario lf ON f.idFuncionario = lf.fkFuncionario
 WHERE f.fkEmpresa = ${fkEmpresa}
 ORDER BY lf.atendidas DESC LIMIT 5;`;
+
   } else {
     console.log(
       "\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n"
