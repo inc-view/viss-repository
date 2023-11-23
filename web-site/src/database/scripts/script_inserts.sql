@@ -16,9 +16,12 @@ INSERT INTO  empresa  ( idEmpresa ,  razaoSocial ,  cnpj ,  email ,  fkEndereco 
 
 -- Inserir registros na tabela funcionario
 INSERT INTO  funcionario  ( idFuncionario ,  fkGestor ,  fkEmpresa ,  nome ,  email ,  cpf ,  telefone ,  senha ) VALUES
-(null, NULL, 1, 'João Silva', 'joao@callcenterabc.com', '12345678901', '(11) 1234-5678', 'senha123'),
-(null, NULL, 1, 'Maria Santos', 'maria@callcenterabc.com', '98765432109', '(11) 5678-1234', 'senha456'),
-(null, NULL, 2, 'Pedro Almeida', 'pedro@callcenterxyz.com', '56789012345', '(22) 3456-7890', 'senha789');
+(null, NULL, 1, 'Fernando Brandão', 'fernando@callcenterabc.com', '12345678901', '(11) 1234-5678', 'senha123'),
+(null, 1, 1, 'Maria Santos', 'Maria@callcenterabc.com', '98765432109', '(11) 5678-1234', 'senha456'),
+(null, 1, 1, 'Pedro Almeida', 'Pedro@callcenterxyz.com', '56789012345', '(22) 3456-7890', 'senha789'),
+(null, 1, 1, 'Lucas Carlos', 'Lucas@callcenterxyz.com', '56789012345', '(22) 3456-7890', 'senh2345'),
+(null, 1, 1, 'Patricia De Santos', 'Patricia@callcenterxyz.com', '56789012345', '(22) 3456-7890', 'senha12349'),
+(null, 1, 1, 'Ingrid Bartolon', 'Ingrid@callcenterxyz.com', '56789012345', '(22) 3456-7890', 'senha72356');
 
 -- Inserir registros na tabela unidadeMedida
 INSERT INTO  unidadeMedida  ( idUnidadeMedida ,  tipoMedida ) VALUES 
@@ -26,20 +29,24 @@ INSERT INTO  unidadeMedida  ( idUnidadeMedida ,  tipoMedida ) VALUES
 (null, 'GHz'),
 (null, 'GB'),
 (null, 'MB'),
-(null, 'KB/s');
+(null, 'KB/s'),
+(null, 'Inteiro');
 
 -- Inserir registros na tabela componentes
 INSERT INTO  componente  ( idComponente ,  tipo ,  fkUnidadeMedida ) VALUES 
 (null, 'CPU', 1),
 (null, 'Memoria', 1), 
 (null, 'Memoria', 3), 
-(null, 'Disco', 1);
+(null, 'Disco', 1),
+(null, 'PPM', 6);
 
 -- Inserir registros na tabela computadores
 INSERT INTO computador (ipComputador, nomePatrimonio, marca, fkFuncionario, sistemaOperacional, ativo) VALUES
-('034985', 'CPO01', 'Dell', 1, 'Windows 10', true),
-('094385', 'CPO02', 'HP', 2, 'Ubuntu 20.04 LTS', true),
-('123450', 'CPO03', 'Lenovo', 3, 'Windows 11', true);
+('034985', 'CPO01', 'Dell', 2, 'Windows 10', true),
+('094385', 'CPO02', 'HP', 3, 'Ubuntu 20.04 LTS', true),
+('123450', 'CPO03', 'Lenovo', 4, 'Windows 11', true),
+('123450', 'CPO03', 'Lenovo', 5, 'Windows 11', true),
+('123450', 'CPO03', 'Lenovo', 6, 'Windows 11', true);
 
 -- Inserir componentes dos computadores na tabela hasComponente
 -- INSERT INTO hasComponente values
@@ -55,24 +62,68 @@ INSERT INTO  processo  VALUES
 (NULL, 'vscode.exe', 1),
 (NULL, 'google.exe', 1);
 
-SELECT * FROM computador;
-SELECT * FROM hasComponente WHERE fkComputador = 2;
-SELECT * from registro;
+-- Inserindo dados no ligacoesFuncionario
+INSERT INTO ligacoesFuncionario VALUES
+(null, 30, 28, 93, 3, '00:3:21', 2),
+(null, 20, 12, 60, 2, '00:05:20', 3),
+(null, 40, 20, 50, 10, '00:02:32', 4),
+(null, 50, 42, 84, 8, '00:02:02', 5),
+(null, 12, 12, 100, 0, '00:03:30', 6);
+
 -- Inserir registros na tabela registro
 insert into registro values
-(null, 0, current_timestamp(), 1);
-insert into registro values
-(null, 0, current_timestamp(), 5);
+(null, 120, current_timestamp(), 5),
+(null, 100, current_timestamp(), 10);
 
-SELECT * FROM funcionario;
-INSERT INTO funcionario VALUES (null, null, 1, 'Larissa Sonoda', 'larissa@callcenterabc.com', '12234996361', '(11) 97759-4567', 'admin123');
-select * FROM computador;
-DELETE from computador WHERE idComputador = 6;
-UPDATE computador SET ativo = 0 WHERE idComputador in (1,2);
-select * from hascomponente where fkComputador = 4;
-UPDATE computador SET ativo = 0 WHERE idComputador = 1;
+-- Simulando registros de PPM para um funcionário da empresa 1 para cada hora do dia
+INSERT INTO registro (registro, dtHora, fkHasComponente)
+SELECT 
+    ROUND(RAND() * 100), -- Valor aleatório de PPM (de 0 a 100)
+    DATE_FORMAT(NOW() - INTERVAL HOUR(NOW()) HOUR + INTERVAL seq.seq HOUR, '%Y-%m-%d %H:00:00'), -- Horário específico para cada hora
+    5 -- ID de um componente PPM específico
+FROM (
+    SELECT 0 AS seq UNION SELECT 1 UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION 
+    SELECT 5 UNION SELECT 6 UNION SELECT 7 UNION SELECT 8 UNION SELECT 9 UNION 
+    SELECT 10 UNION SELECT 11 UNION SELECT 12 UNION SELECT 13 UNION SELECT 14 UNION 
+    SELECT 15 UNION SELECT 16 UNION SELECT 17 UNION SELECT 18 UNION SELECT 19 UNION 
+    SELECT 20 UNION SELECT 21 UNION SELECT 22 UNION SELECT 23
+) seq;
 
-DELETE FROM computador WHERE idComputador = 4;
-DELETE FROM hascomponente WHERE idHasComponente >= 13;
-
-SELECT * FROM infoComputador WHERE ipComputador = '192.168.56.1';
+INSERT INTO registro (registro, dtHora, fkHasComponente)
+SELECT 
+    CASE 
+        WHEN seq.seq = 0 THEN 2 -- Valor para a primeira hora (0 horas)
+        WHEN seq.seq = 1 THEN 2 -- Valor para a segunda hora (1 hora)
+        WHEN seq.seq = 3 THEN 2 -- Valor para a terceira hora (2 horas)
+        WHEN seq.seq = 4 THEN 2 -- Valor para a terceira hora (2 horas)
+        WHEN seq.seq = 5 THEN 10 -- Valor para a terceira hora (2 horas)
+        WHEN seq.seq = 6 THEN 20 -- Valor para a terceira hora (2 horas)
+        WHEN seq.seq = 7 THEN 40 -- Valor para a terceira hora (2 horas)
+        WHEN seq.seq = 8 THEN 40 -- Valor para a terceira hora (2 horas)
+        WHEN seq.seq = 9 THEN 50 -- Valor para a terceira hora (2 horas)
+        WHEN seq.seq = 10 THEN 80 -- Valor para a terceira hora (2 horas)
+        WHEN seq.seq = 11 THEN 90 -- Valor para a terceira hora (2 horas)
+        WHEN seq.seq = 12 THEN 80 -- Valor para a terceira hora (2 horas)
+        WHEN seq.seq = 13 THEN 30 -- Valor para a terceira hora (2 horas)
+        WHEN seq.seq = 14 THEN 28 -- Valor para a terceira hora (2 horas)
+        WHEN seq.seq = 15 THEN 32 -- Valor para a terceira hora (2 horas)
+        WHEN seq.seq = 16 THEN 50 -- Valor para a terceira hora (2 horas)
+        WHEN seq.seq = 17 THEN 60 -- Valor para a terceira hora (2 horas)
+        WHEN seq.seq = 18 THEN 65 -- Valor para a terceira hora (2 horas)
+        WHEN seq.seq = 19 THEN 6 -- Valor para a terceira hora (2 horas)
+        WHEN seq.seq = 20 THEN 60 -- Valor para a terceira hora (2 horas)
+        WHEN seq.seq = 21 THEN 50 -- Valor para a terceira hora (2 horas)
+        WHEN seq.seq = 22 THEN 20 -- Valor para a terceira hora (2 horas)
+        WHEN seq.seq = 23 THEN 20 -- Valor para a terceira hora (2 horas)
+        -- ... adicione para as outras horas até 23
+        ELSE 40 -- Valor padrão para as horas restantes
+    END,
+    DATE_FORMAT(DATE(NOW()) + INTERVAL seq.seq HOUR, '%Y-%m-%d %H:00:00'), -- Horário específico para cada hora
+    5 -- ID de um componente PPM específico
+FROM (
+    SELECT 0 AS seq UNION SELECT 1 UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION 
+    SELECT 5 UNION SELECT 6 UNION SELECT 7 UNION SELECT 8 UNION SELECT 9 UNION 
+    SELECT 10 UNION SELECT 11 UNION SELECT 12 UNION SELECT 13 UNION SELECT 14 UNION 
+    SELECT 15 UNION SELECT 16 UNION SELECT 17 UNION SELECT 18 UNION SELECT 19 UNION 
+    SELECT 20 UNION SELECT 21 UNION SELECT 22 UNION SELECT 23
+) seq;

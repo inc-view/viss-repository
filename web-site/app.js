@@ -1,6 +1,6 @@
 process.env.AMBIENTE_PROCESSO = "desenvolvimento";
 // process.env.AMBIENTE_PROCESSO = "producao";
-
+//
 var express = require("express");
 var cors = require("cors");
 var path = require("path");
@@ -10,14 +10,21 @@ var app = express();
 
 var indexRouter = require("./src/routes/index");
 var usuarioRouter = require("./src/routes/usuarios");
+// var avisosRouter = require("./src/routes/avisos");
+// var medidasRouter = require("./src/routes/medidas");
+// var empresasRouter = require("./src/routes/empresas");
 var empresasRouter = require("./src/routes/empresas");
 var fileRouter = require("./src/routes/files");
 var funcionarioRouter = require("./src/routes/funcionario")
 var softwareRouter = require("./src/routes/software")
+var eProcessoRouter = require("./src/routes/e-processos")
 
 // Meus Route's
 var dashListagemRouter = require("./src/routes/routeDashListagem")
 var leandroRouter = require("./src/routes/routeLeandro")
+
+// João Route´s
+var Jroutes = require("./src/routes/J-routes")
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -27,14 +34,21 @@ app.use(cors());
 
 app.use("/", indexRouter);
 app.use("/usuarios", usuarioRouter);
+// app.use("/avisos", avisosRouter);
+// app.use("/medidas", medidasRouter);
+// app.use("/empresas", empresasRouter);
 app.use("/empresas", empresasRouter);
 app.use("/files", fileRouter);
 app.use("/funcionario", funcionarioRouter);
 app.use("/software", softwareRouter);
+app.use("/processo", eProcessoRouter);
 
 // Meus Route's
 app.use("/routeDashListagem",dashListagemRouter )
 app.use("/routeLeandro", leandroRouter)
+
+// João Route's
+app.use("/J-routes", Jroutes )
 
 app.listen(PORTA, function () {
     console.log(`Servidor do seu site já está rodando! Acesse o caminho a seguir para visualizar: http://localhost:${PORTA} \n
