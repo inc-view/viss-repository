@@ -42,7 +42,7 @@ function ListagemCpuProblema(fkEmpresa){
     if (process.env.AMBIENTE_PROCESSO == "producao") {
         instrucaoSql = ``;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
-        instrucaoSql = ` SELECT  COUNT(distinct idComputador) as totalCpuProblema
+        instrucaoSql = `SELECT  COUNT(distinct idComputador) as totalCpuProblema
         FROM registro
         JOIN hasComponente ON fkHasComponente = idHasComponente
         JOIN computador ON fkComputador = idComputador
@@ -50,7 +50,7 @@ function ListagemCpuProblema(fkEmpresa){
         JOIN funcionario ON fkFuncionario = idFuncionario
         WHERE componente.tipo = 'cpu'
         AND registro.registro > 90
-        AND registro.dtHora >= now() - interval 1 minute
+        AND registro.dtHora >= now() - interval 10 minute
         AND funcionario.fkEmpresa = ${fkEmpresa};`;
     } else {
         console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");

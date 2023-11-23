@@ -30,6 +30,27 @@
     <link rel="stylesheet" href="css/vertical-layout-light/style.css" />
     <!-- endinject -->
     <link rel="shortcut icon" href="images/favicon-32x32.png  " />
+
+    <style>
+       .custom-scrollable::-webkit-scrollbar {
+      width: 12px;
+    }
+
+    .custom-scrollable::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+
+    .custom-scrollable::-webkit-scrollbar-thumb {
+      background-color: #888;
+      border-radius: 6px;
+      border: 3px solid #f1f1f1;
+    }
+
+    .custom-scrollable::-webkit-scrollbar-button {
+      display: none; /* Ocultando as setas de rolagem horizontal */
+    }
+
+    </style>
   </head>
 
   <body>
@@ -613,8 +634,7 @@
                                       <p
                                         class="card-subtitle card-subtitle-dash"
                                       >
-                                        Listagem padrão: mais usados (somatória
-                                        hora)
+                                        Utilize o dropdown para mudar a listagem
                                       </p>
                                     </div>
 
@@ -623,19 +643,20 @@
                                         <select
                                           class="form-select"
                                           aria-label="Default select example"
-                                          id="selectOne"
+                                          id="selectListProcess"
                                         >
-                                          <option selected>
-                                            Open this select menu
+                                          <option disabled>
+                                            Ordenar por...
                                           </option>
-                                          <option value="1">One</option>
-                                          <option value="2">Two</option>
-                                          <option value="3">Three</option>
+                                          <option value="processo">Nome</option>
+                                          <option value="horas_uso">Horas Totais</option>
+                                          <option value="cpu">CPU</option>
+                                          <option value="ram">RAM</option>
                                         </select>
                                       </div>
                                     </div>
                                   </div>
-                                  <div class="table-responsive mt-1">
+                                  <div class="table-responsive mt-1 overflow-y-auto custom-scrollable" style="height: 35vh;">
                                     <table class="table select-table">
                                       <thead>
                                         <tr>
@@ -646,7 +667,7 @@
                                         </tr>
                                       </thead>
 
-                                      <tbody>
+                                      <tbody id="listProcessMain">
                                         <tr>
                                           <td>
                                             <div class="d-flex">
@@ -730,7 +751,7 @@
                                           </div>
                                         </div>
                                         <div class="mt-3">
-                                          <h3>122</h3>
+                                          <h3 id="totalProcessDiv">0</h3>
                                         </div>
                                       </div>
                                     </div>
@@ -742,117 +763,32 @@
                                 <div class="col-12 grid-margin stretch-card">
                                   <div class="card card-rounded">
                                     <div class="card-body card-rounded">
+
                                       <div
                                         class="d-sm-flex flex-row justify-content-between align-items-center"
                                       >
-                                        <h4 class="card-title card-title-dash">
-                                           Mais usados
+                                        <h4 class="card-title card-title-dash" id="titleTopThree">
+                                          
                                         </h4>
                                         <div class="dropdown col-5">
                                           <select
                                             class="form-select"
                                             aria-label="Default select example"
-                                            id="selectTwo"
+                                            id="selectTopThree"
                                           >
-                                            <option selected>
-                                              Open this select menu
+                                            <option disabled>
+                                              Ordenar por...
                                             </option>
-                                            <option value="1">One</option>
-                                            <option value="2">Two</option>
-                                            <option value="3">Three</option>
+                                            <option value="horas_uso">Mais usado</option>
+                                            <option value="cpu">Consumo CPU</option>
                                           </select>
                                         </div>
                                       </div>
 
-                                      <div
-                                        class="list align-items-center border-bottom py-2"
-                                      >
-                                        <div
-                                          class="d-flex justify-content-between align-items-center"
-                                        >
-                                          <div
-                                            class="d-flex align-items-center"
-                                          >
-                                            <p
-                                              class="mb-0 text-medium text-black"
-                                            >
-                                              Mar 14, 2019
-                                            </p>
-                                          </div>
-                                          <div
-                                            class="d-flex align-items-center"
-                                          >
-                                            <i
-                                              class="mdi mdi-timer text-black me-1"
-                                            ></i>
-                                            <p
-                                              class="mb-0 text-small text-black"
-                                            >
-                                              Mar 14, 2019
-                                            </p>
-                                          </div>
-                                        </div>
+                                      <div id="appendTopThree">
+                                      
                                       </div>
 
-                                      <div
-                                        class="list align-items-center border-bottom py-2"
-                                      >
-                                        <div
-                                          class="d-flex justify-content-between align-items-center"
-                                        >
-                                          <div
-                                            class="d-flex align-items-center"
-                                          >
-                                            <p
-                                              class="mb-0 text-medium text-black"
-                                            >
-                                              Mar 14, 2019
-                                            </p>
-                                          </div>
-                                          <div
-                                            class="d-flex align-items-center"
-                                          >
-                                            <i
-                                              class="mdi mdi-timer text-black me-1"
-                                            ></i>
-                                            <p
-                                              class="mb-0 text-small text-black"
-                                            >
-                                              Mar 14, 2019
-                                            </p>
-                                          </div>
-                                        </div>
-                                      </div>
-
-                                      <div
-                                        class="list align-items-center border-bottom py-2"
-                                      >
-                                        <div
-                                          class="d-flex justify-content-between align-items-center"
-                                        >
-                                          <div
-                                            class="d-flex align-items-center"
-                                          >
-                                            <p
-                                              class="mb-0 text-medium text-black"
-                                            >
-                                              Mar 14, 2019
-                                            </p>
-                                          </div>
-                                          <div
-                                            class="d-flex align-items-center"
-                                          >
-                                            <i
-                                              class="mdi mdi-timer text-black me-1"
-                                            ></i>
-                                            <p
-                                              class="mb-0 text-small text-black"
-                                            >
-                                              Mar 14, 2019
-                                            </p>
-                                          </div>
-                                        </div>
-                                      </div>
                                     </div>
                                   </div>
                                 </div>
@@ -872,13 +808,12 @@
                                   >
                                     <div class="col-7">
                                       <h4 class="text-black">
-                                        Horas de uso do processo
+                                        Média de CPU - Comparação
                                       </h4>
                                       <p
                                         class="card-subtitle card-subtitle-dash"
                                       >
-                                        Quantidade de processos abertos durante
-                                        os meses
+                                        Comparação de CPU entre dois programas/processos
                                       </p>
                                     </div>
 
@@ -894,8 +829,8 @@
                                             aria-label="Default select example"
                                             id="selectOne"
                                           >
-                                            <option selected>
-                                              Open this select menu
+                                            <option disabled>
+                                              Selecione um...
                                             </option>
                                             <option value="1">One</option>
                                             <option value="2">Two</option>
@@ -911,8 +846,8 @@
                                             aria-label="Default select example"
                                             id="selectTwo"
                                           >
-                                            <option selected>
-                                              Open this select menu
+                                            <option disabled>
+                                              Selecione um...
                                             </option>
                                             <option value="1">One</option>
                                             <option value="2">Two</option>
@@ -964,57 +899,13 @@
 
                                         <div class="card card-round text-white col-5 text-center" style="background-color: #008ffb;">
                                           <div class="card-body">
-                                            <h4>teste</h4>
+                                            <h4 id="horasUsoOne"></h4>
                                           </div>
                                         </div>
 
                                         <div class="card text-white col-5 text-center" style="background-color: #00e396;">
                                           <div class="card-body">
-                                            <h4>teste</h4>
-                                          </div>
-                                        </div>
-
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-
-                            <div class="col-12">
-                              <div class="col-12 grid-margin stretch-card">
-                                <div class="card card-rounded">
-                                  <div class="card-body">
-                                    <div class="row">
-                                      <div class="col-lg-12">
-                                        <div
-                                          class="d-flex justify-content-between align-items-center mb-1"
-                                        >
-                                          <div>
-                                            <h4
-                                              class="card-title card-title-dash"
-                                            >
-                                              Funcionários utilizando no total
-                                            </h4>
-                                          </div>
-                                        </div>
-                                      </div>
-
-                                      <div class="col-12">
-                                        <div
-                                          class="d-flex align-items-center justify-content-around"
-                                        >
-
-                                        <div class="card card-round text-white col-5 text-center" style="background-color: #008ffb;">
-                                          <div class="card-body">
-                                            <h4>teste</h4>
-                                          </div>
-                                        </div>
-
-                                        <div class="card text-white col-5 text-center" style="background-color: #00e396;">
-                                          <div class="card-body">
-                                            <h4>teste</h4>
+                                            <h4 id="horasUsoTwo"></h4>
                                           </div>
                                         </div>
 
@@ -1052,13 +943,13 @@
 
                                         <div class="card card-round text-white col-5 text-center" style="background-color: #008ffb;">
                                           <div class="card-body">
-                                            <h4>teste</h4>
+                                            <h4 id="cpuUsoOne"></h4>
                                           </div>
                                         </div>
 
                                         <div class="card text-white col-5 text-center" style="background-color: #00e396;">
                                           <div class="card-body">
-                                            <h4>teste</h4>
+                                            <h4 id="cpuUsoTwo"></h4>
                                           </div>
                                         </div>
 
