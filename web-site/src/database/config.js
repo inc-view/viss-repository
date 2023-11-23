@@ -20,9 +20,10 @@ var sqlServerConfig = {
 // CONEXÃO DO MYSQL WORKBENCH
 var mySqlConfig = {
     host: "localhost",
-    database: "inkview",
-    user: "root",
-    password: "1234567",
+    database: "inkView",
+    user: "user_brandao",
+    password: "urubu100",
+    auth_plugin: "mysql_native_password"
 };
 
 function executar(instrucao) {
