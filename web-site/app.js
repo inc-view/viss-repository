@@ -18,7 +18,7 @@ var softwareRouter = require("./src/routes/software")
 // Meus Route's
 var dashListagemRouter = require("./src/routes/routeDashListagem")
 var leandroRouter = require("./src/routes/routeLeandro")
-
+var infoFuncionarioDashRouter = require("./src/routes/InfoFuncionarioDash")
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
@@ -36,7 +36,7 @@ app.use("/software", softwareRouter);
 // Meus Route's
 app.use("/routeDashListagem",dashListagemRouter )
 app.use("/routeLeandro", leandroRouter)
-
+app.use("/infoFuncionarioDash",infoFuncionarioDashRouter )
 app.listen(PORTA, function () {
     console.log(`Servidor do seu site já está rodando! Acesse o caminho a seguir para visualizar: http://localhost:${PORTA} \n
     Você está rodando sua aplicação em Ambiente de ${process.env.AMBIENTE_PROCESSO} \n
