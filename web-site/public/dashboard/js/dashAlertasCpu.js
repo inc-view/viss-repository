@@ -86,7 +86,7 @@ var chartColMonthCpu = new ApexCharts(document.querySelector("#chartColMonthCpu"
 chartColMonthCpu.render();
 
 function updateDashboardAlertasCpu() {
-  data_dash.innerHTML = `${dataDash.getDate()}/${dataDash.getMonth() + 1}/${dataDash.getFullYear()}`
+  data_dash.innerHTML = `${dataDash.getDate()}/${dataDash.getMonth() + 1}/${dataDash.getFullYear()}`;
   /* fetch(`/routeDashAlertasCpu/dashboardAlertasCpu/${idMaquina}`, { cache: 'no-store' }).then(function (response) {
     if (response.ok) {
       response.json().then(function (resposta) {
@@ -138,25 +138,29 @@ function updateDashboardAlertasCpu() {
 
             if (data[i] != undefined) {
               labelsOcorrenciasCpu.push(registro.Mes)
+              console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
               dataOcorrenciasCpu.push(registro.Ocorrencias)
+              console.log("PASSOU AQUI")
+
             } else {
-              dataSerieOne.push(0);
               labels.push(labels[i - 1] - 1)
             }
 
           }
+          console.log("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB")
+
 
         }
 
 
-        chartColMonthCpu.updateSeries([
+        chartColMonthCpu.update([
           {
             name: 'Quantidades de ocorrências',
             data: dataOcorrenciasCpu,
           }
         ]);
 
-        chartColMonthCpu.updateOptions({
+        chartColMonthCpu.update({
           xaxis: {
             categories: labelsOcorrenciasCpu,
           },
@@ -165,6 +169,9 @@ function updateDashboardAlertasCpu() {
         /* document.getElementById('horasUsoOne').innerHTML = (data[0].dia == dia) ? data[0].horas_uso : "00:00:00"
         document.getElementById('cpuUsoOne').innerHTML = (data[0].dia == dia) ? data[0].cpu : "0.0" */
       });
+
+      console.log("CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC")
+
     }
   });
 }
