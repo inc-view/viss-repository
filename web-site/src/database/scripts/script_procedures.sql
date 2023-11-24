@@ -1,3 +1,14 @@
+-- Indices para deixar mais leve os Selects
+CREATE INDEX idx_idComputador ON computador (idComputador);
+CREATE INDEX idx_fkComputador ON processo (fkComputador);
+CREATE INDEX idx_fkFuncionario ON computador (fkFuncionario);
+CREATE INDEX idx_fkProcesso ON registroProcesso (fkProcesso);     
+CREATE INDEX idx_fkHasComponente ON registroProcesso (fkHasComponente);
+CREATE INDEX idx_fkComponente ON hasComponente (fkComponente);         
+CREATE INDEX idx_fkUnidadeMedida ON componente (fkUnidadeMedida);  
+
+
+-- Cadastro dos processos
 DELIMITER $$
 	CREATE PROCEDURE spInsertProcesso(vNomeProcesso varchar(350), vfkComputador int)
     BEGIN
@@ -7,8 +18,8 @@ DELIMITER $$
     END;
 $$
 
-SELECT * FROM processo WHERE nomeProcesso LIKE 'S%';
 
+-- Cadastro dos processos ilícitos encontrados através do Java >>> NOVO!!!
 DELIMITER $$
 	CREATE PROCEDURE spInsertRegistroIlicito(vNomeProcesso varchar(150), vfkPc int)
     BEGIN
@@ -18,27 +29,15 @@ DELIMITER $$
 	END;
 $$
 
-DROP PROCEDURE spInsertRegistroIlicito('Whatsapp', 4);
 
-DELIMITER $$
-	CREATE PROCEDURE spInsertProcessoIlicito(vNomeProcesso varchar(50), vfkComputador int)
-    BEGIN
-    IF NOT EXISTS (SELECT procI.fkProcesso FROM processoIlicito AS procI 
-    JOIN processo AS p ON procI.fkProcesso = p.idProcesso WHERE p.nomeProcesso = vNomeProcesso AND p.fkComputador=vfkComputador) THEN
-		INSERT INTO processoIlicito (fkProcesso) VALUES ((SELECT idProcesso FROM Processo WHERE nomeProcesso = vNomeProcesso));
-    END IF;
-    END;
-$$
-
+-- Cadastro dos registros (CPU e RAM) dos processos
 DELIMITER //
 CREATE PROCEDURE spInsertRegistroProcesso(vNomeProcesso varchar(255), vfkComputador int, dadoCPU float, dadoRAM float)
 BEGIN
-    -- Declare variáveis para armazenar os resultados do SELECT
     DECLARE id INT;
     DECLARE idCpu INT;
     DECLARE idRam INT;
 
-    -- Selecione os dados desejados
     SELECT idProcesso INTO id
     FROM processo
     WHERE nomeProcesso LIKE CONCAT('%', vNomeProcesso, '%') and fkComputador = vfkComputador;
@@ -48,18 +47,16 @@ BEGIN
     WHERE idComputador = vfkComputador;
 
 
-    -- Faça a inserção com base nos resultados do SELECT
     INSERT INTO registroProcesso (registro, fkProcesso, fkHasComponente, dataHora)
     VALUES (round(dadoCPU, 2), id, idCpu, now());
     
     INSERT INTO registroProcesso (registro, fkProcesso, fkHasComponente, dataHora)
     VALUES (round(dadoRAM, 2), id, idRam, now());
-
 END //
-
 DELIMITER ;
 
--- Apos inserir em softawre
+
+-- TRIGGER: Relacionando os softwares bloqueados com os funcionários.
 DELIMITER //
 CREATE TRIGGER insere_softwarePermitidos
 AFTER INSERT ON software
@@ -71,9 +68,36 @@ BEGIN
      (false, NEW.idSoftware, 3),
      (false, NEW.idSoftware, 4);
 END;
-
 //
-
 DELIMITER ;
 
 
+-- TRIGGER: Registras os componentes para um novo computador identificado
+DELIMITER //
+CREATE TRIGGER insere_hasComputadores
+AFTER INSERT ON computador
+FOR EACH ROW
+BEGIN
+    INSERT INTO hasComponente (fkComponente, fkComputador) VALUES 
+     (1, NEW.idComputador),
+     (2, NEW.idComputador),
+     (3, NEW.idComputador),
+     (4, NEW.idComputador),
+     (5, NEW.idComputador);
+END;
+//
+DELIMITER ;
+
+
+
+
+-- Cadastro dos processos ilícitos encontrados através do Java >>> ANTIGO!!!!!
+-- DELIMITER $$
+-- 	CREATE PROCEDURE spInsertProcessoIlicito(vNomeProcesso varchar(50), vfkComputador int)
+--     BEGIN
+--     IF NOT EXISTS (SELECT procI.fkProcesso FROM processoIlicito AS procI 
+--     JOIN processo AS p ON procI.fkProcesso = p.idProcesso WHERE p.nomeProcesso = vNomeProcesso AND p.fkComputador=vfkComputador) THEN
+-- 		INSERT INTO processoIlicito (fkProcesso) VALUES ((SELECT idProcesso FROM Processo WHERE nomeProcesso = vNomeProcesso));
+--     END IF;
+--     END;
+-- $$
