@@ -73,7 +73,8 @@ JOIN funcionario f ON c.fkFuncionario = f.idFuncionario;
 
 -- VIEW DE COMPONENTES ESPECÍFICOS DO COMPUTADOR
 CREATE VIEW vwIdComponenteComputador AS
-SELECT 
+SELECT
+    pc.idComputador,
     pc.ipComputador,
     cpu1.idHasComponente AS 'cpu',
     ram1.idHasComponente AS 'ram',
