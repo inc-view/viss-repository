@@ -6,8 +6,8 @@ function dashboardAlertasCpu(idMaquina) {
 
     if (process.env.AMBIENTE_PROCESSO == "producao") {
         instrucaoSql = `SELECT 
-        MONTH(dtHora) AS 'Mes',
-        COUNT(registro) AS 'Ocorrencias' 
+        MONTH(dtHora) AS 'mes',
+        COUNT(registro) AS 'o' 
     FROM 
         registro 
     JOIN 
@@ -26,8 +26,8 @@ function dashboardAlertasCpu(idMaquina) {
         MONTH(dtHORA);`;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucaoSql = `SELECT 
-        MONTH(dtHora) AS 'Mes',
-        COUNT(registro) AS 'Ocorrencias' 
+        MONTH(dtHora) AS 'mes',
+        COUNT(registro) AS 'ocorrencia' 
     FROM 
         registro 
     JOIN 
@@ -35,7 +35,7 @@ function dashboardAlertasCpu(idMaquina) {
     JOIN 
         componente ON fkComponente = idComponente 
     JOIN 
-        computador ON fkComputador = ${idMaquina} 
+        computador ON fkComputador = idComputador 
     WHERE 
         componente.tipo = 'CPU' 
         AND registro > 90 
@@ -43,7 +43,29 @@ function dashboardAlertasCpu(idMaquina) {
     GROUP BY 
         MONTH(dtHora)
     ORDER BY
-        MONTH(dtHORA);`;
+        MONTH(dtHora);`;
+
+
+        /* SELECT 
+        MONTH(dtHora) AS 'mes',
+        COUNT(registro) AS 'ocorrencia' 
+    FROM 
+        registro 
+    JOIN 
+        hasComponente ON fkHasComponente = idHasComponente 
+    JOIN 
+        componente ON fkComponente = idComponente 
+    JOIN 
+        computador ON fkComputador = idComputador 
+    WHERE 
+        componente.tipo = 'CPU' 
+        AND registro > 90 
+        AND YEAR(dtHora) = 2023 -- Substitua 2023 pelo ano desejado
+        and idComputador = ${IdMaquina}
+    GROUP BY 
+        MONTH(dtHora)
+    ORDER BY
+        MONTH(dtHora); */
     } else {
         console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
         return

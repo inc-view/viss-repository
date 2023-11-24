@@ -9,16 +9,22 @@ partes.forEach(function (parte) {
   idMaquina = valor;
 }); */
 
+let meses = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"]
+
+
 var dataDash = new Date();
 
 var dataOcorrenciasCpu = []
 var labelsOcorrenciasCpu = []
+var labels = []
 
 var optionsColMonthCpu = {
-  series: [{
-    name: 'Quantidades de ocorrências',
-    data: dataOcorrenciasCpu
-  }],
+  series: [
+    {
+      name: labelsOcorrenciasCpu,
+      data: dataOcorrenciasCpu,
+    }
+  ],
   chart: {
     height: 200,
     type: 'bar',
@@ -39,47 +45,9 @@ var optionsColMonthCpu = {
       colors: ["#304758"]
     }
   },
-
   xaxis: {
-    categories: labelsOcorrenciasCpu,
-    position: 'top',
-    axisBorder: {
-      show: false
-    },
-    axisTicks: {
-      show: false
-    },
-    crosshairs: {
-      fill: {
-        type: 'gradient',
-        gradient: {
-          colorFrom: '#D8E3F0',
-          colorTo: '#BED1E6',
-          stops: [0, 100],
-          opacityFrom: 0.4,
-          opacityTo: 0.5,
-        }
-      }
-    },
-    tooltip: {
-      enabled: true,
-    }
+    categories: labels
   },
-  yaxis: {
-    axisBorder: {
-      show: false
-    },
-    axisTicks: {
-      show: false,
-    },
-    labels: {
-      show: false,
-      formatter: function (val) {
-        return val + "%";
-      }
-    }
-
-  }
 };
 
 var chartColMonthCpu = new ApexCharts(document.querySelector("#chartColMonthCpu"), optionsColMonthCpu);
@@ -88,28 +56,48 @@ chartColMonthCpu.render();
 function updateDashboardAlertasCpu() {
 /*   data_dash.innerHTML = `${dataDash.getDate()}/${dataDash.getMonth() + 1}/${dataDash.getFullYear()}`; */
   
-  fetch(`/routeDashAlertasCpu/dashboardAlertasCpu/${idMaquina}`).then(
+  fetch(`/routeDashAlertasCpu/dashboardAlertasCpu/${1}`).then(
     (response) => {
     if (response.ok) {
       response.json().then((data) => {
 
         console.log(data)
 
-        dataOcorrenciasCpu = data
+        for(var i = 0; i < data.length; i++){
+          labels.push(meses[data[i].mes-1])
+          dataOcorrenciasCpu.push(data[i].ocorrencia)
+        }
 
-        chartColMonthCpu.update([
+        chartColMonthCpu.updateSeries([
           {
-            name: 'Quantidades de ocorrências',
+            name: "Ocorrências",
             data: dataOcorrenciasCpu,
           }
         ]);
-      });
 
-      console.log("CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC")
+        chartColMonthCpu.updateOptions({
+          xaxis: {
+              categories: labels,
+          },
+        });
+
+      });
 
     }
   });
+
 }
+
+let selectListAlertas = document.getElementById("selectListAlertas")
+selectListAlertas.addEventListener("change", ()=>{
+  if(selectListAlertas.value > 0){
+    console.log("oi")
+  }else{
+    updateDashboardAlertasCpu()
+  }
+})
+
+
 
 window.onload = ()=>{
   updateDashboardAlertasCpu()
