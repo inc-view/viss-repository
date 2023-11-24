@@ -14,6 +14,7 @@ var empresasRouter = require("./src/routes/empresas");
 var fileRouter = require("./src/routes/files");
 var funcionarioRouter = require("./src/routes/funcionario")
 var softwareRouter = require("./src/routes/software")
+var procIliRouter = require("./src/routes/LA-procIli");
 
 // Meus Route's
 var dashListagemRouter = require("./src/routes/routeDashListagem")
@@ -31,6 +32,7 @@ app.use("/empresas", empresasRouter);
 app.use("/files", fileRouter);
 app.use("/funcionario", funcionarioRouter);
 app.use("/software", softwareRouter);
+app.use("/procIlic", procIliRouter);
 
 
 // Meus Route's
