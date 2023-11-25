@@ -292,15 +292,17 @@ ORDER BY horas.hora_do_dia;`;
 function fazerListaInfoFuncionario(valor) {
   var fkEmpresa = valor;
   instrucaoSql = `SELECT 
-    f.nome AS nome_funcionario,
-    lf.recebidas AS chamadas_recebidas,
-    lf.atendidas AS chamadas_atendidas,
-    lf.porcAtendidas AS porcentagem_atendidas,
-    lf.abandonadas AS chamadas_abandonadas,
-    lf.duracao AS duracao_total
+  f.nome AS nome_funcionario,
+  lf.recebidas AS chamadas_recebidas,
+  lf.atendidas AS chamadas_atendidas,
+  lf.porcAtendidas AS porcentagem_atendidas,
+  lf.abandonadas AS chamadas_abandonadas,
+  lf.duracao AS duracao_total
 FROM funcionario f
 JOIN ligacoesFuncionario lf ON f.idFuncionario = lf.fkFuncionario
-WHERE f.fkEmpresa = ${fkEmpresa};`;
+WHERE f.fkEmpresa = ${fkEmpresa}
+ORDER BY lf.atendidas DESC LIMIT 5;`;
+
 
   if (process.env.AMBIENTE_PROCESSO == "producao") {
     instrucaoSql = `SELECT 
@@ -312,7 +314,9 @@ WHERE f.fkEmpresa = ${fkEmpresa};`;
     lf.duracao AS duracao_total
 FROM funcionario f
 JOIN ligacoesFuncionario lf ON f.idFuncionario = lf.fkFuncionario
-WHERE f.fkEmpresa = ${fkEmpresa};`;
+WHERE f.fkEmpresa = ${fkEmpresa}
+ORDER BY lf.atendidas DESC LIMIT 5;`;
+
   } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
     instrucaoSql = `SELECT 
     f.nome AS nome_funcionario,
@@ -323,7 +327,9 @@ WHERE f.fkEmpresa = ${fkEmpresa};`;
     lf.duracao AS duracao_total
 FROM funcionario f
 JOIN ligacoesFuncionario lf ON f.idFuncionario = lf.fkFuncionario
-WHERE f.fkEmpresa = ${fkEmpresa};`;
+WHERE f.fkEmpresa = ${fkEmpresa}
+ORDER BY lf.atendidas DESC LIMIT 5;`;
+
   } else {
     console.log(
       "\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n"
