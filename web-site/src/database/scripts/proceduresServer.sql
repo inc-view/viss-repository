@@ -1,4 +1,4 @@
--- Índices para otimizar as consultas
+-- Ãndices para otimizar as consultas
 CREATE INDEX idx_idComputador ON computador (idComputador);
 CREATE INDEX idx_fkComputador ON processo (fkComputador);
 CREATE INDEX idx_fkFuncionario ON computador (fkFuncionario);
@@ -19,7 +19,7 @@ BEGIN
     END
 END;
 
--- Cadastro dos processos ilícitos encontrados através do Java >>> NOVO!!!
+-- Cadastro dos processos ilÃ­citos encontrados atravÃ©s do Java >>> NOVO!!!
 CREATE PROCEDURE spInsertRegistroIlicito
     @vNomeProcesso varchar(150),
     @vfkPc int
@@ -58,4 +58,17 @@ BEGIN
     INSERT INTO registroProcesso (registro, fkProcesso, fkHasComponente, dataHora)
     VALUES (ROUND(@dadoRAM, 2), @id, @idRam, GETDATE());
 END;
-
+CREATE PROCEDURE spInsertComputador
+    @nomePatrimonio varchar(255),
+    @marca varchar(255),
+    @fkFuncionario int,
+    @sistemaOperacional varchar(255),
+    @ipComputador varchar(15)
+AS
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM computador WHERE nomePatrimonio = @nomePatrimonio)
+    BEGIN
+        INSERT INTO computador (nomePatrimonio, marca, fkFuncionario, sistemaOperacional, ipComputador)
+        VALUES (@nomePatrimonio, @marca, @fkFuncionario, @sistemaOperacional, @ipComputador);
+    END
+END;
