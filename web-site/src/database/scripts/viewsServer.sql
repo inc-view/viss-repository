@@ -122,7 +122,7 @@ AS
 BEGIN
     SET NOCOUNT ON;
 
-    INSERT INTO softwarePermitido (bloquado, fkSoftware, fkComputador)
+    INSERT INTO softwarePermitido (bloqueado, fkSoftware, fkComputador)
     VALUES 
         (0, (SELECT idSoftware FROM inserted), 1),
         (0, (SELECT idSoftware FROM inserted), 2),
