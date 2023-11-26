@@ -23,6 +23,7 @@
   <link rel="stylesheet" href="css/styleLeandro.css">
   <!-- endinject -->
   <link rel="shortcut icon" href="images/favicon-32x32.png  " />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.debug.js" integrity="sha384-THVO/sM0mFD9h7dfSndI6TS0PgAGavwKvB5hAxRRvc0o9cPLohB0wb/PTA7LdUHs" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -480,7 +481,7 @@
                   </div>
 
                   <div class="row">
-                          <h2 class="text-black rate-percentage" id="idKpiMediaCpuAllTime">2</h2>
+                          <h2 class="text-black rate-percentage" id="idKpiMediaCpuAllTime">None</h2>
                   </div>
 
                 </div>
@@ -497,7 +498,7 @@
                   </div>
 
                   <div class="row">
-                          <h2 class="text-black rate-percentage" id="idKpiMediaMemoryAllTime">2</h2>
+                          <h2 class="text-black rate-percentage" id="idKpiMediaMemoryAllTime">None</h2>
                   </div>
 
                 </div>
@@ -511,12 +512,30 @@
                 <option value=2>Mês</option>
               </select>
             </div>
+            <div class="margin-bottom-gap" id="idFilterDay" style="flex-direction: column !important;">
+              <div style="margin-bottom: 0.5%;">
+                <button class="btn-primary text-white mb-0 me-0 align-items-center" type="button" style="border-radius: 6px;" onclick="downloadPdfDay()"><i class="icon-download"></i>    Gerar PDF</button>
+              </div>
+              <div>
+                <input type="number" placeholder="Filtro de Tempo (Dias)" class="input inputLeandro" id="iptDay">
+                <button class="buttonLeandro" onclick="updateDashboardMediaCpuDay(iptDay.value), updateDashboardMediaMemoryDay(iptDay.value), getMediaCpuAllDay(iptDay.value), getMediaMemoryAllDay(iptDay.value), updateDashboards(), changeTextDashDay(iptDay.value)">Atualizar</button>
+              </div>
+            </div>
+            <div class="margin-bottom-gap" style="display: none; flex-direction: column !important;" id="idFilterMonth">
+              <div style="margin-bottom: 0.5%;">
+                <button class="btn-primary text-white mb-0 me-0 align-items-center" type="button" style="border-radius: 6px;" onclick="downloadPdfMonth()"><i class="icon-download" onclick="downloadPdfMonth()"></i>    Gerar PDF</button>
+              </div>
+              <div>
+                <input type="number" placeholder="Filtro de Tempo (Meses)" class="input inputLeandro" id="iptMonth">
+                <button class="buttonLeandro" onclick="updateDashboardMediaCpuMonth(iptMonth.value), updateDashboardMediaMemoryMonth(iptMonth.value), getMediaMemoryAllMonth(iptMonth.value), getMediaMemoryAllMonth(iptMonth.value), updateDashboards(iptMonth.value), changeTextDashMonth(iptMonth.value)">Atualizar</button>
+              </div>
+            </div>
           </div>
           <div class="row flex-grow" id="rowDashDay">
             <div class="col-lg-6 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title">Média de Uso da CPU (Últimos 14 Dias)</h4>
+                  <h4 class="card-title" id="textDashDayCpu">Média de Uso da CPU (Últimos 14 Dias)</h4>
                   <canvas id="dashboardMediaCpuDay"></canvas>
                 </div>
               </div>
@@ -524,7 +543,7 @@
             <div class="col-lg-6 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title">Média de Uso da Memória (Últimos 14 Dias)</h4>
+                  <h4 class="card-title" id="textDashDayMemory">Média de Uso da Memória (Últimos 14 Dias)</h4>
                   <canvas id="dashboardMediaMemoryDay"></canvas>
                 </div>
               </div>
@@ -534,7 +553,7 @@
             <div class="col-lg-6 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title">Média de Uso da CPU (Últimos 12 Meses)</h4>
+                  <h4 class="card-title" id="textDashMonthCpu">Média de Uso da CPU (Últimos 12 Meses)</h4>
                   <canvas id="dashboardMediaCpuMonth"></canvas>
                 </div>
               </div>
@@ -542,7 +561,7 @@
             <div class="col-lg-6 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title">Média de Uso da Memória (Últimos 12 Meses)</h4>
+                  <h4 class="card-title" id="textDashMonthMemory">Média de Uso da Memória (Últimos 12 Meses)</h4>
                   <canvas id="dashboardMediaMemoryMonth"></canvas>
                 </div>
               </div>
