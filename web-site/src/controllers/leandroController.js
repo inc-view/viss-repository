@@ -125,7 +125,8 @@ function dashboardGeralCPU(req, res) {
 
 function dashboardMediaCpuDay(req, res) {
     let idMaquina = req.params.idMaquina
-    leandroModel.dashboardMediaCpuDay(idMaquina).then(
+    let days = req.params.days
+    leandroModel.dashboardMediaCpuDay(idMaquina, days).then(
         function (resultado) {
             if (resultado.length > 0) {
                 res.status(200).json(resultado)
@@ -139,7 +140,8 @@ function dashboardMediaCpuDay(req, res) {
 
 function dashboardMediaCpuMonth(req, res) {
     let idMaquina = req.params.idMaquina
-    leandroModel.dashboardMediaCpuMonth(idMaquina).then(
+    let months = req.params.months
+    leandroModel.dashboardMediaCpuMonth(idMaquina, months).then(
         function (resultado) {
             if (resultado.length > 0) {
                 res.status(200).json(resultado)
@@ -153,7 +155,8 @@ function dashboardMediaCpuMonth(req, res) {
 
 function dashboardMediaMemoryDay(req, res) {
     let idMaquina = req.params.idMaquina
-    leandroModel.dashboardMediaMemoryDay(idMaquina).then(
+    let days = req.params.days
+    leandroModel.dashboardMediaMemoryDay(idMaquina, days).then(
         function (resultado) {
             if (resultado.length > 0) {
                 res.status(200).json(resultado)
@@ -167,7 +170,8 @@ function dashboardMediaMemoryDay(req, res) {
 
 function dashboardMediaMemoryMonth(req, res) {
     let idMaquina = req.params.idMaquina
-    leandroModel.dashboardMediaMemoryMonth(idMaquina).then(
+    let months = req.params.months
+    leandroModel.dashboardMediaMemoryMonth(idMaquina, months).then(
         function (resultado) {
             if (resultado.length > 0) {
                 res.status(200).json(resultado)
@@ -181,7 +185,8 @@ function dashboardMediaMemoryMonth(req, res) {
 
 function getMediaCpuAllDay(req, res) {
     let idMaquina = req.params.idMaquina
-    leandroModel.getMediaCpuAllDay(idMaquina).then(
+    let days = req.params.days
+    leandroModel.getMediaCpuAllDay(idMaquina, days).then(
         function (resultado) {
             if (resultado.length > 0) {
                 res.status(200).json(resultado)
@@ -195,7 +200,8 @@ function getMediaCpuAllDay(req, res) {
 
 function getMediaCpuAllMonth(req, res) {
     let idMaquina = req.params.idMaquina
-    leandroModel.getMediaCpuAllMonth(idMaquina).then(
+    let months = req.params.months
+    leandroModel.getMediaCpuAllMonth(idMaquina, months).then(
         function (resultado) {
             if (resultado.length > 0) {
                 res.status(200).json(resultado)
@@ -209,7 +215,8 @@ function getMediaCpuAllMonth(req, res) {
 
 function getMediaMemoryAllDay(req, res) {
     let idMaquina = req.params.idMaquina
-    leandroModel.getMediaMemoryAllDay(idMaquina).then(
+    let days = req.params.days
+    leandroModel.getMediaMemoryAllDay(idMaquina, days).then(
         function (resultado) {
             if (resultado.length > 0) {
                 res.status(200).json(resultado)
@@ -223,7 +230,8 @@ function getMediaMemoryAllDay(req, res) {
 
 function getMediaMemoryAllMonth(req, res) {
     let idMaquina = req.params.idMaquina
-    leandroModel.getMediaMemoryAllMonth(idMaquina).then(
+    let months = req.params.months
+    leandroModel.getMediaMemoryAllMonth(idMaquina, months).then(
         function (resultado) {
             if (resultado.length > 0) {
                 res.status(200).json(resultado)

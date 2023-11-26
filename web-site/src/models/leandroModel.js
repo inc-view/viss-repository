@@ -168,15 +168,29 @@ function infoMaquina(idMaquina) {
 
 //Individual Leandro
 
-function dashboardMediaCpuDay(idMaquina) {
+function dashboardMediaCpuDay(idMaquina, days) {
 
     instrucaoSql = ''
 
     if (process.env.AMBIENTE_PROCESSO == "producao") {
-        instrucaoSql = ``;
+        instrucaoSql = `SELECT
+        CONVERT(VARCHAR, dtHora, 23) AS [data],
+        AVG(registro) AS cpu
+    FROM
+        registro
+        INNER JOIN hasComponente ON fkHasComponente = idHasComponente
+        INNER JOIN computador ON fkComputador = idComputador
+    WHERE
+        fkComponente = 1
+        AND idComputador = 1
+        AND dtHora >= DATEADD(DAY, -${days}, GETDATE())
+    GROUP BY
+        CONVERT(VARCHAR, dtHora, 23)
+    ORDER BY
+        [data];`;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucaoSql = `SELECT
-        DATE_FORMAT(dtHora, '%d-%m-%Y') AS 'data',
+        DATE_FORMAT(dtHora, '%Y-%m-%d') AS 'data',
         AVG(registro) AS 'cpu'
     FROM
         registro
@@ -186,7 +200,7 @@ function dashboardMediaCpuDay(idMaquina) {
             computador ON fkComputador = idComputador
             WHERE fkComponente = 1
             AND idComputador = 1
-            AND dtHora >= CURDATE() - INTERVAL 14 DAY
+            AND dtHora >= CURDATE() - INTERVAL ${days} DAY
     GROUP BY
         data
     ORDER BY
@@ -200,15 +214,30 @@ function dashboardMediaCpuDay(idMaquina) {
     return database.executar(instrucaoSql);
 }
 
-function dashboardMediaCpuMonth(idMaquina) {
+function dashboardMediaCpuMonth(idMaquina, months) {
 
     instrucaoSql = ''
 
     if (process.env.AMBIENTE_PROCESSO == "producao") {
-        instrucaoSql = ``;
+        instrucaoSql = `SELECT
+        CONVERT(VARCHAR(7), dtHora, 120) AS [mes],
+        AVG(registro) AS cpu
+    FROM
+        registro
+        INNER JOIN hasComponente ON fkHasComponente = idHasComponente
+        INNER JOIN computador ON fkComputador = idComputador
+    WHERE
+        fkComponente = 1
+        AND idComputador = 1
+        AND dtHora >= DATEADD(MONTH, -${months}, GETDATE())
+    GROUP BY
+        CONVERT(VARCHAR(7), dtHora, 120)
+    ORDER BY
+        [mes];
+    `;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
-        instrucaoSql = `    SELECT
-        DATE_FORMAT(dtHora, '%m-%Y') AS 'mes',
+        instrucaoSql = `SELECT
+        DATE_FORMAT(dtHora, '%Y-%m') AS 'mes',
         AVG(registro) AS 'cpu'
     FROM
         registro
@@ -218,7 +247,7 @@ function dashboardMediaCpuMonth(idMaquina) {
             computador ON fkComputador = idComputador
             WHERE fkComponente = 1
             AND idComputador = 1
-            AND dtHora >= CURDATE() - INTERVAL 12 MONTH
+            AND dtHora >= CURDATE() - INTERVAL ${months} MONTH
     GROUP BY
         mes
     ORDER BY
@@ -232,15 +261,30 @@ function dashboardMediaCpuMonth(idMaquina) {
     return database.executar(instrucaoSql);
 }
 
-function dashboardMediaMemoryDay(idMaquina) {
+function dashboardMediaMemoryDay(idMaquina, days) {
 
     instrucaoSql = ''
 
     if (process.env.AMBIENTE_PROCESSO == "producao") {
-        instrucaoSql = ``;
+        instrucaoSql = `SELECT
+        CONVERT(VARCHAR, dtHora, 23) AS [data],
+        AVG(registro) AS memory
+    FROM
+        registro
+        INNER JOIN hasComponente ON fkHasComponente = idHasComponente
+        INNER JOIN computador ON fkComputador = idComputador
+    WHERE
+        fkComponente = 2
+        AND idComputador = 1
+        AND dtHora >= DATEADD(DAY, -${days}, GETDATE())
+    GROUP BY
+        CONVERT(VARCHAR, dtHora, 23)
+    ORDER BY
+        [data];
+    `;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucaoSql = `SELECT
-        DATE_FORMAT(dtHora, '%d-%m-%Y') AS 'data',
+        DATE_FORMAT(dtHora, '%Y-%m-%d') AS 'data',
         AVG(registro) AS 'memory'
     FROM
         registro
@@ -250,7 +294,7 @@ function dashboardMediaMemoryDay(idMaquina) {
             computador ON fkComputador = idComputador
             WHERE fkComponente = 2
             AND idComputador = 1
-            AND dtHora >= CURDATE() - INTERVAL 14 DAY
+            AND dtHora >= CURDATE() - INTERVAL ${days} DAY
     GROUP BY
         data
     ORDER BY
@@ -264,15 +308,30 @@ function dashboardMediaMemoryDay(idMaquina) {
     return database.executar(instrucaoSql);
 }
 
-function dashboardMediaMemoryMonth(idMaquina) {
+function dashboardMediaMemoryMonth(idMaquina, months) {
 
     instrucaoSql = ''
 
     if (process.env.AMBIENTE_PROCESSO == "producao") {
-        instrucaoSql = ``;
+        instrucaoSql = `SELECT
+        CONVERT(VARCHAR(7), dtHora, 120) AS [mes],
+        AVG(registro) AS memory
+    FROM
+        registro
+        INNER JOIN hasComponente ON fkHasComponente = idHasComponente
+        INNER JOIN computador ON fkComputador = idComputador
+    WHERE
+        fkComponente = 2
+        AND idComputador = 1
+        AND dtHora >= DATEADD(MONTH, -${months}, GETDATE())
+    GROUP BY
+        CONVERT(VARCHAR(7), dtHora, 120)
+    ORDER BY
+        [mes];
+    `;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
-        instrucaoSql = `    SELECT
-        DATE_FORMAT(dtHora, '%m-%Y') AS 'mes',
+        instrucaoSql = `SELECT
+        DATE_FORMAT(dtHora, '%Y-%m') AS 'mes',
         AVG(registro) AS 'memory'
     FROM
         registro
@@ -282,7 +341,7 @@ function dashboardMediaMemoryMonth(idMaquina) {
             computador ON fkComputador = idComputador
             WHERE fkComponente = 2
             AND idComputador = 1
-            AND dtHora >= CURDATE() - INTERVAL 12 MONTH
+            AND dtHora >= CURDATE() - INTERVAL ${months} MONTH
     GROUP BY
         mes
     ORDER BY
@@ -296,26 +355,39 @@ function dashboardMediaMemoryMonth(idMaquina) {
     return database.executar(instrucaoSql);
 }
 
-function getMediaCpuAllDay(idMaquina) {
+function getMediaCpuAllDay(idMaquina, days) {
 
     instrucaoSql = ''
 
     if (process.env.AMBIENTE_PROCESSO == "producao") {
-        instrucaoSql = ``;
+        instrucaoSql = `SELECT
+        CONVERT(VARCHAR, dtHora, 23) AS [data],
+        AVG(registro) AS cpu
+    FROM
+        registro
+        INNER JOIN hasComponente ON fkHasComponente = idHasComponente
+    WHERE
+        fkComponente = 1
+        AND dtHora >= DATEADD(DAY, -${days}, GETDATE())
+    GROUP BY
+        CONVERT(VARCHAR, dtHora, 23)
+    ORDER BY
+        [data];
+    `;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucaoSql = `SELECT
-        DATE(dtHora) AS 'data',
+        DATE_FORMAT(dtHora, '%Y-%m-%d') AS 'data',
         AVG(registro) AS 'cpu'
     FROM
         registro
     JOIN
         hasComponente ON fkHasComponente = idHasComponente
         WHERE fkComponente = 1
-        AND dtHora >= CURDATE() - INTERVAL 14 DAY
+        AND dtHora >= CURDATE() - INTERVAL ${days} DAY
     GROUP BY
-        DATE(dtHora)
+        data
     ORDER BY
-        DATE(dtHora);`;
+        data;`;
     } else {
         console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
         return
@@ -325,22 +397,35 @@ function getMediaCpuAllDay(idMaquina) {
     return database.executar(instrucaoSql);
 }
 
-function getMediaCpuAllMonth(idMaquina) {
+function getMediaCpuAllMonth(idMaquina, months) {
 
     instrucaoSql = ''
 
     if (process.env.AMBIENTE_PROCESSO == "producao") {
-        instrucaoSql = ``;
+        instrucaoSql = `SELECT
+        CONVERT(VARCHAR(7), dtHora, 120) AS [mes],
+        AVG(registro) AS cpu
+    FROM
+        registro
+        INNER JOIN hasComponente ON fkHasComponente = idHasComponente
+    WHERE
+        fkComponente = 1
+        AND dtHora >= DATEADD(MONTH, -${months}, GETDATE())
+    GROUP BY
+        CONVERT(VARCHAR(7), dtHora, 120)
+    ORDER BY
+        [mes];
+    `;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
-        instrucaoSql = `    SELECT
-        DATE_FORMAT(dtHora, '%mx-%Y') AS 'mes',
-        AVG(registro) AS 'memory'
+        instrucaoSql = `SELECT
+        DATE_FORMAT(dtHora, '%Y-%m') AS 'mes',
+        AVG(registro) AS 'cpu'
     FROM
         registro
             JOIN
             hasComponente ON fkHasComponente = idHasComponente
             WHERE fkComponente = 1
-            AND dtHora >= CURDATE() - INTERVAL 12 MONTH
+            AND dtHora >= CURDATE() - INTERVAL ${months} MONTH
     GROUP BY
         mes
     ORDER BY
@@ -354,26 +439,39 @@ function getMediaCpuAllMonth(idMaquina) {
     return database.executar(instrucaoSql);
 }
 
-function getMediaMemoryAllDay(idMaquina) {
+function getMediaMemoryAllDay(idMaquina, days) {
 
     instrucaoSql = ''
 
     if (process.env.AMBIENTE_PROCESSO == "producao") {
-        instrucaoSql = ``;
+        instrucaoSql = `SELECT
+        CONVERT(VARCHAR, dtHora, 23) AS [data],
+        AVG(registro) AS memory
+    FROM
+        registro
+        INNER JOIN hasComponente ON fkHasComponente = idHasComponente
+    WHERE
+        fkComponente = 2
+        AND dtHora >= DATEADD(DAY, -${days}, GETDATE())
+    GROUP BY
+        CONVERT(VARCHAR, dtHora, 23)
+    ORDER BY
+        [data];
+    `;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucaoSql = `SELECT
-        DATE(dtHora) AS 'data',
-        AVG(registro) AS 'cpu'
+        DATE_FORMAT(dtHora, '%Y-%m-%d') AS 'data',
+        AVG(registro) AS 'memory'
     FROM
         registro
     JOIN
         hasComponente ON fkHasComponente = idHasComponente
         WHERE fkComponente = 2
-        AND dtHora >= CURDATE() - INTERVAL 14 DAY
+        AND dtHora >= CURDATE() - INTERVAL ${days} DAY
     GROUP BY
-        DATE(dtHora)
+        data
     ORDER BY
-        DATE(dtHora);`;
+        data;`;
     } else {
         console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
         return
@@ -383,14 +481,27 @@ function getMediaMemoryAllDay(idMaquina) {
     return database.executar(instrucaoSql);
 }
 
-function getMediaMemoryAllMonth(idMaquina) {
+function getMediaMemoryAllMonth(idMaquina, months) {
 
     instrucaoSql = ''
 
     if (process.env.AMBIENTE_PROCESSO == "producao") {
-        instrucaoSql = ``;
+        instrucaoSql = `SELECT
+        CONVERT(VARCHAR(7), dtHora, 120) AS [mes],
+        AVG(registro) AS memory
+    FROM
+        registro
+        INNER JOIN hasComponente ON fkHasComponente = idHasComponente
+    WHERE
+        fkComponente = 2
+        AND dtHora >= DATEADD(MONTH, -${months}, GETDATE())
+    GROUP BY
+        CONVERT(VARCHAR(7), dtHora, 120)
+    ORDER BY
+        [mes];
+    `;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
-        instrucaoSql = `    SELECT
+        instrucaoSql = `SELECT
         DATE_FORMAT(dtHora, '%Y-%m') AS 'mes',
         AVG(registro) AS 'memory'
     FROM
@@ -398,7 +509,7 @@ function getMediaMemoryAllMonth(idMaquina) {
             JOIN
             hasComponente ON fkHasComponente = idHasComponente
             WHERE fkComponente = 2
-            AND dtHora >= CURDATE() - INTERVAL 12 MONTH
+            AND dtHora >= CURDATE() - INTERVAL ${months} MONTH
     GROUP BY
         mes
     ORDER BY
@@ -417,7 +528,19 @@ function kpiMediaCpuDay(idMaquina) {
     instrucaoSql = ''
 
     if (process.env.AMBIENTE_PROCESSO == "producao") {
-        instrucaoSql = ``;
+        instrucaoSql = `SELECT
+        AVG(registro) AS cpu
+    FROM
+        registro
+        INNER JOIN hasComponente ON fkHasComponente = idHasComponente
+        INNER JOIN computador ON fkComputador = idComputador
+    WHERE
+        fkComponente = 1
+        AND CAST(dtHora AS DATE) = CAST(GETDATE() AS DATE)
+        AND idComputador = 1
+    GROUP BY
+        DAY(dtHora);
+    `;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucaoSql = `SELECT
 		AVG(registro) AS 'cpu'
@@ -445,7 +568,16 @@ function kpiMediaCpuAllTime(idMaquina) {
     instrucaoSql = ''
 
     if (process.env.AMBIENTE_PROCESSO == "producao") {
-        instrucaoSql = ``;
+        instrucaoSql = `SELECT
+        AVG(registro) AS cpu
+    FROM
+        registro
+        INNER JOIN hasComponente ON fkHasComponente = idHasComponente
+        INNER JOIN computador ON fkComputador = idComputador
+    WHERE
+        fkComponente = 1
+        AND idComputador = 1;
+    `;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucaoSql = `SELECT
 		AVG(registro) AS 'cpu'
@@ -470,7 +602,19 @@ function kpiMediaMemoryDay(idMaquina) {
     instrucaoSql = ''
 
     if (process.env.AMBIENTE_PROCESSO == "producao") {
-        instrucaoSql = ``;
+        instrucaoSql = `SELECT
+        AVG(registro) AS memory
+    FROM
+        registro
+        INNER JOIN hasComponente ON fkHasComponente = idHasComponente
+        INNER JOIN computador ON fkComputador = idComputador
+    WHERE
+        fkComponente = 2
+        AND CAST(dtHora AS DATE) = CAST(GETDATE() AS DATE)
+        AND idComputador = 1
+    GROUP BY
+        DAY(dtHora);
+    `;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucaoSql = `SELECT
 		AVG(registro) AS 'memory'
@@ -498,7 +642,16 @@ function kpiMediaMemoryAllTime(idMaquina) {
     instrucaoSql = ''
 
     if (process.env.AMBIENTE_PROCESSO == "producao") {
-        instrucaoSql = ``;
+        instrucaoSql = `SELECT
+        AVG(registro) AS memory
+    FROM
+        registro
+        INNER JOIN hasComponente ON fkHasComponente = idHasComponente
+        INNER JOIN computador ON fkComputador = idComputador
+    WHERE
+        fkComponente = 2
+        AND idComputador = 1;
+    `;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucaoSql = `SELECT
 		AVG(registro) AS 'memory'
