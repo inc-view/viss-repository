@@ -125,9 +125,113 @@ var varDashboardMediaMemoryMonth = new Chart(dashboardMediaMemoryMonth, {
     }
 })
 
+function downloadPdfDay() {
+    var pdf = new jsPDF()
+    var linhas = 1
+    var grupos = 0
+
+    pdf.setFontSize(12)
+
+    pdf.text(`Relatório da média de uso de CPU diária (${labelsDashboardMediaCpuDay.length} dias)`, 20, 30)
+    pdf.text(`Média do uso da CPU:`, 20, 40)
+
+    for (var i = 0; i < labelsDashboardMediaCpuDay.length; i++) {
+        pdf.text(`${labelsDashboardMediaCpuDay[i]}`, 20, (linhas) * 50)
+        pdf.text(`Funcionário - ${Math.round(mediaCpuDataDay[i], 0)}% de Uso (CPU)`, 20, (linhas) * 50 + 10)
+        pdf.text(`Empresa - ${Math.round(mediaCpuAllDay[i], 0)}% de Uso (CPU)`, 20, (linhas) * 50 + 20)
+        grupos++
+        linhas++
+        if (grupos > 5) {
+            pdf.addPage()
+            grupos = 0
+            linhas = 1
+        }
+    }
+
+    pdf.addPage()
+
+    linhas = 1
+    grupos = 0
+
+    pdf.text(`Média do uso da memória`, 20, 40)
+
+    for (var i = 0; i < labelsDashboardMediaMemoryDay.length; i++) {
+        pdf.text(`${labelsDashboardMediaMemoryDay[i]}`, 20,(linhas) * 50)
+        pdf.text(`Funcionário - ${Math.round(mediaMemoryDataDay[i], 0)}% de Uso (Memória)`, 20, (linhas) * 50 + 10)
+        pdf.text(`Empresa - ${Math.round(mediaMemoryAllDay[i], 0)}% de Uso (Memória)`, 20,(linhas) * 50 + 20)
+        grupos++
+        linhas++
+        if (grupos > 5) {
+            pdf.addPage()
+            grupos = 0
+            linhas = 1
+        }
+    }
+
+    pdf.save(`relatorioDiario${labelsDashboardMediaCpuDay.length}.pdf`)
+}
+
+function downloadPdfMonth() {
+    var pdf = new jsPDF()
+    var linhas = 1
+    var grupos = 0
+
+    pdf.setFontSize(12)
+
+    pdf.text(`Relatório da média de uso de CPU mensal (${labelsDashboardMediaCpuDay.length} meses)`, 20, 30)
+    pdf.text(`Média do uso da CPU:`, 20, 40)
+
+    for (var i = 0; i < labelsDashboardMediaCpuMonth.length; i++) {
+        pdf.text(`${labelsDashboardMediaCpuMonth[i]}`, 20, (linhas) * 50)
+        pdf.text(`Funcionário - ${Math.round(mediaCpuDataMonth[i], 0)}% de Uso (CPU)`, 20, (linhas) * 50 + 10)
+        pdf.text(`Empresa - ${Math.round(mediaCpuAllMonth[i], 0)}% de Uso (CPU)`, 20, (linhas) * 50 + 20)
+        grupos++
+        linhas++
+        if (grupos > 5) {
+            pdf.addPage()
+            grupos = 0
+            linhas = 1
+        }
+    }
+
+    pdf.addPage()
+
+    linhas = 1
+    grupos = 0
+
+    pdf.text(`Média do uso da memória`, 20, 40)
+
+    for (var i = 0; i < labelsDashboardMediaMemoryMonth.length; i++) {
+        pdf.text(`${labelsDashboardMediaMemoryMonth[i]}`, 20,(linhas) * 50)
+        pdf.text(`Funcionário - ${Math.round(mediaMemoryDataMonth[i], 0)}% de Uso (Memória)`, 20, (linhas) * 50 + 10)
+        pdf.text(`Empresa - ${Math.round(mediaMemoryAllMonth[i], 0)}% de Uso (Memória)`, 20,(linhas) * 50 + 20)
+        grupos++
+        linhas++
+        if (grupos > 5) {
+            pdf.addPage()
+            grupos = 0
+            linhas = 1
+        }
+    }
+
+    pdf.save(`relatorioMensal${labelsDashboardMediaCpuMonth.length}.pdf`)
+}
+
+function changeTextDashDay(days) {
+    textDashDayCpu.innerHTML = `Média de Uso da CPU (Últimos ${days} Dias)`
+    textDashDayMemory.innerHTML = `>Média de Uso da Memória (Últimos ${days} Dias)`
+}
+
+function changeTextDashMonth(months) {
+    textDashMonthCpu.innerHTML = `Média de Uso da CPU (Últimos ${months} Meses)`
+    textDashMonthMemory.innerHTML = `Média de Uso da Memóris (Últimos ${months} Meses)`
+}
+
 function hideDash() {
     rowDashDay.style.display = `none`
     rowDashMonth.style.display = `none`
+    idFilterMonth.style.display = `none`
+    idFilterDay.style.display = `none`
 
     if (selectDash.value == 1) {
         showDashDay()
@@ -138,9 +242,11 @@ function hideDash() {
 }
 function showDashDay() {
     rowDashDay.style.display = `flex`
+    idFilterDay.style.display = `flex`
 }
 function showDashMonth() {
     rowDashMonth.style.display = `flex`
+    idFilterMonth.style.display = `flex`
 }
 
 function hideKpi() {
@@ -161,8 +267,10 @@ function showKpiAllTime() {
     rowKpiAllTime.style.display = `flex`
 }
 
-function updateDashboardMediaCpuDay() {
-    fetch(`/routeLeandro/dashboardMediaCpuDay/${idMaquina}`, { cache: 'no-store' }).then(function (response) {
+function updateDashboardMediaCpuDay(days) {
+    mediaCpuDataDay.length = 0
+    labelsDashboardMediaCpuDay.length = 0
+    fetch(`/routeLeandro/dashboardMediaCpuDay/${idMaquina}/${days}`, { cache: 'no-store' }).then(function (response) {
         if (response.ok) {
             response.json().then(function (resposta) {
 
@@ -183,8 +291,10 @@ function updateDashboardMediaCpuDay() {
     });
 }
 
-function updateDashboardMediaCpuMonth() {
-    fetch(`/routeLeandro/dashboardMediaCpuMonth/${idMaquina}`, { cache: 'no-store' }).then(function (response) {
+function updateDashboardMediaCpuMonth(months) {
+    mediaCpuDataMonth.length = 0
+    labelsDashboardMediaCpuMonth.length = 0
+    fetch(`/routeLeandro/dashboardMediaCpuMonth/${idMaquina}/${months}`, { cache: 'no-store' }).then(function (response) {
         if (response.ok) {
             response.json().then(function (resposta) {
 
@@ -205,8 +315,10 @@ function updateDashboardMediaCpuMonth() {
     });
 }
 
-function updateDashboardMediaMemoryDay() {
-    fetch(`/routeLeandro/dashboardMediaMemoryDay/${idMaquina}`, { cache: 'no-store' }).then(function (response) {
+function updateDashboardMediaMemoryDay(days) {
+    mediaMemoryDataDay.length = 0
+    labelsDashboardMediaMemoryDay.length = 0
+    fetch(`/routeLeandro/dashboardMediaMemoryDay/${idMaquina}/${days}`, { cache: 'no-store' }).then(function (response) {
         if (response.ok) {
             response.json().then(function (resposta) {
 
@@ -227,8 +339,10 @@ function updateDashboardMediaMemoryDay() {
     });
 }
 
-function updateDashboardMediaMemoryMonth() {
-    fetch(`/routeLeandro/dashboardMediaMemoryMonth/${idMaquina}`, { cache: 'no-store' }).then(function (response) {
+function updateDashboardMediaMemoryMonth(months) {
+    mediaMemoryDataMonth.length = 0
+    labelsDashboardMediaMemoryMonth.length = 0
+    fetch(`/routeLeandro/dashboardMediaMemoryMonth/${idMaquina}/${months}`, { cache: 'no-store' }).then(function (response) {
         if (response.ok) {
             response.json().then(function (resposta) {
 
@@ -249,8 +363,9 @@ function updateDashboardMediaMemoryMonth() {
     });
 }
 
-function getMediaCpuAllDay() {
-    fetch(`/routeLeandro/getMediaCpuAllDay/${idMaquina}`, { cache: 'no-store' }).then(function (response) {
+function getMediaCpuAllDay(days) {
+    mediaCpuAllDay.length = 0
+    fetch(`/routeLeandro/getMediaCpuAllDay/${idMaquina}/${days}`, { cache: 'no-store' }).then(function (response) {
         if (response.ok) {
             response.json().then(function (resposta) {
 
@@ -270,8 +385,9 @@ function getMediaCpuAllDay() {
     });
 }
 
-function getMediaCpuAllMonth() {
-    fetch(`/routeLeandro/getMediaCpuAllMonth/${idMaquina}`, { cache: 'no-store' }).then(function (response) {
+function getMediaCpuAllMonth(months) {
+    mediaCpuAllMonth.length = 0
+    fetch(`/routeLeandro/getMediaCpuAllMonth/${idMaquina}/${months}`, { cache: 'no-store' }).then(function (response) {
         if (response.ok) {
             response.json().then(function (resposta) {
 
@@ -291,8 +407,9 @@ function getMediaCpuAllMonth() {
     });
 }
 
-function getMediaMemoryAllDay() {
-    fetch(`/routeLeandro/getMediaMemoryAllDay/${idMaquina}`, { cache: 'no-store' }).then(function (response) {
+function getMediaMemoryAllDay(days) {
+    mediaMemoryAllDay.length = 0
+    fetch(`/routeLeandro/getMediaMemoryAllDay/${idMaquina}/${days}`, { cache: 'no-store' }).then(function (response) {
         if (response.ok) {
             response.json().then(function (resposta) {
 
@@ -312,8 +429,9 @@ function getMediaMemoryAllDay() {
     });
 }
 
-function getMediaMemoryAllMonth() {
-    fetch(`/routeLeandro/getMediaMemoryAllMonth/${idMaquina}`, { cache: 'no-store' }).then(function (response) {
+function getMediaMemoryAllMonth(months) {
+    mediaMemoryAllMonth.length = 0
+    fetch(`/routeLeandro/getMediaMemoryAllMonth/${idMaquina}/${months}`, { cache: 'no-store' }).then(function (response) {
         if (response.ok) {
             response.json().then(function (resposta) {
 
@@ -453,15 +571,15 @@ function kpiMediaMemoryAllTime() {
     });
 }
 
-updateDashboardMediaCpuDay()
-updateDashboardMediaMemoryDay()
-updateDashboardMediaCpuMonth()
-updateDashboardMediaMemoryMonth()
+updateDashboardMediaCpuDay(14)
+updateDashboardMediaMemoryDay(14)
+updateDashboardMediaCpuMonth(12)
+updateDashboardMediaMemoryMonth(12)
 
-getMediaCpuAllDay()
-getMediaCpuAllMonth()
-getMediaMemoryAllDay()
-getMediaMemoryAllMonth()
+getMediaCpuAllDay(14)
+getMediaCpuAllMonth(12)
+getMediaMemoryAllDay(14)
+getMediaMemoryAllMonth(12)
 
 // setInterval(kpiMediaCpuDay, 1000)
 // setInterval(kpiMediaCpuAllTime, 1000)
@@ -473,7 +591,7 @@ kpiMediaCpuAllTime()
 kpiMediaMemoryDay()
 kpiMediaMemoryAllTime()
 
-setTimeout(updateDashboards, 500)
+setInterval(updateDashboards, 1000)
 
 function updateDashboards() {
     varDashboardMediaCpuDay.update()
