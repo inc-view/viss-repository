@@ -5,13 +5,15 @@ function dadosCPU(idMaquina) {
     instrucaoSql = ''
 
     if (process.env.AMBIENTE_PROCESSO == "producao") {
-        instrucaoSql = `select registro, dtHora from registro r
-        join hasComponente hc on hc.idHasComponente = r.fkHasComponente
-        join componente c on c.idComponente = hc.fkComponente
-        join computador pc on pc.idComputador = hc.fkComputador
-            where c.tipo = 'CPU' 
-            and pc.idComputador = ${idMaquina}
-            and r.dtHora between time(current_timestamp() - INTERVAL 60 MINUTE) and time(current_timestamp());`;
+        instrucaoSql = `SELECT r.registro, r.dtHora 
+        FROM registro r
+        JOIN hasComponente hc ON hc.idHasComponente = r.fkHasComponente
+        JOIN componente c ON c.idComponente = hc.fkComponente
+        JOIN computador pc ON pc.idComputador = hc.fkComputador
+        WHERE 
+            c.tipo = 'CPU' 
+            AND pc.idComputador = ${idMaquina}
+            AND r.dtHora BETWEEN DATEADD(MINUTE, -60, GETDATE()) AND GETDATE();`;
 
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucaoSql = `select registro, dtHora from registro r
