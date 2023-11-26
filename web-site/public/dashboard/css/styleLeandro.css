@@ -125,3 +125,27 @@ border-radius: 10px;
     box-shadow: 0 0 0 0 rgba(90, 113, 208, 0.11), 0 4px 16px 0 rgba(167, 175, 183, 0.33);
     -webkit-box-shadow: 0 0 0 0 rgba(90, 113, 208, 0.11), 0 4px 16px 0 rgba(167, 175, 183, 0.33);
 }
+
+.inputLeandro {
+    text-align: center;
+    border-radius: 6px;
+    border: black solid 2px;
+}
+
+input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+    border-radius: 6px;
+    }
+
+.buttonLeandro {
+    border-radius: 6px;
+    border: black solid 1px;
+    background-color: white;
+    margin-left: 0.5%;
+}
+
+.buttonLeandro:hover {
+    background-color: #D8D8D8;
+}

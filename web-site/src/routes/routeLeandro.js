@@ -33,35 +33,35 @@ router.get("/infoMaquina/:idMaquina", function (req, res) {
 
 //Individual Leandro
 
-router.get("/dashboardMediaCpuDay/:idMaquina", function (req, res) {
+router.get("/dashboardMediaCpuDay/:idMaquina/:days", function (req, res) {
     leandroController.dashboardMediaCpuDay(req, res);
 });
 
-router.get("/dashboardMediaCpuMonth/:idMaquina", function (req, res) {
+router.get("/dashboardMediaCpuMonth/:idMaquina/:months", function (req, res) {
     leandroController.dashboardMediaCpuMonth(req, res);
 });
 
-router.get("/dashboardMediaMemoryDay/:idMaquina", function (req, res) {
+router.get("/dashboardMediaMemoryDay/:idMaquina/:days", function (req, res) {
     leandroController.dashboardMediaMemoryDay(req, res);
 });
 
-router.get("/dashboardMediaMemoryMonth/:idMaquina", function (req, res) {
+router.get("/dashboardMediaMemoryMonth/:idMaquina/:months", function (req, res) {
     leandroController.dashboardMediaMemoryMonth(req, res);
 });
 
-router.get("/getMediaCpuAllDay/:idMaquina", function (req, res) {
+router.get("/getMediaCpuAllDay/:idMaquina/:days", function (req, res) {
     leandroController.getMediaCpuAllDay(req, res);
 });
 
-router.get("/getMediaCpuAllMonth/:idMaquina", function (req, res) {
+router.get("/getMediaCpuAllMonth/:idMaquina/:months", function (req, res) {
     leandroController.getMediaCpuAllMonth(req, res);
 });
 
-router.get("/getMediaMemoryAllDay/:idMaquina", function (req, res) {
+router.get("/getMediaMemoryAllDay/:idMaquina/:days", function (req, res) {
     leandroController.getMediaMemoryAllDay(req, res);
 });
 
-router.get("/getMediaMemoryAllMonth/:idMaquina", function (req, res) {
+router.get("/getMediaMemoryAllMonth/:idMaquina/:months", function (req, res) {
     leandroController.getMediaMemoryAllMonth(req, res);
 });
 

@@ -57,7 +57,6 @@ SELECT
     ) AS `PorcentagemCPU`
 FROM computador c
 JOIN funcionario f ON c.fkFuncionario = f.idFuncionario;
-        
 
 CREATE VIEW vwIdComponenteComputador AS
 select 
@@ -78,6 +77,7 @@ from computador pc
                 and  c2.tipo = 'Disco' 
                 and c1.tipo = 'Memoria' 
                 and u.tipoMedida = '%';
+
 
 
 -- Select para PPM IDEAL E PPM ATUAL
@@ -268,47 +268,3 @@ FROM processo p
 			and month(now())
 			GROUP BY r.fkProcesso, day(r.dataHora);
 
-
--- view para o primeiro gráfico
-CREATE VIEW vwGrafProcIlicitoPorDia AS
-	SELECT count(dataHora), dataHora 
-    FROM processoIlicito 
-    GROUP BY dataHora;
-    
-
--- KPI dos processos que mais tentaram acessar (de todo o tempo)
-CREATE VIEW vwKPIMaisAcessados AS
-SELECT count(p.dataHora) AS contagem, s.nomeSoftware 
-FROM processoIlicito AS p 
-	JOIN softwarePermitido AS sp ON sp.idSoftwarePermitido = p.fkSoftware 
-    JOIN software AS s ON s.idSoftware = sp.fkSoftware 
-        GROUP BY s.nomeSoftware ORDER BY contagem DESC LIMIT 3;
-    
-
-
-
-/*
--- VISUALIZAÇÃO DOS REGISTROS DE FORMA DINÂMICA
-SET @sql = NULL; -- Criando uma variável para armazenar o comando
-SELECT 
-    GROUP_CONCAT(DISTINCT CONCAT('max(case when Componente = \'',
-                Componente,
-                '\' then Registro end) ',
-                Componente))
-INTO @sql FROM
-    tabelaRegistros; -- Aqui vem o nome da sua view!
-
-select @sql;
-
-SET @sql = CONCAT('SELECT idComputador, MomentoRegistro, ', @sql, '
-                 
-FROM tabelaRegistros
-                   
-GROUP BY idComputador, MomentoRegistro'); -- Lembra de trocar as informações (idServidor, MomentoRegistro, tabelaRegistros) pelos nomes que você usou na view
-
-select @sql;
-
-PREPARE stmt FROM @sql; -- Prepara um statement para executar o comando guardado na variável @sql
-
-EXECUTE stmt; -- Executa o statement
-*/
