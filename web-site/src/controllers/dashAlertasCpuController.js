@@ -11,6 +11,17 @@ function dashboardAlertasCpu(req, res) {
     });
 }
 
+function listarOcorrenciaMes(req, res) {
+    var idMaquina = req.params.idMaquina;
+    dashAlertasCpuModel.listarOcorrenciaMes(idMaquina).then(function (resultado) {
+        res.status(200).json(resultado);
+    }).catch(function (erro) {
+        console.log(erro);
+        console.log("Houve um erro ao buscar as ultimas medidas.", erro.sqlMessage);
+        res.status(500).json(erro.sqlMessage);
+    });
+}
 module.exports = {
-    dashboardAlertasCpu
+    dashboardAlertasCpu,
+    listarOcorrenciaMes
 }

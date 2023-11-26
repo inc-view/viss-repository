@@ -54,51 +54,69 @@ var chartColMonthCpu = new ApexCharts(document.querySelector("#chartColMonthCpu"
 chartColMonthCpu.render();
 
 function updateDashboardAlertasCpu() {
-/*   data_dash.innerHTML = `${dataDash.getDate()}/${dataDash.getMonth() + 1}/${dataDash.getFullYear()}`; */
-  
+  /*   data_dash.innerHTML = `${dataDash.getDate()}/${dataDash.getMonth() + 1}/${dataDash.getFullYear()}`; */
+
   fetch(`/routeDashAlertasCpu/dashboardAlertasCpu/${1}`).then(
     (response) => {
-    if (response.ok) {
-      response.json().then((data) => {
+      if (response.ok) {
+        response.json().then((data) => {
+          
+          console.log(data)
 
-        console.log(data)
-
-        for(var i = 0; i < data.length; i++){
-          labels.push(meses[data[i].mes-1])
-          dataOcorrenciasCpu.push(data[i].ocorrencia)
-        }
-
-        chartColMonthCpu.updateSeries([
-          {
-            name: "Ocorrências",
-            data: dataOcorrenciasCpu,
+          for (var i = 0; i < data.length; i++) {
+            labels.push(meses[data[i].mes - 1])
+            dataOcorrenciasCpu.push(data[i].ocorrencia)
           }
-        ]);
 
-        chartColMonthCpu.updateOptions({
-          xaxis: {
+          chartColMonthCpu.updateSeries([
+            {
+              name: "Ocorrências",
+              data: dataOcorrenciasCpu,
+            }
+          ]);
+
+          chartColMonthCpu.updateOptions({
+            xaxis: {
               categories: labels,
-          },
+            },
+          });
+
         });
 
-      });
-
-    }
-  });
+      }
+    });
 
 }
 
 let selectListAlertas = document.getElementById("selectListAlertas")
-selectListAlertas.addEventListener("change", ()=>{
-  if(selectListAlertas.value > 0){
+selectListAlertas.addEventListener("change", () => {
+  if (selectListAlertas.value > 0) {
+    let orderByQuery = selectListAlertas.value;
+    fetch(`/routeDashAlertasCpu/listarOcorrenciaMes/${1}`, {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        orderby: orderByQuery,
+        maquina: localStorage.getItem("FK_MAQUINA"),
+      }),
+    }).then((response) => {
+      if (response.ok) {
+        response.json().then((value) => {
+          //let listMain = document.getElementById("listProcessMain");
+
+        })
+      }
+    });
     console.log("oi")
-  }else{
+  } else {
     updateDashboardAlertasCpu()
   }
 })
 
 
 
-window.onload = ()=>{
+window.onload = () => {
   updateDashboardAlertasCpu()
 }
