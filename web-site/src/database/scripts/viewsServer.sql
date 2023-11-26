@@ -1,22 +1,14 @@
-CREATE TRIGGER insere_hasComputadores
+CCREATE TRIGGER insere_hasComputadores
 ON computador
 AFTER INSERT
 AS
 BEGIN
-    SET NOCOUNT ON;
-
-    DECLARE @idComputador INT;
-
-    SELECT @idComputador = idComputador FROM inserted;
-
     INSERT INTO hasComponente (fkComponente, fkComputador)
-    VALUES 
-        (1, @idComputador),
-        (2, @idComputador),
-        (3, @idComputador),
-        (4, @idComputador),
-        (5, @idComputador);
+    SELECT ComponenteID, inserted.idComputador
+    FROM (VALUES (1), (2), (3), (4), (5)) AS Componente(ComponenteID)
+    CROSS JOIN inserted;
 END;
+
 
 
 -- CRIAÇÃO DA VIEW DOS REGISTROS EM TABELA
@@ -146,8 +138,8 @@ SELECT
     f.fkEmpresa,
     r.fkProcesso,
     p.nomeProcesso AS 'processo',
-    AVG(CASE WHEN c.tipo = 'CPU' THEN r.registro END) AS 'cpu',
-    AVG(CASE WHEN c.tipo = 'Memoria' AND c.fkUnidadeMedida = 1 THEN r.registro END) AS 'ram',
+    ROUND(AVG(CASE WHEN c.tipo = 'CPU' THEN CAST(r.registro AS float) END),2) AS 'cpu',
+    ROUND(AVG(CASE WHEN c.tipo = 'Memoria' AND c.fkUnidadeMedida = 1 THEN CAST(r.registro AS float) END),2) AS 'ram',
     DATEDIFF(HOUR, MIN(r.dataHora), MAX(r.dataHora)) AS 'horas_uso'
 FROM processo p
     JOIN registroProcesso r ON r.fkProcesso = p.idProcesso
@@ -164,8 +156,8 @@ SELECT
     DAY(r.dataHora) AS 'dia',
     r.fkProcesso,
     p.nomeProcesso AS 'processo',
-    ROUND(AVG(CASE WHEN c.tipo = 'CPU' THEN r.registro END), 2) AS 'cpu',
-    ROUND(AVG(CASE WHEN c.tipo = 'Memoria' AND c.fkUnidadeMedida = 1 THEN r.registro END), 2) AS 'ram',
+    ROUND(AVG(CASE WHEN c.tipo = 'CPU' THEN CAST(r.registro AS float) END), 2) AS 'cpu',
+    ROUND(AVG(CASE WHEN c.tipo = 'Memoria' AND c.fkUnidadeMedida = 1 THEN CAST(r.registro AS float) END), 2) AS 'ram',
     DATEDIFF(HOUR, MIN(r.dataHora), MAX(r.dataHora)) AS 'horas_uso'
 FROM processo p
     JOIN registroProcesso r ON r.fkProcesso = p.idProcesso
@@ -177,4 +169,5 @@ WHERE
     DAY(r.dataHora) BETWEEN DAY(GETDATE()) - 7 AND DAY(GETDATE()) -- Filtro para os últimos 7 dias
     AND MONTH(r.dataHora) = MONTH(GETDATE()) -- Filtrando pelo mês atual
 GROUP BY r.fkProcesso, DAY(r.dataHora), p.nomeProcesso;
+
 
