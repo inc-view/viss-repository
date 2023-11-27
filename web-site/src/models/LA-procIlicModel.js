@@ -2,19 +2,17 @@ const database = require("../database/config")
 
 
 function buscarGraf1(fkEmpresa){
-  if(process.env.AMBIENTE_PROCESSO == 'producao'){
+  
+  var querySql = ""
 
+  if (process.env.AMBIENTE_PROCESSO == "producao") {
+    querySql = `EXEC spSelectGraf1 @fkEmpresa = ${fkEmpresa};`
   }else if(process.env.AMBIENTE_PROCESSO == "desenvolvimento"){
-    var querySql = `CALL spSelectGraf1(${fkEmpresa});`
+    querySql = `CALL spSelectGraf1(${fkEmpresa});`
   }
   return database.executar(querySql)
 
 }
-
-
-
-
-
 
 
 module.exports = {
