@@ -1,8 +1,8 @@
-var DashListagemModel = require("../models/DashListagemModel");
+var infoFuncionarioDash = require("../models/InfoFuncionarioDashModel");
 
 function ListagemTotalChamadas(req, res) {
     var fkEmpresa = req.query.fkEmpresa;
-    DashListagemModel.ListagemTotalChamadas(fkEmpresa).then(function (resultado) {
+    infoFuncionarioDash.ListagemTotalChamadas(fkEmpresa).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {
@@ -14,9 +14,10 @@ function ListagemTotalChamadas(req, res) {
         res.status(500).json(erro.sqlMessage);
     });
 }
+
 function ListagemTMA(req, res) {
     var fkEmpresa = req.query.fkEmpresa;
-    DashListagemModel.ListagemTMA(fkEmpresa).then(function (resultado) {
+    infoFuncionarioDash.ListagemTMA(fkEmpresa).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {
@@ -30,7 +31,7 @@ function ListagemTMA(req, res) {
 }
 function ListagemDuracao(req, res) {
     var fkEmpresa = req.query.fkEmpresa;
-    DashListagemModel.ListagemDuracao(fkEmpresa).then(function (resultado) {
+    infoFuncionarioDash.ListagemDuracao(fkEmpresa).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {
@@ -46,7 +47,7 @@ function ListagemDuracao(req, res) {
 
 function fazerLista(req, res) {
     var fkEmpresa = req.query.fkEmpresa;
-    DashListagemModel.fazerLista(fkEmpresa).then(function (resultado) {
+    infoFuncionarioDash.fazerLista(fkEmpresa).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {
@@ -62,7 +63,7 @@ function fazerLista(req, res) {
 function fazerListaPorNome(req, res) {
     var fkEmpresa = req.body.fkEmpresa;
     var nome = req.body.nome
-    DashListagemModel.fazerListaPorNome(fkEmpresa,nome).then(function (resultado) {
+    infoFuncionarioDash.fazerListaPorNome(fkEmpresa,nome).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {
