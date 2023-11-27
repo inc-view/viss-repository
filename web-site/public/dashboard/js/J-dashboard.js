@@ -10,7 +10,7 @@ function ppmAtual() {
           // PUXAR ROTA COM ESSE SELECT
           // a resposta é [ { 'round(AVG(registro), 0)': '110' } ], quero ela sem casas decimais
           document.getElementById("ppmAtual").innerHTML =
-            resposta[0]["round(AVG(registro), 0)"];
+            resposta[0]["media_PPM"];
         });
       } else {
         console.warn("Nenhum dado encontrado ou erro na API");

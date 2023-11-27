@@ -19,7 +19,7 @@ var sql = require('mssql');
 
 const sqlServerConfig = {
     port: parseInt(1433, 10),
-    server: "34.197.17.64",
+    server: "18.232.37.243",
     user: "sa",
     password: "conexaoPI123",
     database: "inkView",
@@ -35,7 +35,6 @@ var mySqlConfig = {
     database: "inkView",
     user: "root",
     password: "1234567",
-
 };
 
 function executar(instrucao) {

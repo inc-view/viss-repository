@@ -24,7 +24,7 @@ function ppmAtual(valor) {
     ) t2 ON t1.fkHasComponente = t2.fkHasComponente AND t1.dtHora = t2.maior_data) AS maxdatacomp;`;
 
   if (process.env.AMBIENTE_PROCESSO == "producao") {
-    instrucaoSql = `SELECT ROUND(AVG(registro), 0)
+    instrucaoSql = `SELECT ROUND(AVG(registro), 0) AS media_PPM
     FROM (
         SELECT 
             t1.fkHasComponente,
@@ -311,7 +311,7 @@ ORDER BY lf.atendidas DESC LIMIT 5;`;
     lf.atendidas AS chamadas_atendidas,
     lf.porcAtendidas AS porcentagem_atendidas,
     lf.abandonadas AS chamadas_abandonadas,
-    lf.duracao AS duracao_total
+    CONVERT(VARCHAR(8), lf.duracao, 8) AS duracao_total
 FROM funcionario f
 JOIN ligacoesFuncionario lf ON f.idFuncionario = lf.fkFuncionario
 WHERE f.fkEmpresa = 1
