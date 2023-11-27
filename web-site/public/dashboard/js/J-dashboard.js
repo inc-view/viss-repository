@@ -1,7 +1,7 @@
 function ppmAtual() {
   var valor = localStorage.getItem("FK_EMPRESA");
   console.log(valor);
-  //mandar a variavel valor o J-routes
+  //mandar a variavel valor o J-route
   fetch(`/J-routes/ppmAtual?empresa=${valor}`, { cache: "no-store" }).then(
     function (response) {
       if (response.ok) {
