@@ -59,7 +59,7 @@ function obterDadosGrafico() {
                 console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
             });
     }
-
+    var dados_tratados;
     // Esta função *plotarGrafico* usa os dados capturados na função anterior para criar o gráfico
     // Configura o gráfico (cores, tipo, etc), materializa-o na página e, 
     // A função *plotarGrafico* também invoca a função *atualizarGrafico*
@@ -71,7 +71,7 @@ function obterDadosGrafico() {
         console.log('Estes dados foram recebidos pela funcao "obterDadosGrafico" e passados para "plotarGrafico":')
         console.log(resposta)
 
-       var dados_tratados = resposta[1];
+        dados_tratados = resposta[0];
 
         // Inserindo valores recebidos em estrutura para plotar o gráfico
        for (i = 0; i < dados_tratados.length; i++) {
@@ -141,14 +141,14 @@ var valorNovo;
                             console.log("VALOR ANTIGO - ", valorAntigo)
                             console.log("VALOR NOVO - ", valorNovo)
     
-                            for(var contador = 0; contador < valorAntigo.length; contador++){
+                            // for(var contador = 0; contador < valorAntigo.length; contador++){
                              if(valorNovo[i] != valorAntigo[i] && valorAntigo != undefined){
                                 console.log("ENCONTREI", valorAntigo[i], valorNovo[i].contagem)
                                 //dados.datasets[0].data[contador].contagem = novoRegistro[0].contagem;
                                 myChart.data.datasets[0].data[i] = valorNovo[i].contagem;
                                 myChart.update();
                              }
-                            }
+                            // }
                         }
                         console.log("---------------------------------------------------------------")
                         console.log("Como não há dados novos para captura, o gráfico não atualizará.")
@@ -178,7 +178,7 @@ var valorNovo;
         fetch(`/procIlic/buscarKPI/${fkEmpresa}`, { cache: 'no-store' }).then(function (response) {
             if (response.ok) {
                 response.json().then(function (resposta) {
-                    console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+                    console.log(`Dados recebidos KPI: ${JSON.stringify(resposta)}`);
                     resposta.reverse();
 
                     carregaResult(resposta);
@@ -194,37 +194,118 @@ var valorNovo;
 var teste = [];
     function carregaResult(resposta){
         var kpi = document.getElementById("kpi_processos");
+        kpi.innerHTML = '';
         teste = resposta;
+        if(teste[0] != undefined && teste[1] != undefined && teste[2] != undefined){
             kpi.innerHTML = `<div class="wrapper d-flex align-items-center justify-content-between py-2 border-bottom">
             <div class="d-flex">
               <div class="wrapper ms-3">
-                <p class="fw-bold">${(teste[1][0].nomeSoftware).toUpperCase()}</p>
+                <p class="fw-bold">${(teste[0].nomeSoftware).toUpperCase()}</p>
               </div>
             </div>
             <div class="text-black text-middle">
-              ${teste[1][0].contagem}
+              ${teste[0].contagem}
             </div>
           </div>
           <div class="wrapper d-flex align-items-center justify-content-between py-2 border-bottom">
             <div class="d-flex">
               <div class="wrapper ms-3">
-                <p class="fw-bold">${(teste[1][1].nomeSoftware).toUpperCase()}</p>
+                <p class="fw-bold">${(teste[1].nomeSoftware).toUpperCase()}</p>
               </div>
             </div>
             <div class="text-black text-middle">
-            ${teste[1][1].contagem}
+            ${teste[1].contagem}
             </div>
           </div>
           <div class="wrapper d-flex align-items-center justify-content-between pt-2">
             <div class="d-flex">
               <div class="wrapper ms-3">
-                <p class="fw-bold">${(teste[1][2].nomeSoftware).toUpperCase()}</p>
+                <p class="fw-bold">${(teste[2].nomeSoftware).toUpperCase()}</p>
               </div>
             </div>
             <div class="text-black text-middle">
-            ${teste[1][2].contagem}
+            ${teste[2].contagem}
             </div>
           </div>
-`;
+            `;
+    }else if(teste[0] != undefined){
+        kpi.innerHTML = `
+        <div class="wrapper d-flex align-items-center justify-content-between py-2 border-bottom">
+            <div class="d-flex">
+                <div class="wrapper ms-3">
+                    <p class="fw-bold">${(teste[0].nomeSoftware).toUpperCase()}</p>
+                </div>
+            </div>
+            <div class="text-black text-middle">
+                ${teste[0].contagem}
+            </div>
+        </div>`;
+    } else if(teste[0] != undefined && teste[1] != undefined){
+        kpi.innerHTML = `
+        <div class="wrapper d-flex align-items-center justify-content-between py-2 border-bottom">
+        <div class="d-flex">
+            <div class="wrapper ms-3">
+                <p class="fw-bold">${(teste[0].nomeSoftware).toUpperCase()}</p>
+            </div>
+        </div>
+        <div class="text-black text-middle">
+            ${teste[0].contagem} Acessos
+        </div>
+    </div>
+    <div class="wrapper d-flex align-items-center justify-content-between py-2 border-bottom">
+            <div class="d-flex">
+                <div class="wrapper ms-3">
+                    <p class="fw-bold">${(teste[1].nomeSoftware).toUpperCase()}</p>
+                </div>
+            </div>
+            <div class="text-black text-middle">
+                ${teste[1].contagem} Acessos
+            </div>
+        </div>`;
+    } else if(teste[0] == undefined && teste[1] == undefined && teste[2] == undefined){
+        kpi.innerHTML = `<h1> Não foram encontrados ocorrências de processos ilícitos para sua empresa</h1>`
     }
+    }
+
+function buscaKPI2(fkEmpresa){
+    fetch(`/procIlic/buscarKPI2/${fkEmpresa}`, { cache: 'no-store' }).then(function (response) {
+        if (response.ok) {
+            response.json().then(function (resposta) {
+                console.log(`Dados recebidos KPI: ${JSON.stringify(resposta)}`);
+                resposta.reverse();
+
+                if(resposta != undefined){
+                    var kpi2 = document.getElementById("qtd_proc_dist");
+                    kpi2.innerHTML = resposta[0].qtde;
+                }
+            });
+        } else {
+            console.error('Nenhum dado encontrado ou erro na API');
+        }
+    })
+        .catch(function (error) {
+            console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+        });
+}
+
+function buscaKPI3(fkEmpresa){
+    fetch(`/procIlic/buscarKPI3/${fkEmpresa}`, { cache: 'no-store' }).then(function (response) {
+        if (response.ok) {
+            response.json().then(function (resposta) {
+                console.log(`Dados recebidos KPI: ${JSON.stringify(resposta)}`);
+                resposta.reverse();
+
+                if(resposta != undefined){
+                    var kpi3 = document.getElementById("qtd_func");
+                    kpi3.innerHTML = `${resposta[0].contagem}/${resposta[0].totalFunc}`;
+                }
+            });
+        } else {
+            console.error('Nenhum dado encontrado ou erro na API');
+        }
+    })
+        .catch(function (error) {
+            console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+        });
+}
 
