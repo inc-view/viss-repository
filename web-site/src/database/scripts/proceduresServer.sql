@@ -1,4 +1,4 @@
--- Índices para otimizar as consultas
+-- Ãndices para otimizar as consultas
 CREATE INDEX idx_idComputador ON computador (idComputador);
 CREATE INDEX idx_fkComputador ON processo (fkComputador);
 CREATE INDEX idx_fkFuncionario ON computador (fkFuncionario);
@@ -19,7 +19,7 @@ BEGIN
     END
 END;
 
--- Cadastro dos processos ilícitos encontrados através do Java >>> NOVO!!!
+-- Cadastro dos processos ilÃ­citos encontrados atravÃ©s do Java >>> NOVO!!!
 CREATE PROCEDURE spInsertRegistroIlicito
     @vNomeProcesso varchar(150),
     @vfkPc int
@@ -58,4 +58,50 @@ BEGIN
     INSERT INTO registroProcesso (registro, fkProcesso, fkHasComponente, dataHora)
     VALUES (ROUND(@dadoRAM, 2), @id, @idRam, GETDATE());
 END;
+CREATE PROCEDURE spInsertComputador
+    @nomePatrimonio varchar(255),
+    @marca varchar(255),
+    @fkFuncionario int,
+    @sistemaOperacional varchar(255),
+    @ipComputador varchar(15)
+AS
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM computador WHERE nomePatrimonio = @nomePatrimonio)
+    BEGIN
+        INSERT INTO computador (nomePatrimonio, marca, fkFuncionario, sistemaOperacional, ipComputador)
+        VALUES (@nomePatrimonio, @marca, @fkFuncionario, @sistemaOperacional, @ipComputador);
+    END
+END;
 
+CREATE PROCEDURE spSelectGraf1
+    @vFkEmpresa INT
+AS
+BEGIN
+    SELECT COUNT(dataHora) AS contagem,
+           CONVERT(VARCHAR(10), dataHora, 103) AS 'data_hora'
+    FROM processoIlicito AS p
+    JOIN softwarePermitido AS sp ON sp.idSoftwarePermitido = p.fkSoftware 
+    JOIN software AS s ON s.idSoftware = sp.fkSoftware 
+    JOIN computador AS c ON sp.fkComputador = c.idComputador 
+    JOIN funcionario AS f ON f.idFuncionario = c.fkFuncionario
+    JOIN empresa AS e ON f.fkEmpresa = e.idEmpresa
+    WHERE f.fkEmpresa = @vFkEmpresa
+    GROUP BY CONVERT(VARCHAR(10), p.dataHora, 103)
+    ORDER BY CONVERT(VARCHAR(10), p.dataHora, 103);
+END;
+
+CREATE PROCEDURE spSelectKPI
+    @vFkEmpresa INT
+AS
+BEGIN
+    SELECT TOP 3 COUNT(p.dataHora) AS contagem, s.nomeSoftware
+    FROM processoIlicito AS p
+    JOIN softwarePermitido AS sp ON sp.idSoftwarePermitido = p.fkSoftware 
+    JOIN software AS s ON s.idSoftware = sp.fkSoftware 
+    JOIN computador AS c ON sp.fkComputador = c.idComputador 
+    JOIN funcionario AS f ON f.idFuncionario = c.fkFuncionario
+    JOIN empresa AS e ON f.fkEmpresa = e.idEmpresa
+    WHERE f.fkEmpresa = @vFkEmpresa
+    GROUP BY s.nomeSoftware
+    ORDER BY contagem DESC;
+END;

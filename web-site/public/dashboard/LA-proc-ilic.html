@@ -31,7 +31,7 @@
     <!-- endinject -->
     <link rel="shortcut icon" href="images/favicon-32x32.png  " />
   </head>
-  <body onload="obterDadosGrafico()">
+  <body onload="obterDadosGrafico(), buscarKpi(localStorage.getItem('FK_EMPRESA'))">
     <div class="container-scroller">
       <!-- partial:partials/_navbar.html -->
       <nav
@@ -602,7 +602,7 @@
                     >
                       <div class="col">
                         <div class="row flex-grow">
-                          <div class="col-sm-9" style="width: 56vw;">
+                          <div class="col-sm-9" style="width: 40vw;">
                             <div class="col-12 grid-margin stretch-card">
                               <div class="card card-rounded">
                                 <div class="card-body">
@@ -613,14 +613,9 @@
                                       <h4 class="card-title card-title-dash">
                                         Processos abertos - Dia
                                       </h4>
-                                      <p
-                                      class="card-subtitle card-subtitle-dash"
-                                    >
-                                      Quantidade de processos abertos durante os meses
-                                    </p>
                                       
                                     <div class="chart-style">
-                                      <canvas id="grafProcIlic" style="width: 49vw"></canvas>
+                                      <canvas id="grafProcIlic" style="width: 35vw"></canvas>
                                     </div>
                                     </div>
                                    
@@ -639,6 +634,24 @@
                               </div>
                             </div>
                           </div>
+                          <div class="col-5 grid-margin stretch-card">
+                            <div class="card card-rounded">
+                              <div class="card-body">
+                                <div class="row">
+                                  <div class="col-lg-12">
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                      <div>
+                                        <h4 class="card-title card-title-dash">Processos mais acessados </h4>
+                                      </div>
+                                    </div>
+                                    <div class="mt-3">
+                                      <div id="kpi_processos"></div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
 
                         </div>
 
@@ -646,63 +659,12 @@
                           
                           <div class="row flex-grow">
 
-                            <div class="col-8 grid-margin stretch-card">
-                              <div class="card card-rounded">
-                                <div class="card-body">
-                                  <div class="row">
-                                    <div class="col-lg-12">
-                                      <div class="d-flex justify-content-between align-items-center mb-3">
-                                        <div>
-                                          <h4 class="card-title card-title-dash">Processos mais acessados </h4>
-                                        </div>
-                                      </div>
-                                      <div class="mt-3">
-                                        
-                                        <div class="wrapper d-flex align-items-center justify-content-between py-2 border-bottom">
-                                          <div class="d-flex">
-                                            <div class="wrapper ms-3">
-                                              <p class="fw-bold">ChatGPT</p>
-                                              <small class="text-black text-middle mb-0">125 funcionários</small>
-                                            </div>
-                                          </div>
-                                          <div class="text-black text-middle">
-                                            246 vezes
-                                          </div>
-                                        </div>
-                                        <div class="wrapper d-flex align-items-center justify-content-between py-2 border-bottom">
-                                          <div class="d-flex">
-                                            <div class="wrapper ms-3">
-                                              <p class="fw-bold">Bard</p>
-                                              <small class="text-black text-middle mb-0">100 funcionários</small>
-                                            </div>
-                                          </div>
-                                          <div class="text-black text-middle">
-                                            179 vezes
-                                          </div>
-                                        </div>
-                                        <div class="wrapper d-flex align-items-center justify-content-between pt-2">
-                                          <div class="d-flex">
-                                            <div class="wrapper ms-3">
-                                              <p class="fw-bold">WhatsApp</p>
-                                              <small class="text-black text-middle mb-0">52 funcionários</small>
-                                            </div>
-                                          </div>
-                                          <div class="text-black text-middle">
-                                            68 vezes
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
+                            
                             
 
-                            <div class="col-4  d-flex flex-column justify-content-center align-items-center">
-                              <div class="col-12">
-                                <div class="col-12 grid-margin stretch-card">
-                                  <div class="card card-rounded">
+                            <div class="col-10  d-flex flex-row justify-content-center align-items-center" style="justify-content: space-between;">
+                              
+                                  <div class="card card-rounded" style="width: 50%; margin-right: 5vw;">
                                     <div class="card-body">
                                       <div class="row">
                                         <div class="col-lg-12">
@@ -719,17 +681,15 @@
                                           </div>
                                         </div>
                                         <div class="mt-3">
-                                          <h3>15</h3>
+                                          <h3 id="qtd_proc_dist">15</h3>
                                         </div>
                                       </div>
                                     </div>
                                   </div>
-                                </div>
-                              </div>
-  
-                              <div class="col-12">
-                                <div class="col-12 grid-margin stretch-card">
-                                  <div class="card card-rounded">
+                                
+                          
+          
+                                  <div class="card card-rounded" style="width: 50%;">
                                     <div class="card-body">
                                       <div class="row">
                                         <div class="col-lg-12">
@@ -746,14 +706,13 @@
                                           </div>
                                         </div>
                                         <div class="mt-3">
-                                          <h3>122</h3>
+                                          <h3 id="qtd_func">122</h3>
                                         </div>
                                       </div>
                                     </div>
                                   </div>
-                                </div>
+                                
                               </div>
-                            </div>
                           
                           </div>
 
