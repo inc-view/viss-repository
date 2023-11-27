@@ -1,17 +1,14 @@
 var mysql = require("mysql2");
 var sql = require('mssql');
 
-// CONEXÃO DO SQL SERVER - AZURE (NUVEM)
-var sqlServerConfig = {
-    server: "ec2-18-232-37-243.compute-1.amazonaws.com",
-    database: "inkView",
+
+const sqlServerConfig = {
+    port: parseInt(1433, 10),
+    server: "18.232.37.243",
     user: "sa",
     password: "conexaoPI123",
-    pool: {
-        max: 10,
-        min: 0,
-        idleTimeoutMillis: 30000
-    },
+    database: "inkView",
+    stream: false,
     options: {
         encrypt: false, // for azure
     }
@@ -22,8 +19,7 @@ var mySqlConfig = {
     host: "localhost",
     database: "inkView",
     user: "root",
-    password: "1234567",
-
+    password: "1234",
 };
 
 function executar(instrucao) {
