@@ -12,8 +12,11 @@ function dashboardAlertasCpu(req, res) {
 }
 
 function listarOcorrenciaMes(req, res) {
-    var idMaquina = req.params.idMaquina;
-    dashAlertasCpuModel.listarOcorrenciaMes(idMaquina).then(function (resultado) {
+    var idMaquina = req.body.idMaquina;
+    var mes = req.body.month;
+    var empresa = req.body.fkEmpresa;
+
+    dashAlertasCpuModel.listarOcorrenciaMes(mes).then(function (resultado) {
         res.status(200).json(resultado);
     }).catch(function (erro) {
         console.log(erro);

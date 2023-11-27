@@ -75,7 +75,7 @@ function dashboardAlertasCpu(idMaquina) {
     return database.executar(instrucaoSql);
 }
 
-function listarOcorrenciaMes(idMaquina) {
+function listarOcorrenciaMes(mes) {
 
     instrucaoSql = ''
 
@@ -116,7 +116,7 @@ function listarOcorrenciaMes(idMaquina) {
         componente.tipo = 'CPU' 
         AND registro > 90 
         AND YEAR(dtHora) = 2023
-        AND MONTH(dtHora) = ${value}
+        AND MONTH(dtHora) = ${mes}
     GROUP BY 
         DATE_FORMAT(dtHora, '%d-%m-%Y')
     ORDER BY

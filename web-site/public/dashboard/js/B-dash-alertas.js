@@ -9,6 +9,7 @@ partes.forEach(function (parte) {
   idMaquina = valor;
 }); */
 
+let idMaquina = 1;
 let meses = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"]
 
 
@@ -54,13 +55,12 @@ var chartColMonthCpu = new ApexCharts(document.querySelector("#chartColMonthCpu"
 chartColMonthCpu.render();
 
 function updateDashboardAlertasCpu() {
-  /*   data_dash.innerHTML = `${dataDash.getDate()}/${dataDash.getMonth() + 1}/${dataDash.getFullYear()}`; */
 
-  fetch(`/routeDashAlertasCpu/dashboardAlertasCpu/${1}`).then(
+  fetch(`/routeDashAlertasCpu/dashboardAlertasCpu/${idMaquina}`).then(
     (response) => {
       if (response.ok) {
         response.json().then((data) => {
-          
+
           console.log(data)
 
           for (var i = 0; i < data.length; i++) {
@@ -90,21 +90,43 @@ function updateDashboardAlertasCpu() {
 
 let selectListAlertas = document.getElementById("selectListAlertas")
 selectListAlertas.addEventListener("change", () => {
+  dataOcorrenciasCpu = [];
+  labelsOcorrenciasCpu = [];
+  labels = [];
+
   if (selectListAlertas.value > 0) {
-    let orderByQuery = selectListAlertas.value;
-    fetch(`/routeDashAlertasCpu/listarOcorrenciaMes/${1}`, {
+
+    fetch(`/routeDashAlertasCpu/listarOcorrenciaMes/`, {
       method: "post",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        orderby: orderByQuery,
-        maquina: localStorage.getItem("FK_MAQUINA"),
+        month: selectListAlertas.value,
+        maquina: idMaquina,
+        empresa: localStorage.getItem("FK_EMPRESA"),
       }),
     }).then((response) => {
       if (response.ok) {
-        response.json().then((value) => {
-          //let listMain = document.getElementById("listProcessMain");
+        response.json().then((data) => {
+
+          for (var i = 0; i < data.length; i++) {
+            labels.push(data[i].data)
+            dataOcorrenciasCpu.push(data[i].ocorrencia)
+          }
+
+          chartColMonthCpu.updateSeries([
+            {
+              name: "Ocorrências",
+              data: dataOcorrenciasCpu,
+            }
+          ]);
+
+          chartColMonthCpu.updateOptions({
+            xaxis: {
+              categories: labels,
+            }
+          });
 
         })
       }
