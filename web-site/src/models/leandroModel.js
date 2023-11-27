@@ -117,6 +117,41 @@ function dashboardCpu(idMaquina) {
     return database.executar(instrucaoSql);
 }
 
+function dashboardCpuAlertasCpu(idMaquina) {
+
+    instrucaoSql = ''
+
+    if (process.env.AMBIENTE_PROCESSO == "producao") {
+        instrucaoSql = ``;
+    } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
+        instrucaoSql = `SELECT 
+        MONTH(dtHora) AS 'Mes',
+        COUNT(registro) AS 'Ocorrencias' 
+    FROM 
+        registro 
+    JOIN 
+        hasComponente ON fkHasComponente = idHasComponente 
+    JOIN 
+        componente ON fkComponente = idComponente 
+    JOIN 
+        computador ON fkComputador = ${idMaquina} 
+    WHERE 
+        componente.tipo = 'CPU' 
+        AND registro > 90 
+        AND YEAR(dtHora) = 2023
+    GROUP BY 
+        MONTH(dtHora)
+    ORDER BY
+        MONTH(dtHORA);`;
+    } else {
+        console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
+        return
+    }
+
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
 function dashboardMemory(idMaquina) {
 
     instrucaoSql = ''
@@ -158,7 +193,7 @@ function infoMaquina(idMaquina) {
     if (process.env.AMBIENTE_PROCESSO == "producao") {
         instrucaoSql = ``;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
-        instrucaoSql = ` SELECT i.* FROM infoComputador AS i JOIN Computador AS c ON i.IpComputador = c.ipComputador AND c.idComputador=${idMaquina};`;
+        instrucaoSql = ` SELECT i.* FROM infoComputador AS i JOIN computador AS c ON i.IpComputador = c.ipComputador AND c.idComputador=${idMaquina};`;
     } else {
         console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
         return

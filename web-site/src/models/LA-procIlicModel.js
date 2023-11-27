@@ -14,7 +14,19 @@ function buscarGraf1(fkEmpresa){
 
 }
 
+function buscarKpi(fkEmpresa){
+  var querySql = ""
+
+  if (process.env.AMBIENTE_PROCESSO == "producao") {
+    querySql = `EXEC spSelectKPI @fkEmpresa = ${fkEmpresa};`
+  }else if(process.env.AMBIENTE_PROCESSO == "desenvolvimento"){
+    querySql = `CALL spSelectKPI(${fkEmpresa});`
+  }
+  return database.executar(querySql)
+}
+
 
 module.exports = {
-  buscarGraf1
+  buscarGraf1,
+  buscarKpi
 }

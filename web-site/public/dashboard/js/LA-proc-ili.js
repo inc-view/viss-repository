@@ -172,3 +172,59 @@ var valorNovo;
             });
 
     }
+
+
+    function buscarKpi(fkEmpresa){
+        fetch(`/procIlic/buscarKPI/${fkEmpresa}`, { cache: 'no-store' }).then(function (response) {
+            if (response.ok) {
+                response.json().then(function (resposta) {
+                    console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+                    resposta.reverse();
+
+                    carregaResult(resposta);
+                });
+            } else {
+                console.error('Nenhum dado encontrado ou erro na API');
+            }
+        })
+            .catch(function (error) {
+                console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+            });
+    }
+var teste = [];
+    function carregaResult(resposta){
+        var kpi = document.getElementById("kpi_processos");
+        teste = resposta;
+            kpi.innerHTML = `<div class="wrapper d-flex align-items-center justify-content-between py-2 border-bottom">
+            <div class="d-flex">
+              <div class="wrapper ms-3">
+                <p class="fw-bold">${(teste[1][0].nomeSoftware).toUpperCase()}</p>
+              </div>
+            </div>
+            <div class="text-black text-middle">
+              ${teste[1][0].contagem}
+            </div>
+          </div>
+          <div class="wrapper d-flex align-items-center justify-content-between py-2 border-bottom">
+            <div class="d-flex">
+              <div class="wrapper ms-3">
+                <p class="fw-bold">${(teste[1][1].nomeSoftware).toUpperCase()}</p>
+              </div>
+            </div>
+            <div class="text-black text-middle">
+            ${teste[1][1].contagem}
+            </div>
+          </div>
+          <div class="wrapper d-flex align-items-center justify-content-between pt-2">
+            <div class="d-flex">
+              <div class="wrapper ms-3">
+                <p class="fw-bold">${(teste[1][2].nomeSoftware).toUpperCase()}</p>
+              </div>
+            </div>
+            <div class="text-black text-middle">
+            ${teste[1][2].contagem}
+            </div>
+          </div>
+`;
+    }
+
