@@ -62,7 +62,7 @@ consoleColors = {
 # Tentando estabelecer a conexão
 try:
     connSERVER = pymssql.connect(server='18.232.37.243', user='sa', password='conexaoPI123', database='inkView')
-    cursorSERVER = conn.cursor()
+    cursorSERVER = connSERVER.cursor()
     cursorSERVER.execute("select * from ligacoesFuncionario;")
     print(cursorSERVER.fetchall())
 except pyodbc.Error as e:
@@ -79,6 +79,8 @@ connection = mysql.connector.connect(
     database="inkView"
 )
 cursor = connection.cursor()
+
+time.sleep(50)
 
 def showText():
     print(f"""{consoleColors['cyan']}
