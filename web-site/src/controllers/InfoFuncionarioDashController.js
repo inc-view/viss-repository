@@ -14,6 +14,7 @@ function ListagemTotalChamadas(req, res) {
         res.status(500).json(erro.sqlMessage);
     });
 }
+
 function ListagemTMA(req, res) {
     var fkEmpresa = req.query.fkEmpresa;
     infoFuncionarioDash.ListagemTMA(fkEmpresa).then(function (resultado) {
