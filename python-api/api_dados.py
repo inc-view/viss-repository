@@ -58,27 +58,17 @@ consoleColors = {
 }
 
 
-# Parâmetros de conexão
-print("Informe o IP do SERVIDOR do SqlServer:")
-ipServidorSQL = input()
-
-server = ipServidorSQL
-database = 'inkView'
-username = 'sa'
-password = 'conexaoPI123'
-
-# Construindo a string de conexão
-conn_str = f'DRIVER={{ODBC Driver 17 for SQL Server}};SERVER={server};DATABASE={database};UID={username};PWD={password}'
 
 # Tentando estabelecer a conexão
 try:
-    connSERVER = pyodbc.connect(conn_str)
-    cursorSERVER = connSERVER.cursor()
+    connSERVER = pymssql.connect(server='18.232.37.243', user='sa', password='conexaoPI123', database='inkView')
+    cursorSERVER = conn.cursor()
     cursorSERVER.execute("select * from ligacoesFuncionario;")
     print(cursorSERVER.fetchall())
 except pyodbc.Error as e:
     print(f"Erro na conexão: {e}")
 
+print("teste")
 ipDaECEDOIS = input()
 
 connection = mysql.connector.connect(
