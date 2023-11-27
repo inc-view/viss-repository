@@ -5,7 +5,7 @@ function listar(orderBy, fkEmpresa) {
   var query = ""
 
   if (process.env.AMBIENTE_PROCESSO == "producao") {
-    query = `select * from listProcessData where fkEmpresa = ${fkEmpresa} order by \`${orderBy}\` desc;`;
+    query = `select * from listProcessData where fkEmpresa = ${fkEmpresa} order by ${orderBy} desc;`;
   } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
     query = `select * from listProcessData where fkEmpresa = ${fkEmpresa} order by \`${orderBy}\` desc;`;
   }
@@ -19,7 +19,7 @@ function listarThree(orderBy, fkEmpresa) {
   var query = ""
 
   if (process.env.AMBIENTE_PROCESSO == "producao") {
-    query = `select * from listProcessData where fkEmpresa = ${fkEmpresa} order by \`${orderBy}\` desc limit 3;`;
+    query = `select * from listProcessData where fkEmpresa = ${fkEmpresa} order by ${orderBy} desc limit 3;`;
   } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
     query = `select * from listProcessData where fkEmpresa = ${fkEmpresa} order by \`${orderBy}\` desc limit 3;`;
   }
@@ -49,7 +49,7 @@ function getFirstLine(fkProcesso, fkEmpresa) {
   var query = ""
 
   if (process.env.AMBIENTE_PROCESSO == "producao") {
-    query = `select * from listDataOneProcess where fkProcesso = ${fkProcesso} and fkEmpresa = ${fkEmpresa};`;
+    query = `select * from listDataOneProcess where fkProcesso = ${fkProcesso};`;
   } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
     query = `select * from listDataOneProcess where fkProcesso = ${fkProcesso} and fkEmpresa = ${fkEmpresa};`;
   }
@@ -63,7 +63,7 @@ function getSecondLine(fkProcesso, fkEmpresa) {
   var query = ""
 
   if (process.env.AMBIENTE_PROCESSO == "producao") {
-    query = `select * from listDataOneProcess where fkProcesso = ${fkProcesso} and fkEmpresa = ${fkEmpresa};`;
+    query = `select * from listDataOneProcess where fkProcesso = ${fkProcesso};`;
   } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
     query = `select * from listDataOneProcess where fkProcesso = ${fkProcesso} and fkEmpresa = ${fkEmpresa};`;
   }
