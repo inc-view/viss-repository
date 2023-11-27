@@ -65,7 +65,7 @@ try:
     cursorSERVER = connSERVER.cursor()
     cursorSERVER.execute("select * from ligacoesFuncionario;")
     print(cursorSERVER.fetchall())
-except pyodbc.Error as e:
+except pymssql.Error as e:
     print(f"Erro na conexão: {e}")
 
 print("teste")
@@ -114,7 +114,7 @@ def CheckLogin():
             idFuncionario = cursorSERVER.fetchall()
             print(idFuncionario)
             try:
-                cursor.execute(f" call checkComputerExists ('{str(ipMaquina)}', '{platform.node()}', 'EC2 - AWS', {idFuncionario[0]}, '{platform.system()}', true) ")
+                cursor.execute(f" call checkComputerExists ('{str(ipMaquina)}', '{platform.node()}', 'EC2 - AWS', 1, '{platform.system()}', true) ")
                 cursorSERVER.execute(f"exec checkComputerExists '{str(ipMaquina)}', '{platform.node()}', 'EC2 - AWS', {idFuncionario[0]}, '{platform.system()}', 1")
                 connection.commit()
                 connSERVER.commit()
@@ -239,3 +239,7 @@ if opcao == "1":
 if connection.is_connected():
     cursor.close()
     connection.close()
+
+if connSERVER.is_connected():
+    cursorSERVER.close()
+    connSERVER.close()
