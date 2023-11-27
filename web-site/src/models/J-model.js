@@ -142,7 +142,7 @@ function atendimentoAtual(valor) {
     WHERE e.idEmpresa = ${fkEmpresa};`;
 
   if (process.env.AMBIENTE_PROCESSO == "producao") {
-    instrucaoSql = ` SELECT SUM(lf.atendidas) AS total_ligacoes_dia
+    instrucaoSql = `SELECT SUM(lf.atendidas) AS total_ligacoes_dia
     FROM ligacoesFuncionario lf
     JOIN funcionario f ON lf.fkFuncionario = f.idFuncionario
     JOIN empresa e ON f.fkEmpresa = e.idEmpresa
