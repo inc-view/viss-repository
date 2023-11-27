@@ -1,8 +1,8 @@
-fazerLista(), pegarTMA(), pegarTotalComputadores(), pegarTotalChamadas()
+fazerLista(), pegarTMA(), pegarTotalChamadas(), pegarDuracao();
 
-setInterval(pegarCpuOff, 7000);
-setInterval(pegarTotalComputadores, 7000);
-setInterval(pegarCpuProblema, 7000);
+setInterval(pegarTMA, 7000);
+setInterval(pegarTotalChamadas, 7000);
+setInterval(pegarDuracao, 7000);
 
 function pegarTotalChamadas() {
     fetch(`/InfoFuncionarioDash/ListagemTotalChamadas?fkEmpresa=${localStorage.FK_EMPRESA}`, { cache: 'no-store' }).then(function (response) {
@@ -86,29 +86,29 @@ function fazerLista() {
                     tr.appendChild(tdNome);
 
                     let tdTMA = document.createElement("td");
-                    tdIp.innerHTML = `${resposta[i].TMA}`
+                    tdTMA.innerHTML = `${resposta[i].TMA}`
                     tr.appendChild(tdTMA);
 
-                    let tdIp = document.createElement("td");
-                    tdIp.innerHTML = `${resposta[i].chamadas_recebidas}`
-                    tr.appendChild(tdIp);
+                    let tdChamada = document.createElement("td");
+                    tdChamada.innerHTML = `${resposta[i].chamadas_recebidas}`
+                    tr.appendChild(tdChamada);
 
                     let tdporAtendidas = document.createElement("td");
-                    tdIp.innerHTML = `${resposta[i].chamadas_atendidas}`
+                    tdporAtendidas.innerHTML = `${resposta[i].chamadas_atendidas}`
                     tr.appendChild(tdporAtendidas);
                    
                     let tdporAtendidasPorc = document.createElement("td");
-                    tdIp.innerHTML = `${resposta[i].porcentagem_atendidas}%`
+                    tdporAtendidasPorc.innerHTML = `${resposta[i].porcentagem_atendidas}%`
                     tr.appendChild(tdporAtendidasPorc);
 
                 
-                    let chamadasAbandonadas = document.createElement("td");
-                    tr.appendChild(chamadasAbandonadas);
-                    tdUltimaSessao.innerHTML = `${resposta[i].chamadas_abandonadas}`;
+                    let tdChamadasAbandonadas = document.createElement("td");
+                    tr.appendChild(tdChamadasAbandonadas);
+                    tdChamadasAbandonadas.innerHTML = `${resposta[i].chamadas_abandonadas}`;
 
-                    let tdUltimaSessao = document.createElement("td");
-                    tr.appendChild(tdUltimaSessao);
-                    tdUltimaSessao.innerHTML = `${resposta[i].duracao_total}`;
+                    let tdDuracao = document.createElement("td");
+                    tr.appendChild(tdDuracao);
+                    tdDuracao.innerHTML = `${resposta[i].duracao_total}`;
 
                   //  tr.onclick = () => { window.location.href = `./dashboardLeandro.html?id=${resposta[i].idComputador}` }
                     tr.style.cursor = "pointer";
@@ -151,39 +151,40 @@ function fazerListaPorNome(){
             
                     for (let i = 0; i < resposta.length; i++) {
     
-                        let tr = document.createElement("tr");
+                        
+                    let tr = document.createElement("tr");
                     
-                        let tdNome = document.createElement("td");
-                        tdNome.setAttribute("class", "py-1");
-                        tdNome.innerHTML = `${resposta[i].nome_funcionario}`
-                        tr.appendChild(tdNome);
-    
-                        let tdTMA = document.createElement("td");
-                        tdIp.innerHTML = `${resposta[i].TMA}`
-                        tr.appendChild(tdTMA);
-    
-                        let tdIp = document.createElement("td");
-                        tdIp.innerHTML = `${resposta[i].chamadas_recebidas}`
-                        tr.appendChild(tdIp);
-    
-                        let tdporAtendidas = document.createElement("td");
-                        tdIp.innerHTML = `${resposta[i].chamadas_atendidas}`
-                        tr.appendChild(tdporAtendidas);
-                       
-                        let tdporAtendidasPorc = document.createElement("td");
-                        tdIp.innerHTML = `${resposta[i].porcentagem_atendidas}%`
-                        tr.appendChild(tdporAtendidasPorc);
-    
-                    
-                        let chamadasAbandonadas = document.createElement("td");
-                        tr.appendChild(chamadasAbandonadas);
-                        tdUltimaSessao.innerHTML = `${resposta[i].chamadas_abandonadas}`;
-    
-                        let tdUltimaSessao = document.createElement("td");
-                        tr.appendChild(tdUltimaSessao);
-                        tdUltimaSessao.innerHTML = `${resposta[i].duracao_total}`;
-    
-                        tr.onclick = () => { window.location.href = `./dashboardLeandro.html?id=${resposta[i].idComputador}` }
+                    let tdNome = document.createElement("td");
+                    tdNome.setAttribute("class", "py-1");
+                    tdNome.innerHTML = `${resposta[i].nome_funcionario}`
+                    tr.appendChild(tdNome);
+
+                    let tdTMA = document.createElement("td");
+                    tdTMA.innerHTML = `${resposta[i].TMA}`
+                    tr.appendChild(tdTMA);
+
+                    let tdChamada = document.createElement("td");
+                    tdChamada.innerHTML = `${resposta[i].chamadas_recebidas}`
+                    tr.appendChild(tdChamada);
+
+                    let tdporAtendidas = document.createElement("td");
+                    tdporAtendidas.innerHTML = `${resposta[i].chamadas_atendidas}`
+                    tr.appendChild(tdporAtendidas);
+                   
+                    let tdporAtendidasPorc = document.createElement("td");
+                    tdporAtendidasPorc.innerHTML = `${resposta[i].porcentagem_atendidas}%`
+                    tr.appendChild(tdporAtendidasPorc);
+
+                
+                    let tdChamadasAbandonadas = document.createElement("td");
+                    tr.appendChild(tdChamadasAbandonadas);
+                    tdChamadasAbandonadas.innerHTML = `${resposta[i].chamadas_abandonadas}`;
+
+                    let tdDuracao = document.createElement("td");
+                    tr.appendChild(tdDuracao);
+                    tdDuracao.innerHTML = `${resposta[i].duracao_total}`;
+
+                     //   tr.onclick = () => { window.location.href = `./dashboardLeandro.html?id=${resposta[i].idComputador}` }
                         tr.style.cursor = "pointer";
                         listaElement.appendChild(tr);
                     }
