@@ -1,85 +1,4 @@
-use inkView;
-
--- CRIAÇÃO DA VIEW DOS REGISTROS EM TABELA
-CREATE VIEW tabelaRegistros AS
-    SELECT 
-         registro . registro  AS  Registro ,
-         registro . dtHora  AS  MomentoRegistro ,
-         componente . tipo  AS  Componente ,
-         unidademedida .tipoMedida AS Simbolo,
-        hasComponente.idHasComponente AS idHasComponente,
-        computador.idComputador AS idComputador
-    FROM
-        registro
-            JOIN
-        hasComponente ON fkHasComponente = idHasComponente
-            JOIN
-        computador ON fkComputador = idComputador
-            JOIN
-        componente ON fkComponente = idComponente
-            JOIN
-        unidadeMedida ON fkUnidadeMedida = idUnidadeMedida
-    ORDER BY registro.dtHora
-    LIMIT 1000;
-
-
--- VIEW DE INFORMAÇÕES DO COMPUTADOR
-CREATE VIEW infoComputador AS
-SELECT 
-    f.nome AS `NomeFuncionario`,
-    c.ipComputador AS `IpComputador`,
-    c.ativo AS `Status`,
-    c.marca AS `MarcaComputador`,
-    c.sistemaOperacional AS `SistemaOperacional`,
-    c.idComputador AS `IdComputador`,
-    (
-        SELECT MAX(r.dtHora)
-        FROM registro r
-        WHERE r.fkHasComponente IN (
-            SELECT hc.idHasComponente
-            FROM hasComponente hc
-            WHERE hc.fkComputador = c.idComputador
-        )
-    ) AS `UltimaSessao`,
-    (
-        SELECT r.registro
-        FROM registro r
-        JOIN hasComponente hc ON r.fkHasComponente = hc.idHasComponente
-        JOIN componente comp ON hc.fkComponente = comp.idComponente
-        WHERE comp.tipo = 'CPU' AND r.dtHora = (
-            SELECT MAX(r2.dtHora)
-            FROM registro r2
-            JOIN hasComponente hc2 ON r2.fkHasComponente = hc2.idHasComponente
-            WHERE hc2.fkComputador = c.idComputador
-            AND comp.tipo = 'CPU'
-        )
-        LIMIT 1
-    ) AS `PorcentagemCPU`
-FROM computador c
-JOIN funcionario f ON c.fkFuncionario = f.idFuncionario;
-
-CREATE VIEW vwIdComponenteComputador AS
-select 
-    idComputador,
-	ipComputador,
-	cpu1.idHasComponente as 'cpu',
-	ram1.idHasComponente as 'ram',
-    disco1.idHasComponente as 'disco'
-from computador pc
-	join hasComponente cpu1 on cpu1.fkComputador = pc.idComputador
-    join hasComponente ram1 on ram1.fkComputador = pc.idComputador
-    join hasComponente disco1 on disco1.fkComputador = pc.idComputador
-		 join componente c on c.idComponente = cpu1.fkComponente
-         join componente c1 on c1.idComponente = ram1.fkComponente
-         join componente c2 on c2.idComponente = disco1.fkComponente
-			join unidadeMedida u on u.idUnidadeMedida = c1.fkUnidadeMedida
-				where c.tipo = 'CPU' 
-                and  c2.tipo = 'Disco' 
-                and c1.tipo = 'Memoria' 
-                and u.tipoMedida = '%';
-
-
-
+-- SELECTS MYSQL WORKBENCH
 -- Select para PPM IDEAL E PPM ATUAL
 -- PPM ATUAL
 SELECT round(AVG(registro), 0) from
@@ -102,7 +21,6 @@ JOIN (
     GROUP BY fkHasComponente
 ) t2 ON t1.fkHasComponente = t2.fkHasComponente AND t1.dtHora = t2.maior_data) AS maxdatacomp;
 
-
 -- PPM Ideal
 SELECT round(AVG(r.registro), 0) AS media_ppm
 FROM registro r
@@ -117,9 +35,8 @@ WHERE c.tipo = 'PPM' AND idEmpresa = 1 AND lf.atendidas = (
     FROM ligacoesFuncionario
   );
 
-
--- qtd atendimentos no dia
-SELECT SUM(lf.atendidas) AS total_ligacoes_dia
+ -- qtd atendimentos no dia
+ SELECT SUM(lf.atendidas) AS total_ligacoes_dia
 FROM ligacoesFuncionario lf
 JOIN funcionario f ON lf.fkFuncionario = f.idFuncionario
 JOIN empresa e ON f.fkEmpresa = e.idEmpresa
@@ -130,7 +47,6 @@ SELECT (SELECT COUNT(*) FROM funcionario WHERE fkEmpresa = 1) * MAX(lf.atendidas
 FROM ligacoesFuncionario lf
 JOIN funcionario f ON lf.fkFuncionario = f.idFuncionario
 WHERE f.fkEmpresa = 1;
-
 
 -- INFORMAÇÕES LISTA DE FUNCIONARIOS
 SELECT 
@@ -154,7 +70,6 @@ FROM (
 WHERE rn <= 5
 GROUP BY ID, NOME;
 
-
 -- INFORMAÇÕES FUNCIONARIO PARA MATRIZ
 SELECT 
     lf.idligacoesFuncionario,
@@ -165,7 +80,6 @@ SELECT
     TIME_TO_SEC(lf.duracao) AS duracao_em_segundos
 FROM ligacoesFuncionario lf
 WHERE lf.fkFuncionario = 1;
-
 
 -- QUERY PARA O GRÁFICO DE PRODUTIVIDADE
 SELECT 
@@ -197,7 +111,6 @@ LEFT JOIN (
 GROUP BY horas.hora_do_dia
 ORDER BY horas.hora_do_dia;
 
-
 -- QUERY PARA PRODUTIVIDADE EM TEMPO REAL
 SELECT 
     AVG(r.registro) AS media_registro_PPM
@@ -217,7 +130,6 @@ JOIN empresa ON funcionario.fkEmpresa = empresa.idEmpresa
     LIMIT 500 -- Limita para os últimos 500 registros dos últimos 5 minutos
 ) r;
 
-
 -- QUERY PARA LISTA DE INFORMACOES DO FUNCIONARIO
 SELECT 
     f.nome AS nome_funcionario,
@@ -231,40 +143,120 @@ JOIN ligacoesFuncionario lf ON f.idFuncionario = lf.fkFuncionario
 WHERE f.fkEmpresa = 1
 ORDER BY lf.atendidas DESC LIMIT 5; -- Substitua 1 pelo ID da empresa desejada
 
--- View que lista tudo dos processos
-create view listProcessData as
-SELECT
-    f.fkEmpresa,
-    r.fkProcesso,
-    p.nomeProcesso AS 'processo',
-    round(AVG(CASE WHEN c.tipo = 'CPU' THEN r.registro END), 2) AS 'cpu',
-    round(AVG(CASE WHEN c.tipo = 'Memoria' AND c.fkUnidadeMedida = 1 THEN r.registro END), 2) AS 'ram',
-    TIMEDIFF(MAX(r.dataHora), MIN(r.dataHora)) AS 'horas_uso'
-FROM processo p
-	JOIN registroProcesso r ON r.fkProcesso = p.idProcesso
-	JOIN hasComponente hc on hc.idHasComponente = r.fkHasComponente
-	JOIN componente c on c.idComponente = hc.fkComponente
-	JOIN computador pc ON pc.idComputador = p.fkComputador
-	JOIN funcionario f ON f.idFuncionario = pc.fkFuncionario
-		GROUP BY f.fkEmpresa, r.fkProcesso, p.nomeProcesso;
+
+-- SELECTS MYSQL SERVER
+-- Select para PPM IDEAL E PPM ATUAL
+-- PPM ATUAL
+SELECT ROUND(AVG(registro), 0)
+FROM (
+    SELECT 
+        t1.fkHasComponente,
+        t1.registro,
+        t1.dtHora
+    FROM registro t1
+    JOIN (
+        SELECT 	
+            fkHasComponente,
+            MAX(dtHora) AS maior_data
+        FROM registro
+        JOIN hasComponente ON fkHasComponente = idHasComponente
+        JOIN componente ON fkComponente = idComponente
+        JOIN computador ON fkComputador = idComputador
+        JOIN funcionario ON fkFuncionario = idFuncionario
+        JOIN empresa ON fkEmpresa = idEmpresa
+        WHERE componente.tipo = 'PPM' AND idEmpresa = 1 AND dtHora >= DATEADD(MINUTE, -5, GETDATE())
+        GROUP BY fkHasComponente
+    ) t2 ON t1.fkHasComponente = t2.fkHasComponente AND t1.dtHora = t2.maior_data
+) AS maxdatacomp;
 
 
--- View que lista  os processos por dia
-create view listDataOneProcess as
-SELECT
-	day(r.dataHora) as 'dia',
-    r.fkProcesso,
-    p.nomeProcesso AS 'processo',
-    round(AVG(CASE WHEN c.tipo = 'CPU' THEN r.registro END), 2) AS 'cpu',
-    round(AVG(CASE WHEN c.tipo = 'Memoria' AND c.fkUnidadeMedida = 1 THEN r.registro END),2) AS 'ram',
-    TIMEDIFF(MAX(r.dataHora), MIN(r.dataHora)) AS 'horas_uso'
-FROM processo p
-	JOIN registroProcesso r ON r.fkProcesso = p.idProcesso
-	JOIN hasComponente hc on hc.idHasComponente = r.fkHasComponente
-	JOIN componente c on c.idComponente = hc.fkComponente
-	JOIN computador pc ON pc.idComputador = p.fkComputador
-	JOIN funcionario f ON f.idFuncionario = pc.fkFuncionario
-		where day(r.dataHora) between day(r.dataHora) - 7 and day(now())
-			and month(now())
-			GROUP BY r.fkProcesso, day(r.dataHora);
+-- PPM IDEAL
+SELECT ROUND(AVG(r.registro), 0) AS media_ppm
+FROM registro r
+JOIN hasComponente hc ON r.fkHasComponente = hc.idHasComponente
+JOIN componente c ON hc.fkComponente = c.idComponente
+JOIN computador ON fkComputador = idComputador
+JOIN funcionario ON fkFuncionario = idFuncionario
+JOIN ligacoesFuncionario lf ON lf.fkFuncionario = funcionario.idFuncionario
+JOIN empresa ON funcionario.fkEmpresa = empresa.idEmpresa
+WHERE c.tipo = 'PPM' 
+    AND idEmpresa = 1 
+    AND lf.atendidas = (
+        SELECT MAX(atendidas)
+        FROM ligacoesFuncionario
+        WHERE fkFuncionario = funcionario.idFuncionario
+    );
 
+
+-- ATENDIMENTO ATUAL
+SELECT SUM(lf.atendidas) AS total_ligacoes_dia
+FROM ligacoesFuncionario lf
+JOIN funcionario f ON lf.fkFuncionario = f.idFuncionario
+JOIN empresa e ON f.fkEmpresa = e.idEmpresa
+WHERE e.idEmpresa = 1;
+
+-- ATENDIMENTO IDEAL
+SELECT (SELECT COUNT(*) FROM funcionario WHERE fkEmpresa = 1) * MAX(lf.atendidas) AS total_ligacoes_atendidas
+FROM ligacoesFuncionario lf
+JOIN funcionario f ON lf.fkFuncionario = f.idFuncionario
+WHERE f.fkEmpresa = 1;
+
+-- INFORMAÇÕES LISTA DE FUNCIONARIOS
+SELECT 
+    ID,
+    NOME,
+    COALESCE(SUM(CASE WHEN ABANDONADAS IS NOT NULL THEN ABANDONADAS ELSE 0 END), 0) AS 'ABANDONADAS',
+    COALESCE(SUM(CASE WHEN ATENDIDAS IS NOT NULL THEN ATENDIDAS ELSE 0 END), 0) AS 'ATENDIDAS',
+    CONVERT(VARCHAR(8), DATEADD(SECOND, COALESCE(SUM(DATEDIFF(SECOND, '00:00:00', DURACAO)), 0), '1900-01-01'), 108) AS 'DURACAO'
+FROM (
+    SELECT 
+        f.idFuncionario AS ID,
+        f.nome AS NOME,
+        lf.abandonadas AS ABANDONADAS,
+        lf.atendidas AS ATENDIDAS,
+        lf.duracao AS DURACAO,
+        ROW_NUMBER() OVER (ORDER BY lf.atendidas DESC) AS rn
+    FROM funcionario f
+    LEFT JOIN ligacoesFuncionario lf ON f.idFuncionario = lf.fkFuncionario
+    WHERE f.fkEmpresa = 1
+) AS FuncionariosNumerados
+WHERE rn <= 5
+GROUP BY ID, NOME;
+
+-- LISTA FUNCIONÁRIOS
+SELECT TOP 5
+    f.nome AS nome_funcionario,
+    lf.recebidas AS chamadas_recebidas,
+    lf.atendidas AS chamadas_atendidas,
+    lf.porcAtendidas AS porcentagem_atendidas,
+    lf.abandonadas AS chamadas_abandonadas,
+    lf.duracao AS duracao_total
+FROM funcionario f
+JOIN ligacoesFuncionario lf ON f.idFuncionario = lf.fkFuncionario
+WHERE f.fkEmpresa = 1
+ORDER BY lf.atendidas DESC;
+
+-- GRÁFICO DE PRODUTIVIDADE
+SELECT 
+    horas.hora_do_dia,
+    COALESCE(ROUND(AVG(r.registro), 0), 0) AS media_registro_PPM
+FROM (
+    VALUES (0), (1), (2), (3), (4), (5), (6), (7), (8), (9), (10), (11), (12), (13), (14), (15), (16), (17), (18), (19), (20), (21), (22), (23)
+) AS horas(hora_do_dia)
+LEFT JOIN (
+    SELECT 
+        DATEPART(HOUR, r.dtHora) AS hora_do_dia,
+        r.registro
+    FROM registro r
+    JOIN hasComponente hc ON r.fkHasComponente = hc.idHasComponente
+    JOIN componente c ON hc.fkComponente = c.idComponente
+    JOIN computador ON fkComputador = idComputador
+    JOIN funcionario ON fkFuncionario = idFuncionario
+    JOIN ligacoesFuncionario lf ON lf.fkFuncionario = funcionario.idFuncionario
+    JOIN empresa ON funcionario.fkEmpresa = empresa.idEmpresa
+    WHERE c.tipo = 'PPM'
+      AND funcionario.fkEmpresa = 1
+      AND CONVERT(DATE, r.dtHora) = CONVERT(DATE, GETDATE()) -- Filtra os registros para o dia de hoje
+) r ON horas.hora_do_dia = r.hora_do_dia
+GROUP BY horas.hora_do_dia
+ORDER BY horas.hora_do_dia;

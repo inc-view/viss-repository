@@ -7,6 +7,7 @@ import time
 import mysql.connector
 import mysql.connector.errorcode
 import socket
+import pyodbc
 
 """ webhook = "https://hooks.slack.com/services/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" """
 
@@ -56,14 +57,35 @@ consoleColors = {
     "reset": "\u001b[0m",
 }
 
+
+# Parâmetros de conexão
+server = '3.225.229.38'
+database = 'inkView'
+username = 'sa'
+password = 'conexaoPI123'
+
+# Construindo a string de conexão
+conn_str = f'DRIVER={{ODBC Driver 17 for SQL Server}};SERVER={server};DATABASE={database};UID={username};PWD={password}'
+
+# Tentando estabelecer a conexão
+try:
+    connSERVER = pyodbc.connect(conn_str)
+    cursorSERVER = connSERVER.cursor()
+    cursorSERVER.execute("select * from ligacoesFuncionario;")
+    print(cursorSERVER.fetchall())
+except pyodbc.Error as e:
+    print(f"Erro na conexão: {e}")
+
+print("Informe o IP da sua EC2 (com pontos):")
+ipDaECEDOIS = input()
+
 connection = mysql.connector.connect(
-    host="localhost",
+    host=str(ipDaECEDOIS),
     user="root",
-    password= "7852456",
+    password="urubu100",
     port=3306,
     database="inkView"
 )
-
 cursor = connection.cursor()
 
 def showText():
@@ -83,7 +105,21 @@ def showText():
                     Processor: {platform.processor()}
                     Operating System: {platform.system()}\n
 []=================================================================[]{consoleColors['reset']}\n""")
+
+ipMaquina = socket.gethostbyname(socket.gethostname())
+
+
+try:
+    cursor.execute(f"insert into computador(ipComputador, nomePatrimonio, marca, fkFuncionario, sistemaOperacional, ativo) values ('{str(ipMaquina)}', '{platform.node()}', 'EC2 - AWS', 1, '{platform.system()}', true)")
+    cursorSERVER.execute(f"insert into computador(ipComputador, nomePatrimonio, marca, fkFuncionario, sistemaOperacional, ativo) values ('{str(ipMaquina)}', '{platform.node()}', 'EC2 - AWS', 1, '{platform.system()}', 1)")
+    connection.commit()
+    connSERVER.commit()
+except mysql.connector.Error as error:
+    print("Failed to insert record into Laptop table {}".format(error))
     
+
+
+time.sleep(5)
 def ProgressBar(percentual): 
     if(percentual>=0 or percentual<=100): 
         barPercent="["+(chr(9632)*(percentual))+"]"; 
@@ -113,7 +149,6 @@ opcao = ""
 while not opcao in ("1", "2"):
     print("Escolha uma opção:\n1- Registrar dados\n2- Sair\n")
     opcao = input()
-    ipMaquina = socket.gethostbyname(socket.gethostname())
 
 if opcao == "2":
     print("Processos finalizados")
@@ -152,9 +187,9 @@ if opcao == "1":
         ProgressBar(percentual=int(diskPercent.percent))
             
         mediaCpus = round((somaCpus / len(cpusPercent)),2)
-        print(mediaCpus)
 
         try:
+            # CONEXAO MYSQL
             selectIpMaquina = f"select cpu, ram, disco from vwIdComponenteComputador where ipComputador = '{str(ipMaquina)}'"
             cursor.execute(selectIpMaquina)
             idsComponentes = cursor.fetchone()
@@ -167,14 +202,23 @@ if opcao == "1":
             cursor.execute(mySqlInsertQueryMemoryPercent)
             cursor.execute(mySqlInsertQueryDiskPercent)
 
-
-
-            # mySqlInsertQueryMemoryUsed = "INSERT INTO registro VALUES (null, " + str(memoryUsed) + ",  current_timestamp(), 3);"
-            # mySqlInsertQueryMemoryTotal = "INSERT INTO registro VALUES (null, " + str(memoryTotal) + ",  current_timestamp(), 3);"
-            # cursor.execute(mySqlInsertQueryMemoryUsed)
-            # cursor.execute(mySqlInsertQueryMemoryTotal)
-
             connection.commit()
+
+            # CONEXAO SQLSERVER
+            selectIpMaquinaServer = f"select cpu, ram, disco from vwIdComponenteComputador where ipComputador = '{str(ipMaquina)}'"
+            cursorSERVER.execute(selectIpMaquinaServer)
+            idsComponentesSql = cursorSERVER.fetchone()
+
+            sqlServerInsertQueryCpuPercent = f"INSERT INTO registro (registro, dtHora, fkHasComponente) VALUES ({float(mediaCpus)},  GETDATE(), {idsComponentesSql[0]});"
+            sqlServerInsertQueryMemoryPercent = f"INSERT INTO registro (registro, dtHora, fkHasComponente) VALUES ({float(mediaCpus)},  GETDATE(), {idsComponentesSql[1]});"
+            sqlServerInsertQueryDiskPercent = f"INSERT INTO registro (registro, dtHora, fkHasComponente )VALUES ({float(mediaCpus)},  GETDATE(), {idsComponentesSql[2]});"
+
+            cursorSERVER.execute(sqlServerInsertQueryCpuPercent)
+            cursorSERVER.execute(sqlServerInsertQueryMemoryPercent)
+            cursorSERVER.execute(sqlServerInsertQueryDiskPercent)
+
+            connSERVER.commit()
+
 
         except mysql.connector.Error as error:
            print("Failed to insert record into Laptop table {}".format(error))

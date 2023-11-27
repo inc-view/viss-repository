@@ -579,7 +579,7 @@
                   >
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="#"
+                  <a class="nav-link" href="listagem-programas.html"
                     >Programas</a
                   >
                 </li>
@@ -680,6 +680,67 @@
 
       <!-- page-body-wrapper ends -->
     </div>
+
+
+    
+    <div
+      class="modal fade"
+      id="modalDelete"
+      tabindex="-1"
+      aria-labelledby="modalDeleteLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+              <div class="col-lg-14">
+                <h2>Deseja excluir <span id="nomeFuncionario" class="text-black fw-bold"></span>?</h2>
+              </div>
+          </div>
+          <div class="modal-footer">
+            <button id="deleteFuncionario" type="submit" class="btn btn-danger" data-idFunc="" data-fkEmpresa="">
+              Deletar
+            </button>
+
+            <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                  >
+                    Cancelar
+                  </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <!-- container-scroller -->
     <!-- plugins:js -->
     <script src="vendors/js/vendor.bundle.base.js"></script>
@@ -714,12 +775,5 @@
 
 </html>
 <script>
-  function setNome(){
-    if(localStorage.EMAIL_USER == undefined || localStorage.NOME_USER == undefined){
-      window.location = "pages/samples/login.html";
-    }
-    name_user.innerHTML = localStorage.NOME_USER;
-    user_name.innerHTML = localStorage.NOME_USER;
-    user_email.innerHTML = localStorage.EMAIL_USER;
-  }
+ 
 </script>

@@ -31,7 +31,7 @@
     <!-- endinject -->
     <link rel="shortcut icon" href="images/favicon-32x32.png  " />
   </head>
-  <body>
+  <body onload="obterDadosGrafico()">
     <div class="container-scroller">
       <!-- partial:partials/_navbar.html -->
       <nav
@@ -602,7 +602,7 @@
                     >
                       <div class="col">
                         <div class="row flex-grow">
-                          <div class="col-lg-6">
+                          <div class="col-sm-9" style="width: 56vw;">
                             <div class="col-12 grid-margin stretch-card">
                               <div class="card card-rounded">
                                 <div class="card-body">
@@ -611,14 +611,19 @@
                                   >
                                     <div>
                                       <h4 class="card-title card-title-dash">
-                                        Processos abertos - Mês
+                                        Processos abertos - Dia
                                       </h4>
                                       <p
-                                        class="card-subtitle card-subtitle-dash"
-                                      >
-                                        Quantidade de processos abertos durante os meses
-                                      </p>
+                                      class="card-subtitle card-subtitle-dash"
+                                    >
+                                      Quantidade de processos abertos durante os meses
+                                    </p>
+                                      
+                                    <div class="chart-style">
+                                      <canvas id="grafProcIlic" style="width: 49vw"></canvas>
                                     </div>
+                                    </div>
+                                   
                                   </div>
                                   <div
                                     class="d-sm-flex align-items-center mt-1 justify-content-between"
@@ -635,38 +640,6 @@
                             </div>
                           </div>
 
-                          <div class="col-lg-6">
-                            <div class="col-12 grid-margin stretch-card">
-                              <div class="card card-rounded">
-                                <div class="card-body">
-                                  <div
-                                    class="d-sm-flex justify-content-between align-items-start"
-                                  >
-                                    <div>
-                                      <h4 class="card-title card-title-dash">
-                                        Processos abertos - Mês
-                                      </h4>
-                                      <p
-                                        class="card-subtitle card-subtitle-dash"
-                                      >
-                                        Quantidade de processos abertos durante os dias
-                                      </p>
-                                    </div>
-                                  </div>
-                                  <div
-                                    class="d-sm-flex align-items-center mt-1 justify-content-between"
-                                  >
-                                    <div class="me-3">
-                                      <div id="marketing-overview-legend"></div>
-                                    </div>
-                                  </div>
-                                  <div id="chartColDay">
-
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
                         </div>
 
                         <div class="col d-flex flex-column">
@@ -844,7 +817,7 @@
     <!-- End custom js for this page-->
 
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-    <script>
+    <!-- <script>
       var options = {
         chart: {
           type: "line",
@@ -1173,7 +1146,7 @@
         var chartMixed = new ApexCharts(document.querySelector("#chartMixed"), optionsMixed);
         chartMixed.render();
 
-    </script>
+    </script> -->
   </body>
 </html>
 
@@ -1186,3 +1159,4 @@
   window.load = teste()
 
 </script>
+<script src="js/LA-proc-ili.js"></script>

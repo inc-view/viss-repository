@@ -1,6 +1,6 @@
 create database inkView;
 use inkView;
--- DROP DATABASE inkView;
+
 CREATE TABLE IF NOT EXISTS  endereco  (
      idEndereco  INT NOT NULL AUTO_INCREMENT,
      complemento  VARCHAR(45) NULL,
@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS  endereco  (
     PRIMARY KEY ( idEndereco )
 );
   
+
 CREATE TABLE IF NOT EXISTS  empresa  (
    idEmpresa  INT NOT NULL AUTO_INCREMENT,
    razaoSocial  VARCHAR(100) NOT NULL,
@@ -25,7 +26,8 @@ CREATE TABLE IF NOT EXISTS  empresa  (
   CONSTRAINT  fk_empresa_empresa1 
     FOREIGN KEY ( fkSede )
     REFERENCES  empresa  ( idEmpresa )
-    );
+);
+
 
 CREATE TABLE IF NOT EXISTS  funcionario  (
    idFuncionario  INT NOT NULL AUTO_INCREMENT,
@@ -45,6 +47,22 @@ CREATE TABLE IF NOT EXISTS  funcionario  (
     REFERENCES  empresa  ( idEmpresa )
 );
 
+
+CREATE TABLE IF NOT EXISTS ligacoesFuncionario (
+   idligacoesFuncionario INT NOT NULL AUTO_INCREMENT,
+   recebidas int ,
+   atendidas int,
+   porcAtendidas double,
+   abandonadas int,
+   duracao time,
+   fkFuncionario INT NOT NULL,
+   PRIMARY KEY (idLigacoesFuncionario),
+   CONSTRAINT fk_chamada_funcionario1 
+      FOREIGN KEY (fkFuncionario)
+      REFERENCES funcionario (idFuncionario)
+);
+
+
 CREATE TABLE IF NOT EXISTS  computador  (
    idComputador  INT NOT NULL AUTO_INCREMENT,
    ipComputador  VARCHAR(45),
@@ -58,11 +76,13 @@ CREATE TABLE IF NOT EXISTS  computador  (
     FOREIGN KEY ( fkFuncionario )
     REFERENCES  funcionario  ( idFuncionario )
     );
-    
+
+
 CREATE TABLE IF NOT EXISTS  unidadeMedida  (
    idUnidadeMedida  INT NOT NULL AUTO_INCREMENT,
    tipoMedida  VARCHAR(100) NULL,
   PRIMARY KEY ( idUnidadeMedida ));
+
 
 CREATE TABLE IF NOT EXISTS  componente  (
    idComponente  INT NOT NULL AUTO_INCREMENT,
@@ -74,15 +94,17 @@ CREATE TABLE IF NOT EXISTS  componente  (
     REFERENCES  unidadeMedida  ( idUnidadeMedida )
 );
 
+
 CREATE TABLE IF NOT EXISTS  software  (
    idSoftware  INT NOT NULL AUTO_INCREMENT,
-   nomeSoftware  VARCHAR(45) NOT NULL,
-   cartegoriaSoftware  VARCHAR(45) NULL,
+   nomeSoftware  VARCHAR(150) NOT NULL,
+   categoriaSoftware  VARCHAR(45) NULL,
   PRIMARY KEY ( idSoftware ));
+
 
 CREATE TABLE IF NOT EXISTS softwarePermitido (
     idSoftwarePermitido INT NOT NULL AUTO_INCREMENT,
-    bloquado BOOLEAN NULL,
+    bloqueado BOOLEAN NULL,
     fkSoftware INT NOT NULL,
     fkComputador INT NOT NULL,
     PRIMARY KEY (idSoftwarePermitido, fkSoftware, fkComputador),
@@ -91,6 +113,7 @@ CREATE TABLE IF NOT EXISTS softwarePermitido (
     CONSTRAINT fk_ComputadorSoftware_computador1 FOREIGN KEY (fkComputador)
         REFERENCES computador (idComputador)
 );
+
 
 CREATE TABLE IF NOT EXISTS  hasComponente  (
    idHasComponente  INT NOT NULL AUTO_INCREMENT,
@@ -105,6 +128,7 @@ CREATE TABLE IF NOT EXISTS  hasComponente  (
     REFERENCES  computador  ( idComputador )
 );
 
+
 CREATE TABLE IF NOT EXISTS  registro  (
    idRegistro  INT NOT NULL AUTO_INCREMENT,
    registro  INT NULL,
@@ -116,14 +140,43 @@ CREATE TABLE IF NOT EXISTS  registro  (
     REFERENCES  hasComponente  ( idHasComponente )
 );
 
+
 CREATE TABLE IF NOT EXISTS processo (
     idProcesso INT NOT NULL AUTO_INCREMENT,
-    nomeProcesso VARCHAR(50),
+    nomeProcesso VARCHAR(150),
     fkComputador INT NOT NULL,
     PRIMARY KEY (idProcesso),
     CONSTRAINT fk_registros_computador1 FOREIGN KEY (fkComputador)
         REFERENCES computador (idComputador)
 );
+
+
+CREATE TABLE IF NOT EXISTS registroProcesso (
+  idRegistroProcesso INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  registro VARCHAR(150),
+  fkProcesso INT,
+  fkHasComponente INT,
+  dataHora DATETIME,
+  FOREIGN KEY (fkProcesso) REFERENCES Processo(idProcesso),
+  FOREIGN KEY (fkHasComponente) REFERENCES hasComponente(idHasComponente)
+);
+
+
+CREATE TABLE if not exists processoIlicito(
+	idProcessoIlicito INT PRIMARY KEY AUTO_INCREMENT,
+    fkSoftware INT NOT NULL,
+    dataHora DATE NOT NULL,
+    FOREIGN KEY (fkSoftware) REFERENCES softwarePermitido(idSoftwarePermitido)
+);
+
+
+CREATE TABLE if not exists ilicitoRegistro(
+	idRegistroIlicito INT PRIMARY KEY AUTO_INCREMENT,
+    fkProcessoIlicito INT NOT NULL,
+    dtHora DATETIME NOT NULL,
+    FOREIGN KEY (fkProcessoIlicito) REFERENCES processoIlicito(idProcessoIlicito)
+);
+
 
 SET SQL_SAFE_UPDATES = 0;
 UPDATE computador c

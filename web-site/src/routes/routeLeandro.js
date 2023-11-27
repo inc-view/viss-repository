@@ -15,7 +15,6 @@ router.get("/dashboardGeralDISCO/:idMaquina", function (req, res) {
     leandroController.dashboardGeralDISCO(req, res);
 });
 
-
 router.get("/dashboardCpu/:idMaquina", function (req, res) {
     leandroController.dashboardCpu(req, res);
 });
@@ -30,6 +29,56 @@ router.get("/dashboardDisk/:idMaquina", function (req, res) {
 
 router.get("/infoMaquina/:idMaquina", function (req, res) {
     leandroController.infoMaquina(req, res);
+});
+
+//Individual Leandro
+
+router.get("/dashboardMediaCpuDay/:idMaquina/:days", function (req, res) {
+    leandroController.dashboardMediaCpuDay(req, res);
+});
+
+router.get("/dashboardMediaCpuMonth/:idMaquina/:months", function (req, res) {
+    leandroController.dashboardMediaCpuMonth(req, res);
+});
+
+router.get("/dashboardMediaMemoryDay/:idMaquina/:days", function (req, res) {
+    leandroController.dashboardMediaMemoryDay(req, res);
+});
+
+router.get("/dashboardMediaMemoryMonth/:idMaquina/:months", function (req, res) {
+    leandroController.dashboardMediaMemoryMonth(req, res);
+});
+
+router.get("/getMediaCpuAllDay/:idMaquina/:days", function (req, res) {
+    leandroController.getMediaCpuAllDay(req, res);
+});
+
+router.get("/getMediaCpuAllMonth/:idMaquina/:months", function (req, res) {
+    leandroController.getMediaCpuAllMonth(req, res);
+});
+
+router.get("/getMediaMemoryAllDay/:idMaquina/:days", function (req, res) {
+    leandroController.getMediaMemoryAllDay(req, res);
+});
+
+router.get("/getMediaMemoryAllMonth/:idMaquina/:months", function (req, res) {
+    leandroController.getMediaMemoryAllMonth(req, res);
+});
+
+router.get("/kpiMediaCpuDay", function (req, res) {
+    leandroController.kpiMediaCpuDay(req, res);
+});
+
+router.get("/kpiMediaCpuAllTime", function (req, res) {
+    leandroController.kpiMediaCpuAllTime(req, res);
+});
+
+router.get("/kpiMediaMemoryDay", function (req, res) {
+    leandroController.kpiMediaMemoryDay(req, res);
+});
+
+router.get("/kpiMediaMemoryAllTime", function (req, res) {
+    leandroController.kpiMediaMemoryAllTime(req, res);
 });
 
 module.exports = router;
