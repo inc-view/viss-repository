@@ -61,7 +61,7 @@ consoleColors = {
 
 # Tentando estabelecer a conexão
 try:
-    connSERVER = pymssql.connect(server='18.232.37.243', user='sa', password='conexaoPI123', database='inkView')
+    connSERVER = pymssql.connect(server='18.232.37.243', user='sa', password='conexaoPI123', database='inkView', port=1433, timeout=120)
     cursorSERVER = connSERVER.cursor()
     cursorSERVER.execute("select * from ligacoesFuncionario;")
     print(cursorSERVER.fetchall())
