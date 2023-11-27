@@ -7,7 +7,7 @@ import time
 import mysql.connector
 import mysql.connector.errorcode
 import socket
-import pyodbc
+import pymssql
 
 """ webhook = "https://hooks.slack.com/services/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" """
 
