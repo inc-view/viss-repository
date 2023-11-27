@@ -107,7 +107,7 @@ $$
     
 -- KPI dos processos que mais tentaram acessar (de todo o tempo)
 DELIMITER $$
-CREATE PROCEDURE spSelectGraf1(vFkEmpresa int)
+CREATE PROCEDURE spSelectKPI(vFkEmpresa int)
 BEGIN
 	SELECT count(p.dataHora) AS contagem, s.nomeSoftware FROM processoIlicito AS p 
 	JOIN softwarePermitido AS sp ON sp.idSoftwarePermitido = p.fkSoftware 

@@ -72,3 +72,36 @@ BEGIN
         VALUES (@nomePatrimonio, @marca, @fkFuncionario, @sistemaOperacional, @ipComputador);
     END
 END;
+
+CREATE PROCEDURE spSelectGraf1
+    @vFkEmpresa INT
+AS
+BEGIN
+    SELECT COUNT(dataHora) AS contagem,
+           CONVERT(VARCHAR(10), dataHora, 103) AS 'data_hora'
+    FROM processoIlicito AS p
+    JOIN softwarePermitido AS sp ON sp.idSoftwarePermitido = p.fkSoftware 
+    JOIN software AS s ON s.idSoftware = sp.fkSoftware 
+    JOIN computador AS c ON sp.fkComputador = c.idComputador 
+    JOIN funcionario AS f ON f.idFuncionario = c.fkFuncionario
+    JOIN empresa AS e ON f.fkEmpresa = e.idEmpresa
+    WHERE f.fkEmpresa = @vFkEmpresa
+    GROUP BY CONVERT(VARCHAR(10), p.dataHora, 103)
+    ORDER BY CONVERT(VARCHAR(10), p.dataHora, 103);
+END;
+
+CREATE PROCEDURE spSelectKPI
+    @vFkEmpresa INT
+AS
+BEGIN
+    SELECT TOP 3 COUNT(p.dataHora) AS contagem, s.nomeSoftware
+    FROM processoIlicito AS p
+    JOIN softwarePermitido AS sp ON sp.idSoftwarePermitido = p.fkSoftware 
+    JOIN software AS s ON s.idSoftware = sp.fkSoftware 
+    JOIN computador AS c ON sp.fkComputador = c.idComputador 
+    JOIN funcionario AS f ON f.idFuncionario = c.fkFuncionario
+    JOIN empresa AS e ON f.fkEmpresa = e.idEmpresa
+    WHERE f.fkEmpresa = @vFkEmpresa
+    GROUP BY s.nomeSoftware
+    ORDER BY contagem DESC;
+END;
