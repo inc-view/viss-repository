@@ -110,7 +110,7 @@ function fazerLista() {
                     tr.appendChild(tdUltimaSessao);
                     tdUltimaSessao.innerHTML = `${resposta[i].duracao_total}`;
 
-                    tr.onclick = () => { window.location.href = `./dashboardLeandro.html?id=${resposta[i].idComputador}` }
+                  //  tr.onclick = () => { window.location.href = `./dashboardLeandro.html?id=${resposta[i].idComputador}` }
                     tr.style.cursor = "pointer";
                     listaElement.appendChild(tr);
                 }
