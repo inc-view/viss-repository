@@ -1,4 +1,5 @@
 use inkView;
+use inkView;
 
 -- Inserir registros na tabela endereco
 INSERT INTO  endereco  ( idEndereco ,  complemento ,  cep ,  descricao ) VALUES

@@ -28,6 +28,9 @@ var leandroRouter = require("./src/routes/routeLeandro")
 // Route Breno
 var dashAlertasCpuRouter = require("./src/routes/routeDashAlertasCpu")
 
+var infoFuncionarioDashRouter = require("./src/routes/InfoFuncionarioDash")
+
+
 // João Route´s
 var Jroutes = require("./src/routes/J-routes")
 
@@ -53,6 +56,7 @@ app.use("/processo", eProcessoRouter);
 // Meus Route's
 app.use("/routeDashListagem",dashListagemRouter )
 app.use("/routeLeandro", leandroRouter)
+app.use("/infoFuncionarioDash",infoFuncionarioDashRouter )
 
 
 // Route Breno
@@ -60,6 +64,7 @@ app.use("/routeDashAlertasCpu", dashAlertasCpuRouter)
 
 // João Route's
 app.use("/J-routes", Jroutes )
+
 
 
 app.listen(PORTA, function () {
