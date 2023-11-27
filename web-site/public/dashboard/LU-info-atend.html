@@ -433,78 +433,45 @@
                     <!-- inicio grafico -->
 
               
-                      <div class="flex-row">
-                        
-                          <div class="row grid-margin stretch-card">
-                            <div class="card card-rounded">
-                              <div class="card-body">
-                                <div class="d-sm-flex justify-content-between align-items-start">
-                                  <div>
-                                    <h4 class="card-title card-title-dash">
-                                      Total de Chamadas - MES
-                                    </h4>
-                                    <p class="card-subtitle card-subtitle-dash">
-                                      Medidas de TMA(tempo medio de atendimento)
-                                    </p>
-                                  </div>
-                                </div>
-                                <div class="d-sm-flex align-items-center mt-1 justify-content-between">
-                                  <div class="me-3">
-                                    <div id="marketing-overview-legend"></div>
-                                  </div>
-                                </div>
-                                <div id="chartCol">
-
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        
-                      </div>
+                    
                       
                         <!--final do grafico/ inicio KPI -->
 
                       <div class="row" style="display:flex; justify-content: center;">
-                        <div id="cardKpi" class="col-md-4 grid-margin stretch-card hoverCardKpi" onclick="fazerLista()" style="cursor: pointer;">
+                        <div id="cardKpi" class="col-md-4 grid-margin stretch-card hoverCardKpi"  style="cursor: pointer;">
                           <div class="card">
                             <div class="card-body">
                               <h4 class="card-title" style="justify-content: center;">TMA</h4>
                               <div class="media" style="justify-content: center;">
           
                                 <div class="media-body" style="display: flex;">
-                                  <p id="TextComputadorProblema" class="card-text" style="font-size: 1.5rem; color: rgb(255, 0, 0)"></p>
-                                  <p style="font-size: 1.5rem;">/</p>
-                                  <p class="TotalComputadores" style="font-size: 1.5rem; color: blue"></p>
+                                  <p id="TextTMA" class="card-text" style="font-size: 1.5rem; color: rgb(0, 81, 255)"></p>
                                 </div>
                               </div>
                             </div>
                           </div>
                         </div>
-                        <div id="cardKpi" class="col-md-4 grid-margin stretch-card hoverCardKpi" onclick="fazerListaComputadoresOffline()" style="cursor: pointer;">
+                        <div id="cardKpi" class="col-md-4 grid-margin stretch-card hoverCardKpi"  style="cursor: pointer;">
                           <div class="card">
                             <div class="card-body">
                               <h4 class="card-title" style="justify-content: center;">Total de Chamadas <br> Abandonadas</h4>
                               <div class="media" style="justify-content: center;">
           
                                 <div class="media-body" style="display: flex;">
-                                  <p id="TextOfline" class="card-text" style="font-size: 1.5rem; color: brown"></p>
-                                  <p style="font-size: 1.5rem;">/</p>
-                                  <p class="TotalComputadores" style="font-size: 1.5rem; color: blue"></p>
+                                  <p id="TextTotalChamadas" class="card-text" style="font-size: 1.5rem; color: brown"></p>
                                 </div>
                               </div>
                             </div>
                           </div>
                         </div>
-                        <div id="cardKpi" class="col-md-4 grid-margin stretch-card hoverCardKpi" onclick="fazerListaComputadoresOffline()" style="cursor: pointer;">
+                        <div id="cardKpi" class="col-md-4 grid-margin stretch-card hoverCardKpi"  style="cursor: pointer;">
                           <div class="card">
                             <div class="card-body">
                               <h4 class="card-title" style="justify-content: center;">Tempo Medio de <br> Chamadas</h4>
                               <div class="media" style="justify-content: center;">
           
                                 <div class="media-body" style="display: flex;">
-                                  <p id="TextOfline" class="card-text" style="font-size: 1.5rem; color: brown"></p>
-                                  <p style="font-size: 1.5rem;">/</p>
-                                  <p class="TotalComputadores" style="font-size: 1.5rem; color: blue"></p>
+                                  <p id="TextTempoMedio" class="card-text" style="font-size: 1.5rem; color: rgb(81, 165, 42)"></p>
                                 </div>
                               </div>
                             </div>
@@ -534,16 +501,22 @@
                                       Colaborador
                                     </th>
                                     <th>
-                                      TMA Medio
+                                      TMA 
                                     </th>
                                     <th class="col-lg-3 ">
-                                      Total de Chamadas
+                                      Recebidas
+                                    </th>
+                                    <th>
+                                      Atendidas
                                     </th>
                                     <th>
                                       Chamadas Abandonadas
                                     </th>
                                     <th>
-                                     Ultima Sessao
+                                      Porcentagem de Atendidas
+                                    </th>
+                                    <th>
+                                      Duração Média de Atendimento
                                     </th>
                                   </tr>
                                 </thead>

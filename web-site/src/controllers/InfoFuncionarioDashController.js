@@ -1,8 +1,8 @@
 var DashListagemModel = require("../models/DashListagemModel");
 
-function ListagemCpuON(req, res) {
+function ListagemTotalChamadas(req, res) {
     var fkEmpresa = req.query.fkEmpresa;
-    DashListagemModel.ListagemCpuON(fkEmpresa).then(function (resultado) {
+    DashListagemModel.ListagemTotalChamadas(fkEmpresa).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {
@@ -14,9 +14,9 @@ function ListagemCpuON(req, res) {
         res.status(500).json(erro.sqlMessage);
     });
 }
-function ListagemCpuOff(req, res) {
+function ListagemTMA(req, res) {
     var fkEmpresa = req.query.fkEmpresa;
-    DashListagemModel.ListagemCpuOff(fkEmpresa).then(function (resultado) {
+    DashListagemModel.ListagemTMA(fkEmpresa).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {
@@ -28,9 +28,9 @@ function ListagemCpuOff(req, res) {
         res.status(500).json(erro.sqlMessage);
     });
 }
-function ListagemCpuProblema(req, res) {
+function ListagemDuracao(req, res) {
     var fkEmpresa = req.query.fkEmpresa;
-    DashListagemModel.ListagemCpuProblema(fkEmpresa).then(function (resultado) {
+    DashListagemModel.ListagemDuracao(fkEmpresa).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {
@@ -42,20 +42,8 @@ function ListagemCpuProblema(req, res) {
         res.status(500).json(erro.sqlMessage);
     });
 }
-function ListagemTotalComputadores(req, res){
-    var fkEmpresa = req.query.fkEmpresa;
-    DashListagemModel.ListagemTotalComputadores(fkEmpresa).then(function (resultado) {
-        if (resultado.length > 0) {
-            res.status(200).json(resultado);
-        } else {
-            res.status(204).send("Nenhum resultado encontrado!")
-        }
-    }).catch(function (erro) {
-        console.log(erro);
-        console.log("Houve um erro ao buscar as ultimas medidas.", erro.sqlMessage);
-        res.status(500).json(erro.sqlMessage);
-    });
-}
+
+
 function fazerLista(req, res) {
     var fkEmpresa = req.query.fkEmpresa;
     DashListagemModel.fazerLista(fkEmpresa).then(function (resultado) {
@@ -70,49 +58,7 @@ function fazerLista(req, res) {
         res.status(500).json(erro.sqlMessage);
     });
 }
-function fazerListaProblema(req, res) {
-    var fkEmpresa = req.query.fkEmpresa;
-    DashListagemModel.fazerListaProblema(fkEmpresa).then(function (resultado) {
-        if (resultado.length > 0) {
-            res.status(200).json(resultado);
-        } else {
-            res.status(204).send("Nenhum resultado encontrado!")
-        }
-    }).catch(function (erro) {
-        console.log(erro);
-        console.log("Houve um erro ao buscar as ultimas medidas.", erro.sqlMessage);
-        res.status(500).json(erro.sqlMessage);
-    });
-}
-function fazerListaCpuOffline(req, res) {
-    var fkEmpresa = req.query.fkEmpresa;
-    DashListagemModel.fazerListaCpuOffline(fkEmpresa).then(function (resultado) {
-        if (resultado.length > 0) {
-            res.status(200).json(resultado);
-        } else {
-            res.status(204).send("Nenhum resultado encontrado!")
-        }
-    }).catch(function (erro) {
-        console.log(erro);
-        console.log("Houve um erro ao buscar as ultimas medidas.", erro.sqlMessage);
-        res.status(500).json(erro.sqlMessage);
-    });
-}
 
-function fazerListaCpuOnline(req, res) {
-    var fkEmpresa = req.query.fkEmpresa;
-    DashListagemModel.fazerListaCpuOnline(fkEmpresa).then(function (resultado) {
-        if (resultado.length > 0) {
-            res.status(200).json(resultado);
-        } else {
-            res.status(204).send("Nenhum resultado encontrado!")
-        }
-    }).catch(function (erro) {
-        console.log(erro);
-        console.log("Houve um erro ao buscar as ultimas medidas.", erro.sqlMessage);
-        res.status(500).json(erro.sqlMessage);
-    });
-}
 function fazerListaPorNome(req, res) {
     var fkEmpresa = req.body.fkEmpresa;
     var nome = req.body.nome
@@ -132,11 +78,8 @@ function fazerListaPorNome(req, res) {
 module.exports = {
     fazerLista,
     fazerListaPorNome,
-    fazerListaCpuOffline,
-    fazerListaCpuOnline,
-    fazerListaProblema,
-    ListagemCpuProblema,
-    ListagemCpuON,
-    ListagemCpuOff,
-    ListagemTotalComputadores,
+    ListagemDuracao,
+    ListagemTotalChamadas,
+    ListagemTMA,
+
 }
