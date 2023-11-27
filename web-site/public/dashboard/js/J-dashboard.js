@@ -1,7 +1,7 @@
 function ppmAtual() {
   var valor = localStorage.getItem("FK_EMPRESA");
   console.log(valor);
-  //mandar a variavel valor o J-routes
+  //mandar a variavel valor o J-route
   fetch(`/J-routes/ppmAtual?empresa=${valor}`, { cache: "no-store" }).then(
     function (response) {
       if (response.ok) {
@@ -10,7 +10,7 @@ function ppmAtual() {
           // PUXAR ROTA COM ESSE SELECT
           // a resposta é [ { 'round(AVG(registro), 0)': '110' } ], quero ela sem casas decimais
           document.getElementById("ppmAtual").innerHTML =
-            resposta[0]["round(AVG(registro), 0)"];
+            resposta[0]["media_PPM"];
         });
       } else {
         console.warn("Nenhum dado encontrado ou erro na API");
