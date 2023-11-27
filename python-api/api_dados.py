@@ -59,7 +59,10 @@ consoleColors = {
 
 
 # Parâmetros de conexão
-server = '3.225.229.38'
+print("Informe o IP do SERVIDOR do SqlServer:")
+ipServidorSQL = input()
+
+server = ipServidorSQL
 database = 'inkView'
 username = 'sa'
 password = 'conexaoPI123'
@@ -76,11 +79,10 @@ try:
 except pyodbc.Error as e:
     print(f"Erro na conexão: {e}")
 
-print("Informe o IP da sua EC2 (com pontos):")
 ipDaECEDOIS = input()
 
 connection = mysql.connector.connect(
-    host=str(ipDaECEDOIS),
+    host="localhost",
     user="root",
     password="urubu100",
     port=3306,
@@ -108,16 +110,32 @@ def showText():
 
 ipMaquina = socket.gethostbyname(socket.gethostname())
 
+def CheckLogin():
+    print("Informe seu EMAIL:")
+    emailFuncionario = input()
+    print("Informe sua SENHA:")
+    senhaFuncionario = input()
 
-try:
-    cursor.execute(f"insert into computador(ipComputador, nomePatrimonio, marca, fkFuncionario, sistemaOperacional, ativo) values ('{str(ipMaquina)}', '{platform.node()}', 'EC2 - AWS', 1, '{platform.system()}', true)")
-    cursorSERVER.execute(f"insert into computador(ipComputador, nomePatrimonio, marca, fkFuncionario, sistemaOperacional, ativo) values ('{str(ipMaquina)}', '{platform.node()}', 'EC2 - AWS', 1, '{platform.system()}', 1)")
-    connection.commit()
-    connSERVER.commit()
-except mysql.connector.Error as error:
-    print("Failed to insert record into Laptop table {}".format(error))
+    try:
+        cursorSERVER.execute(f"select idFuncionario from funcionario where email = {emailFuncionario} and senha = {senhaFuncionario}")
+        if cursorSERVER.fetchall().len() > 0:
+            idFuncionario = cursorSERVER.fetchall()
+            print(idFuncionario)
+            try:
+                cursor.execute(f" call checkComputerExists ('{str(ipMaquina)}', '{platform.node()}', 'EC2 - AWS', {idFuncionario[0]}, '{platform.system()}', true) ")
+                cursorSERVER.execute(f"exec checkComputerExists '{str(ipMaquina)}', '{platform.node()}', 'EC2 - AWS', {idFuncionario[0]}, '{platform.system()}', 1")
+                connection.commit()
+                connSERVER.commit()
+            except mysql.connector.Error as error:
+                print("Failed to insert record into Laptop table {}".format(error))
+        else:
+            CheckLogin()
+
+    except mysql.connector.Error as error:
+        print("Failed to insert record into Laptop table {}".format(error))
+CheckLogin()
+
     
-
 
 time.sleep(5)
 def ProgressBar(percentual): 
