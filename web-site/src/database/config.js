@@ -1,6 +1,7 @@
 var mysql = require("mysql2");
 var sql = require('mssql');
 
+
 const sqlServerConfig = {
     port: parseInt(1433, 10),
     server: "18.232.37.243",
