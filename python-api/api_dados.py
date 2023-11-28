@@ -118,10 +118,10 @@ def CheckLogin():
                 connection.commit()
                 connSERVER.commit()
                 
-                cursorSERVER.except(f"select * from computador where ipComputador = '{ipMaquina}'")
+                cursorSERVER.execute(f"select * from computador where ipComputador = '{ipMaquina}'")
                 print(cursorSERVER.fetchall())
 
-                cursor.except(f"select * from computador where ipComputador = '{ipMaquina}'")
+                cursor.execute(f"select * from computador where ipComputador = '{ipMaquina}'")
                 print(cursor.fetchall())
 
                 print("Conectado")
