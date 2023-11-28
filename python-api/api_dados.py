@@ -80,7 +80,7 @@ connection = mysql.connector.connect(
 )
 cursor = connection.cursor()
 
-time.sleep(50)
+time.sleep(10)
 
 def showText():
     print(f"""{consoleColors['cyan']}
@@ -109,7 +109,7 @@ def CheckLogin():
     senhaFuncionario = input()
 
     try:
-        cursorSERVER.execute(f"select idFuncionario from funcionario where email = {emailFuncionario} and senha = {senhaFuncionario}")
+        cursorSERVER.execute(f"select idFuncionario from funcionario where email = '{emailFuncionario}' and senha = '{senhaFuncionario}'")
         if cursorSERVER.fetchall().len() > 0:
             idFuncionario = cursorSERVER.fetchall()
             print(idFuncionario)
