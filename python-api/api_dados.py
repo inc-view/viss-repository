@@ -63,8 +63,8 @@ consoleColors = {
 try:
     connSERVER = pymssql.connect(server='18.232.37.243', user='sa', password='conexaoPI123', database='inkView', port=1433, timeout=120)
     cursorSERVER = connSERVER.cursor()
-    cursorSERVER.execute("select * from ligacoesFuncionario;")
-    print(cursorSERVER.fetchall())
+    # cursorSERVER.execute("select * from ligacoesFuncionario;")
+    # print(cursorSERVER.fetchall())
 except pymssql.Error as e:
     print(f"Erro na conexão: {e}")
 
@@ -110,19 +110,12 @@ def CheckLogin():
         cursorSERVER.execute(f"select idFuncionario from funcionario where email = '{emailFuncionario}' and senha = '{senhaFuncionario}'")
         idFuncionario = cursorSERVER.fetchone()
         if idFuncionario != 0:
-            print(idFuncionario[0])
             try:
                 cursor.execute(f" call checkComputerExists ('{str(ipMaquina)}', '{platform.node()}', 'EC2 - AWS', 1, '{platform.system()}') ")
                 cursorSERVER.execute("exec checkComputerExists %s, %s, %s, %d, %s", (ipMaquina, platform.node(), 'EC2 - AWS', idFuncionario[0], platform.system()))
                 connection.commit()
                 connSERVER.commit()
                 
-                cursorSERVER.execute(f"select * from computador where ipComputador = '{ipMaquina}'")
-                print(cursorSERVER.fetchall())
-
-                cursor.execute(f"select * from computador where ipComputador = '{ipMaquina}'")
-                print(cursor.fetchall())
-
                 print("Conectado")
 
             except mysql.connector.Error as error:
