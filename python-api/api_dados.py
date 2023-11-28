@@ -110,8 +110,8 @@ def CheckLogin():
 
     try:
         cursorSERVER.execute(f"select idFuncionario from funcionario where email = '{emailFuncionario}' and senha = '{senhaFuncionario}'")
-        print(cursorSERVER.fetchone())
-        print(cursorSERVER.fetchone()[0])
+        teste = cursorSERVER.fetchone()
+        print(teste[0])
         # if cursorSERVER.fetchall().len() > 0:
         #     idFuncionario = cursorSERVER.fetchall()
         #     print(idFuncionario)
