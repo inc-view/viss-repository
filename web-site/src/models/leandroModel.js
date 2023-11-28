@@ -249,7 +249,7 @@ function dashboardMediaCpuDay(idMaquina, days) {
         INNER JOIN computador ON fkComputador = idComputador
     WHERE
         fkComponente = 1
-        AND idComputador = 1
+        AND idComputador = 3
         AND dtHora >= DATEADD(DAY, -${days}, GETDATE())
     GROUP BY
         CONVERT(VARCHAR, dtHora, 23)
@@ -266,7 +266,7 @@ function dashboardMediaCpuDay(idMaquina, days) {
         JOIN
             computador ON fkComputador = idComputador
             WHERE fkComponente = 1
-            AND idComputador = 1
+            AND idComputador = 3
             AND dtHora >= CURDATE() - INTERVAL ${days} DAY
     GROUP BY
         data
@@ -295,7 +295,7 @@ function dashboardMediaCpuMonth(idMaquina, months) {
         INNER JOIN computador ON fkComputador = idComputador
     WHERE
         fkComponente = 1
-        AND idComputador = 1
+        AND idComputador = 3
         AND dtHora >= DATEADD(MONTH, -${months}, GETDATE())
     GROUP BY
         CONVERT(VARCHAR(7), dtHora, 120)
@@ -313,7 +313,7 @@ function dashboardMediaCpuMonth(idMaquina, months) {
         JOIN
             computador ON fkComputador = idComputador
             WHERE fkComponente = 1
-            AND idComputador = 1
+            AND idComputador = 3
             AND dtHora >= CURDATE() - INTERVAL ${months} MONTH
     GROUP BY
         mes
@@ -342,7 +342,7 @@ function dashboardMediaMemoryDay(idMaquina, days) {
         INNER JOIN computador ON fkComputador = idComputador
     WHERE
         fkComponente = 2
-        AND idComputador = 1
+        AND idComputador = 3
         AND dtHora >= DATEADD(DAY, -${days}, GETDATE())
     GROUP BY
         CONVERT(VARCHAR, dtHora, 23)
@@ -360,7 +360,7 @@ function dashboardMediaMemoryDay(idMaquina, days) {
         JOIN
             computador ON fkComputador = idComputador
             WHERE fkComponente = 2
-            AND idComputador = 1
+            AND idComputador = 3
             AND dtHora >= CURDATE() - INTERVAL ${days} DAY
     GROUP BY
         data
@@ -389,7 +389,7 @@ function dashboardMediaMemoryMonth(idMaquina, months) {
         INNER JOIN computador ON fkComputador = idComputador
     WHERE
         fkComponente = 2
-        AND idComputador = 1
+        AND idComputador = 3
         AND dtHora >= DATEADD(MONTH, -${months}, GETDATE())
     GROUP BY
         CONVERT(VARCHAR(7), dtHora, 120)
@@ -407,7 +407,7 @@ function dashboardMediaMemoryMonth(idMaquina, months) {
         JOIN
             computador ON fkComputador = idComputador
             WHERE fkComponente = 2
-            AND idComputador = 1
+            AND idComputador = 3
             AND dtHora >= CURDATE() - INTERVAL ${months} MONTH
     GROUP BY
         mes
@@ -604,7 +604,7 @@ function kpiMediaCpuDay(idMaquina) {
     WHERE
         fkComponente = 1
         AND CAST(dtHora AS DATE) = CAST(GETDATE() AS DATE)
-        AND idComputador = 1
+        AND idComputador = 3
     GROUP BY
         DAY(dtHora);
     `;
@@ -618,7 +618,7 @@ function kpiMediaCpuDay(idMaquina) {
         computador ON fkComputador = idComputador
 		WHERE fkComponente = 1
         AND DATE(dtHora) = CURDATE()
-        AND idComputador = 1
+        AND idComputador = 3
 	GROUP BY
 		DAY(dtHora);`;
     } else {
@@ -643,7 +643,7 @@ function kpiMediaCpuAllTime(idMaquina) {
         INNER JOIN computador ON fkComputador = idComputador
     WHERE
         fkComponente = 1
-        AND idComputador = 1;
+        AND idComputador = 3;
     `;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucaoSql = `SELECT
@@ -654,7 +654,7 @@ function kpiMediaCpuAllTime(idMaquina) {
     JOIN
         computador ON fkComputador = idComputador
 		WHERE fkComponente = 1
-        AND idComputador = 1;`;
+        AND idComputador = 3;`;
     } else {
         console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
         return
@@ -678,7 +678,7 @@ function kpiMediaMemoryDay(idMaquina) {
     WHERE
         fkComponente = 2
         AND CAST(dtHora AS DATE) = CAST(GETDATE() AS DATE)
-        AND idComputador = 1
+        AND idComputador = 3
     GROUP BY
         DAY(dtHora);
     `;
@@ -692,7 +692,7 @@ function kpiMediaMemoryDay(idMaquina) {
         computador ON fkComputador = idComputador
 		WHERE fkComponente = 2
         AND DATE(dtHora) = CURDATE()
-        AND idComputador = 1
+        AND idComputador = 3
 	GROUP BY
 		DAY(dtHora);`;
     } else {
@@ -717,7 +717,7 @@ function kpiMediaMemoryAllTime(idMaquina) {
         INNER JOIN computador ON fkComputador = idComputador
     WHERE
         fkComponente = 2
-        AND idComputador = 1;
+        AND idComputador = 3;
     `;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucaoSql = `SELECT
@@ -728,7 +728,7 @@ function kpiMediaMemoryAllTime(idMaquina) {
     JOIN
         computador ON fkComputador = idComputador
 		WHERE fkComponente = 2
-        AND idComputador = 1;`;
+        AND idComputador = 3;`;
     } else {
         console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
         return
