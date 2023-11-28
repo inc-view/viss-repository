@@ -1,4 +1,4 @@
-var idMaquina = 0
+var idMaquina = 1
 
 var mediaCpuAllDay = []
 var mediaCpuAllMonth = []
@@ -219,12 +219,12 @@ function downloadPdfMonth() {
 
 function changeTextDashDay(days) {
     textDashDayCpu.innerHTML = `Média de Uso da CPU (Últimos ${days} Dias)`
-    textDashDayMemory.innerHTML = `>Média de Uso da Memória (Últimos ${days} Dias)`
+    textDashDayMemory.innerHTML = `Média de Uso da Memória (Últimos ${days} Dias)`
 }
 
 function changeTextDashMonth(months) {
     textDashMonthCpu.innerHTML = `Média de Uso da CPU (Últimos ${months} Meses)`
-    textDashMonthMemory.innerHTML = `Média de Uso da Memóris (Últimos ${months} Meses)`
+    textDashMonthMemory.innerHTML = `Média de Uso da Memória (Últimos ${months} Meses)`
 }
 
 function hideDash() {
