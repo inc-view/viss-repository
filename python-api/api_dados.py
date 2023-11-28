@@ -113,7 +113,7 @@ def CheckLogin():
             idFuncionario = cursorSERVER.fetchall()
             print(idFuncionario)
             try:
-                cursor.execute(f" call checkComputerExists ('{str(ipMaquina)}', '{platform.node()}', 'EC2 - AWS', 1, '{platform.system()}', true) ")
+                cursor.execute(f" call checkComputerExists ('{str(ipMaquina)}', '{platform.node()}', 'EC2 - AWS', 1, '{platform.system()}') ")
                 cursorSERVER.execute("exec checkComputerExists %s, %s, %s, %d, %s, %d", (ipMaquina, platform.node(), 'EC2 - AWS', idFuncionario[0], platform.system()))
                 connection.commit()
                 connSERVER.commit()
