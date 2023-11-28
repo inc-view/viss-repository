@@ -1,7 +1,7 @@
 var database = require("../database/config");
 
 function ListagemCpuON(fkEmpresa) {
-  instrucaoSql = "";
+  var instrucaoSql = "";
 
   if (process.env.AMBIENTE_PROCESSO == "producao") {
     instrucaoSql = `SELECT COUNT(computador.Ativo) AS TotalDeComputadoresOnline
@@ -24,13 +24,15 @@ function ListagemCpuON(fkEmpresa) {
   return database.executar(instrucaoSql);
 }
 function ListagemCpuOff(fkEmpresa) {
-  instrucaoSql = "";
+  var instrucaoSql = "";
 
   if (process.env.AMBIENTE_PROCESSO == "producao") {
-    instrucaoSql = `SELECT COUNT(computador.Ativo) AS TotalDeComputadoresOnline
+    instrucaoSql = `SELECT COUNT(computador.Ativo) AS TotalComputadoresOffline
         FROM computador
         INNER JOIN funcionario ON computador.fkFuncionario = funcionario.idFuncionario
         WHERE computador.Ativo = 0 AND funcionario.fkEmpresa = ${fkEmpresa};`;
+
+        console.log(instrucaoSql)
   } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
     instrucaoSql = `SELECT COUNT(Ativo) AS TotalDeComputadoresOfline
         FROM computador
@@ -47,20 +49,21 @@ function ListagemCpuOff(fkEmpresa) {
   return database.executar(instrucaoSql);
 }
 function ListagemCpuProblema(fkEmpresa) {
-  instrucaoSql = "";
+  var instrucaoSql = "";
 
   if (process.env.AMBIENTE_PROCESSO == "producao") {
-    instrucaoSql = `SELECT COUNT(DISTINCT computador.idComputador) as totalCpuProblema
-        FROM registro
-        JOIN hasComponente ON registro.fkHasComponente = hasComponente.idHasComponente
-        JOIN computador ON hasComponente.fkComputador = computador.idComputador
-        JOIN componente ON hasComponente.fkComponente = componente.idComponente
-        JOIN funcionario ON registro.fkFuncionario = funcionario.idFuncionario
-        WHERE 
-            componente.tipo = 'cpu'
-            AND registro.registro > 90
-            AND registro.dtHora >= DATEADD(MINUTE, -10, GETDATE()) -- Substituído para SQL Server
-            AND funcionario.fkEmpresa = ${fkEmpresa};
+    instrucaoSql = `
+    SELECT COUNT(DISTINCT computador.idComputador) as totalCpuProblema
+            FROM registro
+            JOIN hasComponente ON registro.fkHasComponente = hasComponente.idHasComponente
+            JOIN computador ON hasComponente.fkComputador = computador.idComputador
+            JOIN componente ON hasComponente.fkComponente = componente.idComponente
+            JOIN funcionario ON computador.fkFuncionario = funcionario.idFuncionario
+            WHERE 
+                componente.tipo = 'cpu'
+                AND registro.registro > 90
+                AND registro.dtHora >= DATEADD(MINUTE, -10, GETDATE()) -- Substituído para SQL Server
+                AND funcionario.fkEmpresa = ${fkEmpresa};
         `;
   } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
     instrucaoSql = `SELECT  COUNT(distinct idComputador) as totalCpuProblema
@@ -85,7 +88,7 @@ function ListagemCpuProblema(fkEmpresa) {
 }
 
 function ListagemTotalComputadores(fkEmpresa) {
-  instrucaoSql = "";
+  var instrucaoSql = "";
 
   if (process.env.AMBIENTE_PROCESSO == "producao") {
     instrucaoSql = `SELECT COUNT(computador.idComputador) as totalComputadores
@@ -192,10 +195,41 @@ function fazerLista(fkEmpresa) {
 }
 
 function fazerListaCpuOffline(fkEmpresa) {
-  instrucaoSql = "";
+  var instrucaoSql = "";
 
   if (process.env.AMBIENTE_PROCESSO == "producao") {
-    instrucaoSql = ``;
+    instrucaoSql = `SELECT 
+    f.nome AS 'NomeFuncionario',
+    c.idComputador AS 'idComputador',
+    c.ipComputador AS 'IpComputador',
+    c.ativo AS 'Status',
+    c.sistemaOperacional AS 'SistemaOperacional',
+    (
+        SELECT FORMAT(MAX(r.dtHora), 'HH:mm dd/MM/yyyy') 
+        FROM registro r
+        WHERE r.fkHasComponente IN (
+            SELECT hc.idHasComponente
+            FROM hasComponente hc
+            WHERE hc.fkComputador = c.idComputador
+        )
+    ) AS 'UltimaSessao',
+    (
+        SELECT r.registro
+        FROM registro r
+        JOIN hasComponente hc ON r.fkHasComponente = hc.idHasComponente
+        JOIN componente comp ON hc.fkComponente = comp.idComponente
+        WHERE comp.tipo = 'CPU' AND r.dtHora = (
+            SELECT MAX(r2.dtHora)
+            FROM registro r2
+            JOIN hasComponente hc2 ON r2.fkHasComponente = hc2.idHasComponente
+            WHERE hc2.fkComputador = c.idComputador
+            AND comp.tipo = 'CPU'
+        )
+    ) AS 'PorcentagemCPU'
+FROM computador c
+JOIN funcionario f ON c.fkFuncionario = f.idFuncionario
+WHERE f.fkEmpresa = ${fkEmpresa} -- Use parameterized query to prevent SQL injection
+ORDER BY c.ativo;`;
   } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
     instrucaoSql = `
         SELECT 
@@ -244,7 +278,7 @@ function fazerListaCpuOffline(fkEmpresa) {
 }
 
 function fazerListaCpuOnline(fkEmpresa) {
-  instrucaoSql = "";
+  var instrucaoSql = "";
 
   if (process.env.AMBIENTE_PROCESSO == "producao") {
     instrucaoSql = `SELECT 
@@ -327,7 +361,7 @@ function fazerListaCpuOnline(fkEmpresa) {
   return database.executar(instrucaoSql);
 }
 function fazerListaPorNome(fkEmpresa, nome) {
-  instrucaoSql = "";
+  var instrucaoSql = "";
 
   if (process.env.AMBIENTE_PROCESSO == "producao") {
     instrucaoSql = `
