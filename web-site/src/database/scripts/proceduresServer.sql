@@ -105,3 +105,23 @@ BEGIN
     GROUP BY s.nomeSoftware
     ORDER BY contagem DESC;
 END;
+
+
+CREATE PROCEDURE checkComputerExists
+    @vIpComputador VARCHAR(150),
+    @vNome VARCHAR(200),
+    @vMarca VARCHAR(200),
+    @vFkFuncionario INT,
+    @vSO VARCHAR(200)
+AS
+BEGIN
+    IF NOT EXISTS (SELECT * FROM computador WHERE ipComputador = @vIpComputador)
+    BEGIN
+        INSERT INTO computador (ipComputador, nomePatrimonio, marca, fkFuncionario, sistemaOperacional, ativo)
+        VALUES (@vIpComputador, @vNome, @vMarca, @vFkFuncionario, @vSO, 1);
+    END
+    ELSE
+    BEGIN
+        UPDATE computador SET ativo = 1 WHERE ipComputador = @vIpComputador;
+    END
+END;
