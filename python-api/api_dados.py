@@ -110,18 +110,20 @@ def CheckLogin():
 
     try:
         cursorSERVER.execute(f"select idFuncionario from funcionario where email = '{emailFuncionario}' and senha = '{senhaFuncionario}'")
-        if cursorSERVER.fetchall().len() > 0:
-            idFuncionario = cursorSERVER.fetchall()
-            print(idFuncionario)
-            try:
-                cursor.execute(f" call checkComputerExists ('{str(ipMaquina)}', '{platform.node()}', 'EC2 - AWS', 1, '{platform.system()}', true) ")
-                cursorSERVER.execute(f"exec checkComputerExists '{str(ipMaquina)}', '{platform.node()}', 'EC2 - AWS', {idFuncionario[0]}, '{platform.system()}', 1")
-                connection.commit()
-                connSERVER.commit()
-            except mysql.connector.Error as error:
-                print("Failed to insert record into Laptop table {}".format(error))
-        else:
-            CheckLogin()
+        print(cursorSERVER.fetchone())
+        print(cursorSERVER.fetchone()[0])
+        # if cursorSERVER.fetchall().len() > 0:
+        #     idFuncionario = cursorSERVER.fetchall()
+        #     print(idFuncionario)
+        #     try:
+        #         cursor.execute(f" call checkComputerExists ('{str(ipMaquina)}', '{platform.node()}', 'EC2 - AWS', 1, '{platform.system()}', true) ")
+        #         cursorSERVER.execute(f"exec checkComputerExists '{str(ipMaquina)}', '{platform.node()}', 'EC2 - AWS', {idFuncionario[0]}, '{platform.system()}', 1")
+        #         connection.commit()
+        #         connSERVER.commit()
+        #     except mysql.connector.Error as error:
+        #         print("Failed to insert record into Laptop table {}".format(error))
+        # else:
+        #     CheckLogin()
 
     except mysql.connector.Error as error:
         print("Failed to insert record into Laptop table {}".format(error))
