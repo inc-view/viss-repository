@@ -7,13 +7,15 @@ setInterval(pegarCpuProblema, 7000);
 
 
 
-
+var testeCpuProblema;
 function pegarCpuProblema() {
-    fetch(`/routeDashListagem/ListagemCpusProblema?fkEmpresa=${localStorage.FK_EMPRESA}`, { cache: 'no-store' }).then(function (response) {
+    var fkEmpresa = localStorage.getItem("FK_EMPRESA");
+    fetch(`/routeDashListagem/ListagemCpusProblema?fkEmpresa=${fkEmpresa}`, { cache: 'no-store' }).then(function (response) {
         if (response.ok) {
             response.json().then(function (resposta) {
                 console.warn(`Dados recebidos: ${JSON.stringify(resposta)}`);
                 var modificarElement = document.getElementById("TextComputadorProblema")
+                testeCpuProblema = resposta;
                 modificarHtml = modificarElement.innerHTML;
                 modificarElement.innerHTML = ``;
                 modificarHtml = `${resposta[0].totalCpuProblema}`
@@ -36,7 +38,7 @@ function pegarCpuOff() {
                 var modificarElement = document.getElementById("TextOfline")
                 modificarHtml = modificarElement.innerHTML;
                 modificarElement.innerHTML = ``;
-                modificarHtml = `${resposta[0].TotalDeComputadoresOfline}`
+                modificarHtml = `${resposta[0].TotalComputadoresOffline}`
 
                 modificarElement.innerHTML = modificarHtml
 
