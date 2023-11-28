@@ -68,8 +68,6 @@ try:
 except pymssql.Error as e:
     print(f"Erro na conexão: {e}")
 
-print("teste")
-ipDaECEDOIS = input()
 
 connection = mysql.connector.connect(
     host="localhost",
@@ -80,7 +78,7 @@ connection = mysql.connector.connect(
 )
 cursor = connection.cursor()
 
-time.sleep(10)
+time.sleep(5)
 
 def showText():
     print(f"""{consoleColors['cyan']}
@@ -110,20 +108,29 @@ def CheckLogin():
 
     try:
         cursorSERVER.execute(f"select idFuncionario from funcionario where email = '{emailFuncionario}' and senha = '{senhaFuncionario}'")
-        teste = cursorSERVER.fetchone()
-        print(teste[0])
-        # if cursorSERVER.fetchall().len() > 0:
-        #     idFuncionario = cursorSERVER.fetchall()
-        #     print(idFuncionario)
-        #     try:
-        #         cursor.execute(f" call checkComputerExists ('{str(ipMaquina)}', '{platform.node()}', 'EC2 - AWS', 1, '{platform.system()}', true) ")
-        #         cursorSERVER.execute(f"exec checkComputerExists '{str(ipMaquina)}', '{platform.node()}', 'EC2 - AWS', {idFuncionario[0]}, '{platform.system()}', 1")
-        #         connection.commit()
-        #         connSERVER.commit()
-        #     except mysql.connector.Error as error:
-        #         print("Failed to insert record into Laptop table {}".format(error))
-        # else:
-        #     CheckLogin()
+        idFuncionario = cursorSERVER.fetchone()
+        if idFuncionario != 0:
+            idFuncionario = cursorSERVER.fetchall()
+            print(idFuncionario)
+            try:
+                cursor.execute(f" call checkComputerExists ('{str(ipMaquina)}', '{platform.node()}', 'EC2 - AWS', 1, '{platform.system()}', true) ")
+                cursorSERVER.execute(f"exec checkComputerExists '{str(ipMaquina)}', '{platform.node()}', 'EC2 - AWS', {idFuncionario[0]}, '{platform.system()}', 1")
+                connection.commit()
+                connSERVER.commit()
+                
+                cursorSERVER.except(f"select * from computador where ipComputador = '{ipMaquina}'")
+                print(cursorSERVER.fetchall())
+
+                cursor.except(f"select * from computador where ipComputador = '{ipMaquina}'")
+                print(cursor.fetchall())
+
+                print("Conectado")
+
+            except mysql.connector.Error as error:
+                print("Failed to insert record into Laptop table {}".format(error))
+        else:
+            print("Login inválido")
+            CheckLogin()
 
     except mysql.connector.Error as error:
         print("Failed to insert record into Laptop table {}".format(error))
