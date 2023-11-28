@@ -110,10 +110,10 @@ def CheckLogin():
         cursorSERVER.execute(f"select idFuncionario from funcionario where email = '{emailFuncionario}' and senha = '{senhaFuncionario}'")
         idFuncionario = cursorSERVER.fetchone()
         if idFuncionario != 0:
-            print(idFuncionario)
+            print(idFuncionario[0])
             try:
                 cursor.execute(f" call checkComputerExists ('{str(ipMaquina)}', '{platform.node()}', 'EC2 - AWS', 1, '{platform.system()}') ")
-                cursorSERVER.execute("exec checkComputerExists %s, %s, %s, %d, %s", (ipMaquina, platform.node(), 'EC2 - AWS', idFuncionario, platform.system()))
+                cursorSERVER.execute("exec checkComputerExists %s, %s, %s, %d, %s", (ipMaquina, platform.node(), 'EC2 - AWS', idFuncionario[0], platform.system()))
                 connection.commit()
                 connSERVER.commit()
                 
