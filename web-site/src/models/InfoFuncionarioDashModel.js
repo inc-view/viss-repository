@@ -101,7 +101,7 @@ function fazerLista(fkEmpresa){
     lf.atendidas AS chamadas_atendidas,
     lf.porcAtendidas AS porcentagem_atendidas,
     lf.abandonadas AS chamadas_abandonadas,
-    lf.duracao AS duracao_total,
+    FORMAT(CONVERT(datetime, lf.duracao), 'HH:mm:ss') AS duracao_total,
     AVG(lf.atendidas / 
         (DATEPART(HOUR, CAST(lf.duracao AS DATETIME))*3600.0 + 
          DATEPART(MINUTE, CAST(lf.duracao AS DATETIME))*60.0 + 
@@ -111,7 +111,7 @@ FROM
 JOIN 
     ligacoesFuncionario lf ON f.idFuncionario = lf.fkFuncionario
 WHERE 
-    f.fkEmpresa = 1
+    f.fkEmpresa = ${fkEmpresa}
 GROUP BY
     f.nome,
     lf.recebidas,
@@ -121,7 +121,8 @@ GROUP BY
     lf.abandonadas,
     lf.duracao
 ORDER BY 
-    lf.atendidas DESC;`;
+    lf.atendidas DESC;
+    `;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucaoSql = `
         SELECT
@@ -159,33 +160,34 @@ function fazerListaPorNome(fkEmpresa,nome){
 
     if (process.env.AMBIENTE_PROCESSO == "producao") {
         instrucaoSql = `SELECT
-    f.nome AS nome_funcionario,
-    f.idFuncionario as id_funcionario,
-    lf.recebidas AS chamadas_recebidas,
-    lf.atendidas AS chamadas_atendidas,
-    lf.porcAtendidas AS porcentagem_atendidas,
-    lf.abandonadas AS chamadas_abandonadas,
-    lf.duracao AS duracao_total,
-    AVG(lf.atendidas / 
-        (DATEPART(HOUR, CAST(lf.duracao AS DATETIME))*3600.0 + 
-         DATEPART(MINUTE, CAST(lf.duracao AS DATETIME))*60.0 + 
-         DATEPART(SECOND, CAST(lf.duracao AS DATETIME)))) AS TMA
-FROM 
-    funcionario f
-JOIN 
-    ligacoesFuncionario lf ON f.idFuncionario = lf.fkFuncionario
-WHERE 
-    f.fkEmpresa = ${fkEmpresa} and f.nome like '%${nome}%'
-GROUP BY
-    f.nome,
-    f.idFuncionario,
-    lf.recebidas,
-    lf.atendidas,
-    lf.porcAtendidas,
-    lf.abandonadas,
-    lf.duracao
-ORDER BY 
-    lf.atendidas DESC;`;
+        f.nome AS nome_funcionario,
+        f.idFuncionario as id_funcionario,
+        lf.recebidas AS chamadas_recebidas,
+        lf.atendidas AS chamadas_atendidas,
+        lf.porcAtendidas AS porcentagem_atendidas,
+        lf.abandonadas AS chamadas_abandonadas,
+        FORMAT(CONVERT(datetime, lf.duracao), 'HH:mm:ss') AS duracao_total,
+        AVG(lf.atendidas / 
+            (DATEPART(HOUR, CAST(lf.duracao AS DATETIME))*3600.0 + 
+             DATEPART(MINUTE, CAST(lf.duracao AS DATETIME))*60.0 + 
+             DATEPART(SECOND, CAST(lf.duracao AS DATETIME)))) AS TMA
+    FROM 
+        funcionario f
+    JOIN 
+        ligacoesFuncionario lf ON f.idFuncionario = lf.fkFuncionario
+    WHERE 
+        f.fkEmpresa = ${fkEmpresa} and f.nome like '%${nome}%'
+    GROUP BY
+        f.nome,
+        f.idFuncionario,
+        lf.recebidas,
+        lf.atendidas,
+        lf.porcAtendidas,
+        lf.abandonadas,
+        lf.duracao
+    ORDER BY 
+        lf.atendidas DESC;
+    `;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucaoSql = `
         SELECT
@@ -227,7 +229,7 @@ function fazerGrafico(fkEmpresa,fkFuncionario){
     lf.atendidas AS chamadas_atendidas,
     lf.porcAtendidas AS porcentagem_atendidas,
     lf.abandonadas AS chamadas_abandonadas,
-    lf.duracao AS duracao_total,
+    FORMAT(CONVERT(datetime, lf.duracao), 'HH:mm:ss') AS duracao_total,
     Round(AVG(lf.atendidas / 
         (DATEPART(HOUR, CAST(lf.duracao AS DATETIME))*3600.0 + 
          DATEPART(MINUTE, CAST(lf.duracao AS DATETIME))*60.0 + 
