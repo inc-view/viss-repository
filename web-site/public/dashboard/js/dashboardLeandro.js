@@ -337,6 +337,8 @@ function updateDashboardGeral() {
 
                 diskDataDashboardGeral = diskDataDashboardGeral.reverse()
 
+                
+
 
                 setTimeout(() => {
 
@@ -352,6 +354,13 @@ function updateDashboardGeral() {
             });
         } else {
             console.error('Nenhum dado encontrado ou erro na API');
+        }
+
+        if (labelsDashboardGeral.length > 5) {
+            labelsDashboardGeral.shift()
+            cpuDataDashboardGeral.shift()
+            memoryDataDashboardGeral.shift()
+            diskDataDashboardGeral.shift()
         }
     }).catch(function (error) {
         console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
@@ -378,8 +387,8 @@ function updateDashboardCpu() {
                     var data = new Date(registro.dthora);
                     var dataDMATratada = `${data.getDate()}/${data.getMonth() + 1}/${data.getFullYear()}`
                     var dataTratada = data.getHours() + ":" + data.getMinutes() + ":" + data.getSeconds();
-                    data_dash.innerHTML = dataDMATratada
-                    labelsDashboardCpu.push(dataTratada)
+                    // data_dash.innerHTML = dataDMATratada
+                    labelsDashboardCpu.push(registro.hora_min_segundo)
                     dataDashboardCpu.push(registro.cpu)
                 }
 
@@ -414,7 +423,7 @@ function updateDashboardCpu() {
 }
 
 function updateDashboardAlertasCpu() {
-    data_dash.innerHTML = `${dataDash.getDate()}/${dataDash.getMonth() + 1}/${dataDash.getFullYear()}`
+    // data_dash.innerHTML = `${dataDash.getDate()}/${dataDash.getMonth() + 1}/${dataDash.getFullYear()}`
     fetch(`/routeDashAlertasCpu/dashboardCpuAlertasCpu/${idMaquina}`, { cache: 'no-store' }).then(function (response) {
         if (response.ok) {
             response.json().then(function (resposta) {
@@ -422,8 +431,8 @@ function updateDashboardAlertasCpu() {
 
                 for (i = 0; i < resposta.length; i++) {
                     let registro = resposta[i]
-                    labelsOcorrenciasCpu.push(registro.Mes)
-                    dataOcorrenciasCpu.push(registro.Ocorrencias)
+                    labelsOcorrenciasCpu.push(registro.hora_min_segundo)
+                    dataOcorrenciasCpu.push(registro.memory)
                 }
 
                 cardCpu.innerHTML = `${resposta[0].cpu}%`
@@ -452,7 +461,7 @@ function updateDashboardAlertasCpu() {
 
 function updateDashboardMemory() {
 
-    data_dash2.innerHTML = `${dataDash.getDate()}/${dataDash.getMonth() + 1}/${dataDash.getFullYear()}`
+    // data_dash2.innerHTML = `${dataDash.getDate()}/${dataDash.getMonth() + 1}/${dataDash.getFullYear()}`
     fetch(`/routeLeandro/dashboardMemory/${idMaquina}`, { cache: 'no-store' }).then(function (response) {
         if (response.ok) {
             response.json().then(function (resposta) {
@@ -462,7 +471,7 @@ function updateDashboardMemory() {
                     let registro = resposta[i]
                     var data = new Date(registro.dthora);
                     var dataTratada = data.getHours() + ":" + data.getMinutes() + ":" + data.getSeconds();
-                    labelsDashboardMemory.push(dataTratada)
+                    labelsDashboardMemory.push(registro.hora_min_segundo)
                     dataDashboardMemory.push(registro.memory)
                 }
 
@@ -474,13 +483,13 @@ function updateDashboardMemory() {
 
                 cardMemory.innerHTML = `${resposta[0].memory}%`
 
-                if (resposta[0].cpu <= 50) {
+                if (resposta[0].memory <= 50) {
                     cardMemory.style = `color: green !important`
-                } else if (resposta[0].cpu < 65) {
+                } else if (resposta[0].memory < 65) {
                     cardMemory.style = `color: white !important`
-                } else if (resposta[0].cpu < 80) {
+                } else if (resposta[0].memory < 80) {
                     cardMemory.style = `color: yellow !important`
-                } else if (resposta[0].cpu < 90) {
+                } else if (resposta[0].memory < 90) {
                     cardMemory.style = `color: orange !important`
                 } else {
                     cardMemory.style = `color: red !important`
@@ -494,7 +503,7 @@ function updateDashboardMemory() {
 }
 
 function updateDashboardDisk() {
-    data_dash3.innerHTML = `${dataDash.getDate()}/${dataDash.getMonth() + 1}/${dataDash.getFullYear()}`
+    // data_dash3.innerHTML = `${dataDash.getDate()}/${dataDash.getMonth() + 1}/${dataDash.getFullYear()}`
 
     fetch(`/routeLeandro/dashboardDisk/${idMaquina}`, { cache: 'no-store' }).then(function (response) {
         if (response.ok) {
@@ -505,7 +514,7 @@ function updateDashboardDisk() {
                     let registro = resposta[i]
                     var data = new Date(registro.dthora);
                     var dataTratada = data.getHours() + ":" + data.getMinutes() + ":" + data.getSeconds();
-                    labelsDashboardDisk.push(dataTratada)
+                    labelsDashboardDisk.push(registro.hora_min_segundo)
                     dataDashboardDisk.push(registro.disk)
                 }
 
@@ -516,6 +525,18 @@ function updateDashboardDisk() {
                 }
 
                 cardDisk.innerHTML = `${resposta[0].disk}%`
+
+                if (resposta[0].disk <= 50) {
+                    cardDisk.style = `color: green !important`
+                } else if (resposta[0].disk < 65) {
+                    cardDisk.style = `color: white !important`
+                } else if (resposta[0].disk < 80) {
+                    cardDisk.style = `color: yellow !important`
+                } else if (resposta[0].disk < 90) {
+                    cardDisk.style = `color: orange !important`
+                } else {
+                    cardDisk.style = `color: red !important`
+                }
 
             });
         } else {
