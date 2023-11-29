@@ -5,7 +5,7 @@ function dadosCPU(idMaquina) {
     instrucaoSql = ''
 
     if (process.env.AMBIENTE_PROCESSO == "producao") {
-        instrucaoSql = `SELECT registro, dtHora
+        instrucaoSql = `SELECT TOP 5 registro, dtHora
         FROM registro r
         JOIN hasComponente hc ON hc.idHasComponente = r.fkHasComponente
         JOIN componente c ON c.idComponente = hc.fkComponente
@@ -39,7 +39,7 @@ function dadosMEM(idMaquina) {
     instrucaoSql = ''
 
     if (process.env.AMBIENTE_PROCESSO == "producao") {
-        instrucaoSql = `SELECT registro, dtHora
+        instrucaoSql = `SELECT TOP 5 registro, dtHora
         FROM registro r
         JOIN hasComponente hc ON hc.idHasComponente = r.fkHasComponente
         JOIN componente c ON c.idComponente = hc.fkComponente
@@ -74,7 +74,7 @@ function dadosDisco(idMaquina) {
     instrucaoSql = ''
 
     if (process.env.AMBIENTE_PROCESSO == "producao") {
-        instrucaoSql = `SELECT registro, dtHora
+        instrucaoSql = `SELECT TOP 5 registro, dtHora
         FROM registro r
         JOIN hasComponente hc ON hc.idHasComponente = r.fkHasComponente
         JOIN componente c ON c.idComponente = hc.fkComponente
@@ -111,13 +111,22 @@ function dashboardCpu(idMaquina) {
     instrucaoSql = ''
 
     if (process.env.AMBIENTE_PROCESSO == "producao") {
-        instrucaoSql = `SELECT TOP 1 registro AS 'cpu', dtHora
-        FROM registro r
-        JOIN hasComponente hc ON r.fkHasComponente = hc.idHasComponente
-        JOIN componente c ON hc.fkComponente = c.idComponente
-        JOIN computador pc ON hc.fkComputador = pc.idComputador
-        WHERE c.tipo = 'CPU' AND pc.idComputador = ${idMaquina}
-        ORDER BY dtHora DESC;`;
+        instrucaoSql = `
+        SELECT TOP 1 
+            registro AS 'cpu', 
+            FORMAT(dtHora, 'HH:mm:ss') AS 'hora_min_segundo'
+        FROM 
+            registro r
+        JOIN 
+            hasComponente hc ON r.fkHasComponente = hc.idHasComponente
+        JOIN 
+            componente c ON hc.fkComponente = c.idComponente
+        JOIN 
+            computador pc ON hc.fkComputador = pc.idComputador
+        WHERE 
+            c.tipo = 'CPU' AND pc.idComputador = ${idMaquina}
+        ORDER BY 
+            dtHora DESC;`;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucaoSql = `SELECT registro AS 'cpu', dthora FROM registro JOIN hasComponente on fkHasComponente = idHasComponente JOIN componente ON fkComponente = idComponente JOIN computador ON fkComputador = idComputador WHERE componente.tipo = 'CPU' AND computador.idComputador = ${idMaquina} ORDER BY dtHora DESC LIMIT 1;`;
     } else {
@@ -136,25 +145,21 @@ function dashboardCpuAlertasCpu(idMaquina) {
     if (process.env.AMBIENTE_PROCESSO == "producao") {
         instrucaoSql = ``;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
-        instrucaoSql = `SELECT 
-        MONTH(dtHora) AS 'Mes',
-        COUNT(registro) AS 'Ocorrencias' 
+        instrucaoSql = `SELECT TOP 1 
+        registro AS 'memory', 
+        FORMAT(dtHora, 'HH:mm:ss') AS 'hora_min_segundo'
     FROM 
-        registro 
+        registro r
     JOIN 
-        hasComponente ON fkHasComponente = idHasComponente 
+        hasComponente hc ON r.fkHasComponente = hc.idHasComponente
     JOIN 
-        componente ON fkComponente = idComponente 
+        componente c ON hc.fkComponente = c.idComponente
     JOIN 
-        computador ON fkComputador = ${idMaquina} 
+        computador pc ON hc.fkComputador = pc.idComputador
     WHERE 
-        componente.tipo = 'CPU' 
-        AND registro > 90 
-        AND YEAR(dtHora) = 2023
-    GROUP BY 
-        MONTH(dtHora)
-    ORDER BY
-        MONTH(dtHORA);`;
+        c.tipo = 'Memoria' AND pc.idComputador = ${idMaquina}
+    ORDER BY 
+        dtHora DESC;`;
     } else {
         console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
         return
@@ -169,13 +174,21 @@ function dashboardMemory(idMaquina) {
     instrucaoSql = ''
 
     if (process.env.AMBIENTE_PROCESSO == "producao") {
-        instrucaoSql = `SELECT TOP 1 registro AS 'memory', dtHora
-        FROM registro r
-        JOIN hasComponente hc ON r.fkHasComponente = hc.idHasComponente
-        JOIN componente c ON hc.fkComponente = c.idComponente
-        JOIN computador pc ON hc.fkComputador = pc.idComputador
-        WHERE c.tipo = 'Memoria' AND pc.idComputador = ${idMaquina}
-        ORDER BY dtHora DESC;
+        instrucaoSql = `SELECT TOP 1 
+        registro AS 'memory', 
+        FORMAT(dtHora, 'HH:mm:ss') AS 'hora_min_segundo'
+    FROM 
+        registro r
+    JOIN 
+        hasComponente hc ON r.fkHasComponente = hc.idHasComponente
+    JOIN 
+        componente c ON hc.fkComponente = c.idComponente
+    JOIN 
+        computador pc ON hc.fkComputador = pc.idComputador
+    WHERE 
+        c.tipo = 'Memoria' AND pc.idComputador = ${idMaquina}
+    ORDER BY 
+        dtHora DESC;
         `;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucaoSql = `SELECT registro AS 'memory', dthora FROM registro JOIN hasComponente on fkHasComponente = idHasComponente JOIN componente ON fkComponente = idComponente JOIN computador ON fkComputador = idComputador WHERE componente.tipo = 'Memoria' AND computador.idComputador = ${idMaquina} ORDER BY dtHora DESC LIMIT 1;`;
@@ -193,13 +206,21 @@ function dashboardDisk(idMaquina) {
     instrucaoSql = ''
 
     if (process.env.AMBIENTE_PROCESSO == "producao") {
-        instrucaoSql = `SELECT TOP 1 registro AS 'disk', dtHora
-        FROM registro r
-        JOIN hasComponente hc ON r.fkHasComponente = hc.idHasComponente
-        JOIN componente c ON hc.fkComponente = c.idComponente
-        JOIN computador pc ON hc.fkComputador = pc.idComputador
-        WHERE c.tipo = 'Disco' AND pc.idComputador = ${idMaquina}
-        ORDER BY dtHora DESC;
+        instrucaoSql = `SELECT TOP 1 
+        registro AS 'disk', 
+        FORMAT(dtHora, 'HH:mm:ss') AS 'hora_min_segundo'
+    FROM 
+        registro r
+    JOIN 
+        hasComponente hc ON r.fkHasComponente = hc.idHasComponente
+    JOIN 
+        componente c ON hc.fkComponente = c.idComponente
+    JOIN 
+        computador pc ON hc.fkComputador = pc.idComputador
+    WHERE 
+        c.tipo = 'Disco' AND pc.idComputador = ${idMaquina}
+    ORDER BY 
+        dtHora DESC;
         `;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucaoSql = `SELECT registro AS 'disk', dthora FROM registro JOIN hasComponente on fkHasComponente = idHasComponente JOIN componente ON fkComponente = idComponente JOIN computador ON fkComputador = idComputador WHERE componente.tipo = 'Disco' AND computador.idComputador = ${idMaquina} ORDER BY dtHora DESC LIMIT 1;`;

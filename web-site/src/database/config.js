@@ -18,8 +18,8 @@ const sqlServerConfig = {
 var mySqlConfig = {
     host: "localhost",
     database: "inkView",
-    user: "root",
-    password: "@eduufreire",
+    user: "user_brandao",
+    password: "1234",
 };
 
 function executar(instrucao) {
