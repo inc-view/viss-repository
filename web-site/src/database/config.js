@@ -19,7 +19,6 @@ var mySqlConfig = {
     host: "localhost",
     database: "inkView",
     user: "user_brandao",
-    password: "1234",
 };
 
 function executar(instrucao) {
