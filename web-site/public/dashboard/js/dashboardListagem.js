@@ -5,8 +5,6 @@ setInterval(pegarTotalComputadores, 7000);
 setInterval(pegarCpuProblema, 7000);
 
 
-
-
 var testeCpuProblema;
 function pegarCpuProblema() {
     var fkEmpresa = localStorage.getItem("FK_EMPRESA");
@@ -236,7 +234,7 @@ function fazerListaComputadoresOffline() {
                     a.style.textDecoration = "none";
                     a.style.color = "black";
                     a.setAttribute("target", "_self");
-                    a.setAttribute("href", `./dashboardLeandro.html?id=${resposta[i].idComputador}`);
+                    a.setAttribute("href", `./LE-dashMaquina.html?id=${resposta[i].idComputador}`);
 
                     let tr = document.createElement("tr");
 
@@ -295,7 +293,7 @@ function fazerListaComputadoresOffline() {
                     tr.appendChild(tdUltimaSessao);
                     tdUltimaSessao.innerHTML = `${resposta[i].UltimaSessao}`;
 
-                    tr.onclick = () => { window.location.href = `./dashboardLeandro.html?id=${resposta[i].idComputador}` }
+                    tr.onclick = () => { window.location.href = `./LE-dashMaquina.html?id=${resposta[i].idComputador}` }
                     tr.style.cursor = "pointer";
                     listaElement.appendChild(tr);
                 }
@@ -398,7 +396,7 @@ function fazerListaPorNome(){
                         tr.appendChild(tdUltimaSessao);
                         tdUltimaSessao.innerHTML = `${resposta[i].UltimaSessao}`;
     
-                        tr.onclick = () => { window.location.href = `./dashboardLeandro.html?id=${resposta[i].idComputador}` }
+                        tr.onclick = () => { window.location.href = `./LE-dashMaquina.html?id=${resposta[i].idComputador}` }
                         tr.style.cursor = "pointer";
                         listaElement.appendChild(tr);
                     }

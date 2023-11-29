@@ -96,6 +96,7 @@ function fazerLista(fkEmpresa){
         instrucaoSql = `
         SELECT
     f.nome AS nome_funcionario,
+    f.idFuncionario as id_funcionario,
     lf.recebidas AS chamadas_recebidas,
     lf.atendidas AS chamadas_atendidas,
     lf.porcAtendidas AS porcentagem_atendidas,
@@ -114,6 +115,7 @@ WHERE
 GROUP BY
     f.nome,
     lf.recebidas,
+    f.idFuncionario,
     lf.atendidas,
     lf.porcAtendidas,
     lf.abandonadas,
@@ -124,6 +126,7 @@ ORDER BY
         instrucaoSql = `
         SELECT
         f.nome AS nome_funcionario,
+        f.idFuncionario as id_funcionario,
         lf.recebidas AS chamadas_recebidas,
         lf.atendidas AS chamadas_atendidas,
         lf.porcAtendidas AS porcentagem_atendidas,
@@ -157,6 +160,7 @@ function fazerListaPorNome(fkEmpresa,nome){
     if (process.env.AMBIENTE_PROCESSO == "producao") {
         instrucaoSql = `SELECT
     f.nome AS nome_funcionario,
+    f.idFuncionario as id_funcionario,
     lf.recebidas AS chamadas_recebidas,
     lf.atendidas AS chamadas_atendidas,
     lf.porcAtendidas AS porcentagem_atendidas,
@@ -174,6 +178,7 @@ WHERE
     f.fkEmpresa = ${fkEmpresa} and f.nome like '%${nome}%'
 GROUP BY
     f.nome,
+    f.idFuncionario,
     lf.recebidas,
     lf.atendidas,
     lf.porcAtendidas,
@@ -185,6 +190,7 @@ ORDER BY
         instrucaoSql = `
         SELECT
     f.nome AS nome_funcionario,
+    f.idFuncionario as id_funcionario,
     lf.recebidas AS chamadas_recebidas,
     lf.atendidas AS chamadas_atendidas,
     lf.porcAtendidas AS porcentagem_atendidas,
@@ -209,6 +215,71 @@ ORDER BY
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
+function fazerGrafico(fkEmpresa,fkFuncionario){
+    instrucaoSql = ''
+
+    if (process.env.AMBIENTE_PROCESSO == "producao") {
+        instrucaoSql = `
+        SELECT
+    f.nome AS nome_funcionario,
+    f.idFuncionario AS id_funcionario,
+    lf.recebidas AS chamadas_recebidas,
+    lf.atendidas AS chamadas_atendidas,
+    lf.porcAtendidas AS porcentagem_atendidas,
+    lf.abandonadas AS chamadas_abandonadas,
+    lf.duracao AS duracao_total,
+    Round(AVG(lf.atendidas / 
+        (DATEPART(HOUR, CAST(lf.duracao AS DATETIME))*3600.0 + 
+         DATEPART(MINUTE, CAST(lf.duracao AS DATETIME))*60.0 + 
+         DATEPART(SECOND, CAST(lf.duracao AS DATETIME)))), 4) AS TMA
+FROM 
+    funcionario f
+JOIN 
+    ligacoesFuncionario lf ON f.idFuncionario = lf.fkFuncionario
+WHERE 
+    f.fkEmpresa = ${fkEmpresa}
+    AND
+    f.idFuncionario = ${fkFuncionario}
+GROUP BY
+    f.nome,
+    f.idFuncionario,
+    lf.recebidas,
+    lf.atendidas,
+    lf.porcAtendidas,
+    lf.abandonadas,
+    lf.duracao
+ORDER BY 
+    lf.atendidas DESC;
+   `;
+    } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
+        instrucaoSql = `
+        SELECT
+        f.nome AS nome_funcionario,
+        f.idFuncionario as id_funcionario,
+        lf.atendidas AS chamadas_atendidas,
+        lf.abandonadas AS chamadas_abandonadas,
+        lf.duracao AS duracao_total,
+        ROUND(IFNULL(lf.atendidas / NULLIF(TIME_TO_SEC(lf.duracao), 0), 0),4) AS TMA
+    FROM 
+        funcionario f
+    JOIN 
+        ligacoesFuncionario lf ON f.idFuncionario = lf.fkFuncionario
+    WHERE 
+        f.fkEmpresa = ${fkEmpresa}
+        AND
+        f.idFuncionario = ${fkFuncionario}
+    ORDER BY 
+        lf.atendidas DESC;
+        `;
+
+    } else {
+        console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
+        return
+    }
+
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
 
 
 
@@ -218,5 +289,6 @@ module.exports = {
     ListagemDuracao,
     ListagemTotalChamadas,
     ListagemTMA,
+    fazerGrafico,
     
 }
