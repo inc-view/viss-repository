@@ -9,7 +9,7 @@ partes.forEach(function (parte) {
   idMaquina = valor;
 }); */
 
-let idMaquina = 1;
+let idMaquina = 5;
 let meses = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"]
 
 

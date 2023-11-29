@@ -347,8 +347,6 @@ function updateDashboardGeral() {
                     diskDataDashboardGeral = []
                     memoryDataDashboardGeral = []
 
-                    varDashboardGeral.update();
-
                 }, 2000)
 
             });
@@ -366,9 +364,7 @@ function updateDashboardGeral() {
         console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
     });
 
-
-
-
+    varDashboardGeral.update();
 
 }
 
