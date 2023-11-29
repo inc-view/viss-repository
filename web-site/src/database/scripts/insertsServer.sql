@@ -18,7 +18,8 @@ INSERT INTO  funcionario  ( fkGestor ,  fkEmpresa ,  nome ,  email ,  cpf ,  tel
 (1, 1, 'Pedro Almeida', 'Pedro@callcenterxyz.com', '56789012345', '(22) 3456-7890', 'senha789'),
 (1, 1, 'Lucas Carlos', 'Lucas@callcenterxyz.com', '56789012345', '(22) 3456-7890', 'senh2345'),
 (1, 1, 'Patricia De Santos', 'Patricia@callcenterxyz.com', '56789012345', '(22) 3456-7890', 'senha12349'),
-(1, 1, 'Ingrid Bartolon', 'Ingrid@callcenterxyz.com', '56789012345', '(22) 3456-7890', 'senha72356');
+(1, 1, 'Ingrid Bartolon', 'Ingrid@callcenterxyz.com', '56789012345', '(22) 3456-7890', 'senha72356'),
+(1, 1, 'Larissa Sonoda', 'larissa@callcenterabc.com', '44589856003', '(11) 2799-9021', 'admin123');
 
 -- Inserir registros na tabela unidadeMedida
 INSERT INTO  unidadeMedida  ( tipoMedida ) VALUES 
