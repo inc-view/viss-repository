@@ -72,7 +72,7 @@ except pymssql.Error as e:
 connection = mysql.connector.connect(
     host="localhost",
     user="root",
-    password="@eduufreire",
+    password="urubu100",
     port=3306,
     database="inkView"
 )
@@ -221,8 +221,8 @@ if opcao == "1":
             idsComponentesSql = cursorSERVER.fetchone()
 
             sqlServerInsertQueryCpuPercent = f"INSERT INTO registro (registro, dtHora, fkHasComponente) VALUES ({float(mediaCpus)},  GETDATE(), {idsComponentesSql[0]});"
-            sqlServerInsertQueryMemoryPercent = f"INSERT INTO registro (registro, dtHora, fkHasComponente) VALUES ({float(mediaCpus)},  GETDATE(), {idsComponentesSql[1]});"
-            sqlServerInsertQueryDiskPercent = f"INSERT INTO registro (registro, dtHora, fkHasComponente )VALUES ({float(mediaCpus)},  GETDATE(), {idsComponentesSql[2]});"
+            sqlServerInsertQueryMemoryPercent = f"INSERT INTO registro (registro, dtHora, fkHasComponente) VALUES ({float(memoryPercent)},  GETDATE(), {idsComponentesSql[1]});"
+            sqlServerInsertQueryDiskPercent = f"INSERT INTO registro (registro, dtHora, fkHasComponente )VALUES ({float(diskPercent.percent)},  GETDATE(), {idsComponentesSql[2]});"
 
             cursorSERVER.execute(sqlServerInsertQueryCpuPercent)
             cursorSERVER.execute(sqlServerInsertQueryMemoryPercent)
