@@ -33,7 +33,7 @@ function pegarTMA() {
                 var modificarElement = document.getElementById("TextTMA")
                 modificarHtml = modificarElement.innerHTML;
                 modificarElement.innerHTML = ``;
-                modificarHtml = `${resposta[0].TMA}`
+                modificarHtml = `${resposta[0].TMA.toFixed(4)}`
 
                 modificarElement.innerHTML = modificarHtml
 
@@ -90,7 +90,7 @@ function fazerLista() {
                     tr.appendChild(tdNome);
 
                     let tdTMA = document.createElement("td");
-                    tdTMA.innerHTML = `${resposta[i].TMA}`;
+                    tdTMA.innerHTML = `${resposta[i].TMA.toFixed(4)}`;
                     tr.appendChild(tdTMA);
 
                     let tdChamada = document.createElement("td");
@@ -183,7 +183,7 @@ function fazerListaPorNome() {
                     tr.appendChild(tdNome);
 
                     let tdTMA = document.createElement("td");
-                    tdTMA.innerHTML = `${resposta[i].TMA}`;
+                    tdTMA.innerHTML = `${resposta[i].TMA.toFixed(4)}`;
                     tr.appendChild(tdTMA);
 
                     let tdChamada = document.createElement("td");
@@ -291,7 +291,7 @@ function fazerGrafico() {
                 var modificarElementTMA = document.getElementById("TextTMAFuncionario")
                 modificarHtmlTMA = modificarElementTMA.innerHTML;
                 modificarElementTMA.innerHTML = ``;
-                modificarHtmlTMA = `${resposta[0].TMA}`
+                modificarHtmlTMA = `${resposta[0].TMA.toFixed(4)}`
 
                 modificarElementTMA.innerHTML = modificarHtmlTMA
 
