@@ -115,11 +115,10 @@ BEGIN
 
     INSERT INTO softwarePermitido (bloqueado, fkSoftware, fkComputador)
     VALUES 
+        (0, (SELECT idSoftware FROM inserted), 1),
+        (0, (SELECT idSoftware FROM inserted), 2),
         (0, (SELECT idSoftware FROM inserted), 3),
         (0, (SELECT idSoftware FROM inserted), 4),
-        (0, (SELECT idSoftware FROM inserted), 5),
-        (0, (SELECT idSoftware FROM inserted), 7),
-		(0, (SELECT idSoftware FROM inserted), 8);
 END;
 
 CREATE INDEX idx_idComputador ON computador (idComputador);
