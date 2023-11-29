@@ -5,15 +5,16 @@ function dadosCPU(idMaquina) {
     instrucaoSql = ''
 
     if (process.env.AMBIENTE_PROCESSO == "producao") {
-        instrucaoSql = `SELECT r.registro, r.dtHora 
+        instrucaoSql = `SELECT registro, dtHora
         FROM registro r
         JOIN hasComponente hc ON hc.idHasComponente = r.fkHasComponente
         JOIN componente c ON c.idComponente = hc.fkComponente
         JOIN computador pc ON pc.idComputador = hc.fkComputador
-        WHERE 
-            c.tipo = 'CPU' 
+        WHERE c.tipo = 'CPU' 
             AND pc.idComputador = ${idMaquina}
-            AND r.dtHora BETWEEN DATEADD(MINUTE, -60, GETDATE()) AND GETDATE();`;
+            AND r.dtHora BETWEEN DATEADD(MINUTE, -60, GETDATE()) AND GETDATE()
+        ORDER BY dtHora DESC;
+        `;
 
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucaoSql = `select registro, dtHora from registro r
@@ -38,14 +39,16 @@ function dadosMEM(idMaquina) {
     instrucaoSql = ''
 
     if (process.env.AMBIENTE_PROCESSO == "producao") {
-        instrucaoSql = `select registro, dtHora from registro r
-        join hasComponente hc on hc.idHasComponente = r.fkHasComponente
-        join componente c on c.idComponente = hc.fkComponente
-        join unidadeMedida u on u.idUnidadeMedida = c.fkUnidadeMedida
-        join computador pc on pc.idComputador = hc.fkComputador
-        where c.tipo = 'Memoria' and u.tipoMedida = '%' 
-            and pc.idComputador = ${idMaquina}
-            and r.dtHora between time(current_timestamp() - INTERVAL 60 MINUTE) and time(current_timestamp());`;
+        instrucaoSql = `SELECT registro, dtHora
+        FROM registro r
+        JOIN hasComponente hc ON hc.idHasComponente = r.fkHasComponente
+        JOIN componente c ON c.idComponente = hc.fkComponente
+        JOIN unidadeMedida u ON u.idUnidadeMedida = c.fkUnidadeMedida
+        JOIN computador pc ON pc.idComputador = hc.fkComputador
+        WHERE c.tipo = 'Memoria' AND u.tipoMedida = '%'
+            AND pc.idComputador = ${idMaquina}
+            AND r.dtHora BETWEEN DATEADD(MINUTE, -60, GETDATE()) AND GETDATE()
+        ORDER BY dtHora DESC;`;
 
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucaoSql = `select registro, dtHora from registro r
@@ -71,14 +74,17 @@ function dadosDisco(idMaquina) {
     instrucaoSql = ''
 
     if (process.env.AMBIENTE_PROCESSO == "producao") {
-        instrucaoSql = `select registro, dtHora from registro r
-        join hasComponente hc on hc.idHasComponente = r.fkHasComponente
-        join componente c on c.idComponente = hc.fkComponente
-        join unidadeMedida u on u.idUnidadeMedida = c.fkUnidadeMedida
-        join computador pc on pc.idComputador = hc.fkComputador
-            where c.tipo = 'Disco' and u.tipoMedida = '%'
-                and pc.idComputador = ${idMaquina}
-                and r.dtHora between time(current_timestamp() - INTERVAL 60 MINUTE) and time(current_timestamp());`;
+        instrucaoSql = `SELECT registro, dtHora
+        FROM registro r
+        JOIN hasComponente hc ON hc.idHasComponente = r.fkHasComponente
+        JOIN componente c ON c.idComponente = hc.fkComponente
+        JOIN unidadeMedida u ON u.idUnidadeMedida = c.fkUnidadeMedida
+        JOIN computador pc ON pc.idComputador = hc.fkComputador
+        WHERE c.tipo = 'Disco' AND u.tipoMedida = '%'
+            AND pc.idComputador = ${idMaquina}
+            AND r.dtHora BETWEEN DATEADD(MINUTE, -60, GETDATE()) AND GETDATE()
+        ORDER BY dtHora DESC;
+        `;
 
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucaoSql = `select registro, dtHora from registro r
@@ -105,7 +111,13 @@ function dashboardCpu(idMaquina) {
     instrucaoSql = ''
 
     if (process.env.AMBIENTE_PROCESSO == "producao") {
-        instrucaoSql = ``;
+        instrucaoSql = `SELECT TOP 1 registro AS 'cpu', dtHora
+        FROM registro r
+        JOIN hasComponente hc ON r.fkHasComponente = hc.idHasComponente
+        JOIN componente c ON hc.fkComponente = c.idComponente
+        JOIN computador pc ON hc.fkComputador = pc.idComputador
+        WHERE c.tipo = 'CPU' AND pc.idComputador = ${idMaquina}
+        ORDER BY dtHora DESC;`;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucaoSql = `SELECT registro AS 'cpu', dthora FROM registro JOIN hasComponente on fkHasComponente = idHasComponente JOIN componente ON fkComponente = idComponente JOIN computador ON fkComputador = idComputador WHERE componente.tipo = 'CPU' AND computador.idComputador = ${idMaquina} ORDER BY dtHora DESC LIMIT 1;`;
     } else {
@@ -157,7 +169,14 @@ function dashboardMemory(idMaquina) {
     instrucaoSql = ''
 
     if (process.env.AMBIENTE_PROCESSO == "producao") {
-        instrucaoSql = ``;
+        instrucaoSql = `SELECT TOP 1 registro AS 'memory', dtHora
+        FROM registro r
+        JOIN hasComponente hc ON r.fkHasComponente = hc.idHasComponente
+        JOIN componente c ON hc.fkComponente = c.idComponente
+        JOIN computador pc ON hc.fkComputador = pc.idComputador
+        WHERE c.tipo = 'Memoria' AND pc.idComputador = ${idMaquina}
+        ORDER BY dtHora DESC;
+        `;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucaoSql = `SELECT registro AS 'memory', dthora FROM registro JOIN hasComponente on fkHasComponente = idHasComponente JOIN componente ON fkComponente = idComponente JOIN computador ON fkComputador = idComputador WHERE componente.tipo = 'Memoria' AND computador.idComputador = ${idMaquina} ORDER BY dtHora DESC LIMIT 1;`;
     } else {
@@ -174,7 +193,14 @@ function dashboardDisk(idMaquina) {
     instrucaoSql = ''
 
     if (process.env.AMBIENTE_PROCESSO == "producao") {
-        instrucaoSql = ``;
+        instrucaoSql = `SELECT TOP 1 registro AS 'disk', dtHora
+        FROM registro r
+        JOIN hasComponente hc ON r.fkHasComponente = hc.idHasComponente
+        JOIN componente c ON hc.fkComponente = c.idComponente
+        JOIN computador pc ON hc.fkComputador = pc.idComputador
+        WHERE c.tipo = 'Disco' AND pc.idComputador = ${idMaquina}
+        ORDER BY dtHora DESC;
+        `;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucaoSql = `SELECT registro AS 'disk', dthora FROM registro JOIN hasComponente on fkHasComponente = idHasComponente JOIN componente ON fkComponente = idComponente JOIN computador ON fkComputador = idComputador WHERE componente.tipo = 'Disco' AND computador.idComputador = ${idMaquina} ORDER BY dtHora DESC LIMIT 1;`;
     } else {
@@ -191,7 +217,11 @@ function infoMaquina(idMaquina) {
     instrucaoSql = ''
 
     if (process.env.AMBIENTE_PROCESSO == "producao") {
-        instrucaoSql = ``;
+        instrucaoSql = `SELECT i.*
+        FROM infoComputador i
+        JOIN computador c ON i.IpComputador = c.ipComputador
+        WHERE c.idComputador = ${idMaquina};
+        `;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucaoSql = ` SELECT i.* FROM infoComputador AS i JOIN computador AS c ON i.IpComputador = c.ipComputador AND c.idComputador=${idMaquina};`;
     } else {
@@ -219,7 +249,7 @@ function dashboardMediaCpuDay(idMaquina, days) {
         INNER JOIN computador ON fkComputador = idComputador
     WHERE
         fkComponente = 1
-        AND idComputador = 1
+        AND idComputador = 3
         AND dtHora >= DATEADD(DAY, -${days}, GETDATE())
     GROUP BY
         CONVERT(VARCHAR, dtHora, 23)
@@ -236,7 +266,7 @@ function dashboardMediaCpuDay(idMaquina, days) {
         JOIN
             computador ON fkComputador = idComputador
             WHERE fkComponente = 1
-            AND idComputador = 1
+            AND idComputador = 3
             AND dtHora >= CURDATE() - INTERVAL ${days} DAY
     GROUP BY
         data
@@ -265,7 +295,7 @@ function dashboardMediaCpuMonth(idMaquina, months) {
         INNER JOIN computador ON fkComputador = idComputador
     WHERE
         fkComponente = 1
-        AND idComputador = 1
+        AND idComputador = 3
         AND dtHora >= DATEADD(MONTH, -${months}, GETDATE())
     GROUP BY
         CONVERT(VARCHAR(7), dtHora, 120)
@@ -283,7 +313,7 @@ function dashboardMediaCpuMonth(idMaquina, months) {
         JOIN
             computador ON fkComputador = idComputador
             WHERE fkComponente = 1
-            AND idComputador = 1
+            AND idComputador = 3
             AND dtHora >= CURDATE() - INTERVAL ${months} MONTH
     GROUP BY
         mes
@@ -312,7 +342,7 @@ function dashboardMediaMemoryDay(idMaquina, days) {
         INNER JOIN computador ON fkComputador = idComputador
     WHERE
         fkComponente = 2
-        AND idComputador = 1
+        AND idComputador = 3
         AND dtHora >= DATEADD(DAY, -${days}, GETDATE())
     GROUP BY
         CONVERT(VARCHAR, dtHora, 23)
@@ -330,7 +360,7 @@ function dashboardMediaMemoryDay(idMaquina, days) {
         JOIN
             computador ON fkComputador = idComputador
             WHERE fkComponente = 2
-            AND idComputador = 1
+            AND idComputador = 3
             AND dtHora >= CURDATE() - INTERVAL ${days} DAY
     GROUP BY
         data
@@ -359,7 +389,7 @@ function dashboardMediaMemoryMonth(idMaquina, months) {
         INNER JOIN computador ON fkComputador = idComputador
     WHERE
         fkComponente = 2
-        AND idComputador = 1
+        AND idComputador = 3
         AND dtHora >= DATEADD(MONTH, -${months}, GETDATE())
     GROUP BY
         CONVERT(VARCHAR(7), dtHora, 120)
@@ -377,7 +407,7 @@ function dashboardMediaMemoryMonth(idMaquina, months) {
         JOIN
             computador ON fkComputador = idComputador
             WHERE fkComponente = 2
-            AND idComputador = 1
+            AND idComputador = 3
             AND dtHora >= CURDATE() - INTERVAL ${months} MONTH
     GROUP BY
         mes
@@ -574,7 +604,7 @@ function kpiMediaCpuDay(idMaquina) {
     WHERE
         fkComponente = 1
         AND CAST(dtHora AS DATE) = CAST(GETDATE() AS DATE)
-        AND idComputador = 1
+        AND idComputador = 3
     GROUP BY
         DAY(dtHora);
     `;
@@ -588,7 +618,7 @@ function kpiMediaCpuDay(idMaquina) {
         computador ON fkComputador = idComputador
 		WHERE fkComponente = 1
         AND DATE(dtHora) = CURDATE()
-        AND idComputador = 1
+        AND idComputador = 3
 	GROUP BY
 		DAY(dtHora);`;
     } else {
@@ -613,7 +643,7 @@ function kpiMediaCpuAllTime(idMaquina) {
         INNER JOIN computador ON fkComputador = idComputador
     WHERE
         fkComponente = 1
-        AND idComputador = 1;
+        AND idComputador = 3;
     `;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucaoSql = `SELECT
@@ -624,7 +654,7 @@ function kpiMediaCpuAllTime(idMaquina) {
     JOIN
         computador ON fkComputador = idComputador
 		WHERE fkComponente = 1
-        AND idComputador = 1;`;
+        AND idComputador = 3;`;
     } else {
         console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
         return
@@ -648,7 +678,7 @@ function kpiMediaMemoryDay(idMaquina) {
     WHERE
         fkComponente = 2
         AND CAST(dtHora AS DATE) = CAST(GETDATE() AS DATE)
-        AND idComputador = 1
+        AND idComputador = 3
     GROUP BY
         DAY(dtHora);
     `;
@@ -662,7 +692,7 @@ function kpiMediaMemoryDay(idMaquina) {
         computador ON fkComputador = idComputador
 		WHERE fkComponente = 2
         AND DATE(dtHora) = CURDATE()
-        AND idComputador = 1
+        AND idComputador = 3
 	GROUP BY
 		DAY(dtHora);`;
     } else {
@@ -687,7 +717,7 @@ function kpiMediaMemoryAllTime(idMaquina) {
         INNER JOIN computador ON fkComputador = idComputador
     WHERE
         fkComponente = 2
-        AND idComputador = 1;
+        AND idComputador = 3;
     `;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucaoSql = `SELECT
@@ -698,7 +728,7 @@ function kpiMediaMemoryAllTime(idMaquina) {
     JOIN
         computador ON fkComputador = idComputador
 		WHERE fkComponente = 2
-        AND idComputador = 1;`;
+        AND idComputador = 3;`;
     } else {
         console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
         return

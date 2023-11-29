@@ -7,7 +7,7 @@ import time
 import mysql.connector
 import mysql.connector.errorcode
 import socket
-import pyodbc
+import pymssql
 
 """ webhook = "https://hooks.slack.com/services/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" """
 
@@ -58,35 +58,27 @@ consoleColors = {
 }
 
 
-# Parâmetros de conexão
-server = '3.225.229.38'
-database = 'inkView'
-username = 'sa'
-password = 'conexaoPI123'
-
-# Construindo a string de conexão
-conn_str = f'DRIVER={{ODBC Driver 17 for SQL Server}};SERVER={server};DATABASE={database};UID={username};PWD={password}'
 
 # Tentando estabelecer a conexão
 try:
-    connSERVER = pyodbc.connect(conn_str)
+    connSERVER = pymssql.connect(server='18.232.37.243', user='sa', password='conexaoPI123', database='inkView', port=1433, timeout=120)
     cursorSERVER = connSERVER.cursor()
-    cursorSERVER.execute("select * from ligacoesFuncionario;")
-    print(cursorSERVER.fetchall())
-except pyodbc.Error as e:
+    # cursorSERVER.execute("select * from ligacoesFuncionario;")
+    # print(cursorSERVER.fetchall())
+except pymssql.Error as e:
     print(f"Erro na conexão: {e}")
 
-print("Informe o IP da sua EC2 (com pontos):")
-ipDaECEDOIS = input()
 
 connection = mysql.connector.connect(
-    host=str(ipDaECEDOIS),
+    host="localhost",
     user="root",
-    password="urubu100",
+    password="@eduufreire",
     port=3306,
     database="inkView"
 )
 cursor = connection.cursor()
+
+time.sleep(5)
 
 def showText():
     print(f"""{consoleColors['cyan']}
@@ -108,16 +100,35 @@ def showText():
 
 ipMaquina = socket.gethostbyname(socket.gethostname())
 
+def CheckLogin():
+    print("Informe seu EMAIL:")
+    emailFuncionario = input()
+    print("Informe sua SENHA:")
+    senhaFuncionario = input()
 
-try:
-    cursor.execute(f"insert into computador(ipComputador, nomePatrimonio, marca, fkFuncionario, sistemaOperacional, ativo) values ('{str(ipMaquina)}', '{platform.node()}', 'EC2 - AWS', 1, '{platform.system()}', true)")
-    cursorSERVER.execute(f"insert into computador(ipComputador, nomePatrimonio, marca, fkFuncionario, sistemaOperacional, ativo) values ('{str(ipMaquina)}', '{platform.node()}', 'EC2 - AWS', 1, '{platform.system()}', 1)")
-    connection.commit()
-    connSERVER.commit()
-except mysql.connector.Error as error:
-    print("Failed to insert record into Laptop table {}".format(error))
+    try:
+        cursorSERVER.execute(f"select idFuncionario from funcionario where email = '{emailFuncionario}' and senha = '{senhaFuncionario}'")
+        idFuncionario = cursorSERVER.fetchone()
+        if idFuncionario != 0:
+            try:
+                cursor.execute(f" call checkComputerExists ('{str(ipMaquina)}', '{platform.node()}', 'EC2 - AWS', 1, '{platform.system()}') ")
+                cursorSERVER.execute("exec checkComputerExists %s, %s, %s, %d, %s", (ipMaquina, platform.node(), 'EC2 - AWS', idFuncionario[0], platform.system()))
+                connection.commit()
+                connSERVER.commit()
+                
+                print("Conectado")
+
+            except mysql.connector.Error as error:
+                print("Failed to insert record into Laptop table {}".format(error))
+        else:
+            print("Login inválido")
+            CheckLogin()
+
+    except mysql.connector.Error as error:
+        print("Failed to insert record into Laptop table {}".format(error))
+CheckLogin()
+
     
-
 
 time.sleep(5)
 def ProgressBar(percentual): 
@@ -229,3 +240,7 @@ if opcao == "1":
 if connection.is_connected():
     cursor.close()
     connection.close()
+
+if connSERVER.is_connected():
+    cursorSERVER.close()
+    connSERVER.close()

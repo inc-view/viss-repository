@@ -19,7 +19,7 @@ function listarThree(orderBy, fkEmpresa) {
   var query = ""
 
   if (process.env.AMBIENTE_PROCESSO == "producao") {
-    query = `select * from listProcessData where fkEmpresa = ${fkEmpresa} order by ${orderBy} desc limit 3;`;
+    query = `select TOP 3 * from listProcessData where fkEmpresa = ${fkEmpresa} order by ${orderBy} desc;`;
   } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
     query = `select * from listProcessData where fkEmpresa = ${fkEmpresa} order by \`${orderBy}\` desc limit 3;`;
   }
@@ -51,7 +51,7 @@ function getFirstLine(fkProcesso, fkEmpresa) {
   if (process.env.AMBIENTE_PROCESSO == "producao") {
     query = `select * from listDataOneProcess where fkProcesso = ${fkProcesso};`;
   } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
-    query = `select * from listDataOneProcess where fkProcesso = ${fkProcesso} and fkEmpresa = ${fkEmpresa};`;
+    query = `select * from listDataOneProcess where fkProcesso = ${fkProcesso}`;
   }
   console.log(query)
 
@@ -65,7 +65,7 @@ function getSecondLine(fkProcesso, fkEmpresa) {
   if (process.env.AMBIENTE_PROCESSO == "producao") {
     query = `select * from listDataOneProcess where fkProcesso = ${fkProcesso};`;
   } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
-    query = `select * from listDataOneProcess where fkProcesso = ${fkProcesso} and fkEmpresa = ${fkEmpresa};`;
+    query = `select * from listDataOneProcess where fkProcesso = ${fkProcesso}`;
   }
 
   console.log(query)

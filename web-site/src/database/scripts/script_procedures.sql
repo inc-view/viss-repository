@@ -119,3 +119,20 @@ BEGIN
     GROUP BY s.nomeSoftware ORDER BY contagem DESC LIMIT 3;
 END;
 DELIMITER $$
+
+
+DELIMITER $$
+	CREATE PROCEDURE checkComputerExists(
+		vIpComputador varchar(150), vNome varchar(200), vMarca varchar(200), vFkFuncionario int, vSO varchar(200)  
+	)
+    BEGIN
+    IF NOT EXISTS (SELECT * FROM computador WHERE ipComputador = vIpComputador) 
+		THEN
+			INSERT INTO computador (ipComputador, nomePatrimonio, marca, fkFuncionario, sistemaOperacional, ativo) 
+			VALUES (vIpComputador, vNome, vMarcar, vFkFuncionario, vSO, 1);
+		
+        ELSE 
+			update computador set ativo = 1 where ipComputador = vIpComputador;
+    END IF;
+    END;
+$$
