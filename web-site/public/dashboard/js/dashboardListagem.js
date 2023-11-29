@@ -151,7 +151,7 @@ function fazerLista() {
                     tdUltimaSessao.innerHTML = `${resposta[i].UltimaSessao}`;
 
 
-                    tr.onclick = () => { window.location.href = `./dashboardLeandro.html?id=${resposta[i].idComputador}` }
+                    tr.onclick = () => { window.location.href = `./LE-dashMaquina.html?id=${resposta[i].idComputador}` }
                     tr.style.cursor = "pointer";
                     listaElement.appendChild(tr);
                 }
@@ -295,7 +295,7 @@ function fazerListaComputadoresOffline() {
                     tr.appendChild(tdUltimaSessao);
                     tdUltimaSessao.innerHTML = `${resposta[i].UltimaSessao}`;
 
-                    tr.onclick = () => { window.location.href = `./dashboardLeandro.html?id=${resposta[i].idComputador}` }
+                    tr.onclick = () => { window.location.href = `./LE-dashMaquina.html?id=${resposta[i].idComputador}` }
                     tr.style.cursor = "pointer";
                     listaElement.appendChild(tr);
                 }
@@ -398,7 +398,7 @@ function fazerListaPorNome(){
                         tr.appendChild(tdUltimaSessao);
                         tdUltimaSessao.innerHTML = `${resposta[i].UltimaSessao}`;
     
-                        tr.onclick = () => { window.location.href = `./dashboardLeandro.html?id=${resposta[i].idComputador}` }
+                        tr.onclick = () => { window.location.href = `./LE-dashMaquina.html?id=${resposta[i].idComputador}` }
                         tr.style.cursor = "pointer";
                         listaElement.appendChild(tr);
                     }
