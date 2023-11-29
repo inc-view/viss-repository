@@ -75,7 +75,7 @@ function obterDadosGrafico() {
 
         // Inserindo valores recebidos em estrutura para plotar o gráfico
        for (i = 0; i < dados_tratados.length; i++) {
-        labelsGraf1.push(dados_tratados[i].data_hora);
+            labelsGraf1.push(dados_tratados[i].data_hora);
             dadosGraf1.datasets[0].data.push(dados_tratados[i].contagem);
 
         }
