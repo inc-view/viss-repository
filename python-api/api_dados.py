@@ -72,7 +72,7 @@ except pymssql.Error as e:
 connection = mysql.connector.connect(
     host="localhost",
     user="root",
-    password="1234567",
+    password="urubu100",
     port=3306,
     database="inkView"
 )
