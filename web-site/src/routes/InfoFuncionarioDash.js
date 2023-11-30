@@ -21,6 +21,9 @@ router.get("/ListagemTotalChamadas", function(req,res) {
 router.post("/fazerListaPorNome", function(req,res) {
     infoFuncionarioDashController.fazerListaPorNome(req,res);
 });
+router.post("/fazerGrafico", function(req,res) {
+    infoFuncionarioDashController.fazerGrafico(req,res);
+});
 
 
 module.exports = router;

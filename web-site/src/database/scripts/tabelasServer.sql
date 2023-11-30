@@ -8,14 +8,14 @@ USE inkView;
 GO
 
 CREATE TABLE endereco (
-    idEndereco INT IDENTITY(1,1) PRIMARY KEY,
+    idEndereco INT PRIMARY KEY IDENTITY(1,1),
     complemento NVARCHAR(45) NULL,
     cep CHAR(8) NULL,
     descricao NVARCHAR(200) NULL
 );
 
 CREATE TABLE empresa (
-    idEmpresa INT IDENTITY(1,1) PRIMARY KEY,
+    idEmpresa INT PRIMARY KEY IDENTITY(1,1),
     razaoSocial NVARCHAR(100) NOT NULL,
     cnpj CHAR(14) NOT NULL,
     email NVARCHAR(100) NOT NULL,
@@ -26,7 +26,7 @@ CREATE TABLE empresa (
 );
 
 CREATE TABLE funcionario (
-    idFuncionario INT IDENTITY(1,1) PRIMARY KEY,
+    idFuncionario INT PRIMARY KEY IDENTITY(1,1),
     fkGestor INT NULL,
     fkEmpresa INT NOT NULL,
     nome NVARCHAR(45) NULL,
@@ -39,7 +39,7 @@ CREATE TABLE funcionario (
 );
 
 CREATE TABLE ligacoesFuncionario (
-    idligacoesFuncionario INT IDENTITY(1,1) PRIMARY KEY,
+    idligacoesFuncionario INT PRIMARY KEY IDENTITY(1,1),
     recebidas INT,
     atendidas INT,
     porcAtendidas FLOAT,
@@ -50,7 +50,7 @@ CREATE TABLE ligacoesFuncionario (
 );
 
 CREATE TABLE computador (
-    idComputador INT IDENTITY(1,1) PRIMARY KEY,
+    idComputador INT PRIMARY KEY IDENTITY(1,1),
     ipComputador NVARCHAR(45),
     nomePatrimonio NVARCHAR(45) NULL,
     marca NVARCHAR(45) NULL,
@@ -61,25 +61,25 @@ CREATE TABLE computador (
 );
 
 CREATE TABLE unidadeMedida (
-    idUnidadeMedida INT IDENTITY(1,1) PRIMARY KEY,
+    idUnidadeMedida INT PRIMARY KEY IDENTITY(1,1),
     tipoMedida NVARCHAR(100) NULL
 );
 
 CREATE TABLE componente (
-    idComponente INT IDENTITY(1,1) PRIMARY KEY,
+    idComponente INT PRIMARY KEY IDENTITY(1,1),
     tipo NVARCHAR(45) NOT NULL,
     fkUnidadeMedida INT NOT NULL,
     CONSTRAINT fk_componente_unidadeMedida1 FOREIGN KEY (fkUnidadeMedida) REFERENCES unidadeMedida (idUnidadeMedida)
 );
 
 CREATE TABLE software (
-    idSoftware INT IDENTITY(1,1) PRIMARY KEY,
+    idSoftware INT PRIMARY KEY IDENTITY(1,1),
     nomeSoftware NVARCHAR(150) NOT NULL,
     categoriaSoftware NVARCHAR(45) NULL
 );
 
 CREATE TABLE softwarePermitido (
-    idSoftwarePermitido INT IDENTITY(1,1) PRIMARY KEY,
+    idSoftwarePermitido INT PRIMARY KEY IDENTITY(1,1),
     bloqueado BIT NULL,
     fkSoftware INT NOT NULL,
     fkComputador INT NOT NULL,
@@ -88,7 +88,7 @@ CREATE TABLE softwarePermitido (
 );
 
 CREATE TABLE hasComponente (
-    idHasComponente INT IDENTITY(1,1) PRIMARY KEY,
+    idHasComponente INT PRIMARY KEY IDENTITY(1,1),
     fkComponente INT NOT NULL,
     fkComputador INT NOT NULL,
     CONSTRAINT fk_componente_has_computador_componente1 FOREIGN KEY (fkComponente) REFERENCES componente (idComponente),
@@ -96,7 +96,7 @@ CREATE TABLE hasComponente (
 );
 
 CREATE TABLE registro (
-    idRegistro INT IDENTITY(1,1) PRIMARY KEY,
+    idRegistro INT PRIMARY KEY IDENTITY(1,1),
     registro INT NULL,
     dtHora DATETIME NULL,
     fkHasComponente INT NOT NULL,
@@ -104,14 +104,14 @@ CREATE TABLE registro (
 );
 
 CREATE TABLE processo (
-    idProcesso INT IDENTITY(1,1) PRIMARY KEY,
+    idProcesso INT PRIMARY KEY IDENTITY(1,1),
     nomeProcesso NVARCHAR(150),
     fkComputador INT NOT NULL,
     CONSTRAINT fk_registros_computador1 FOREIGN KEY (fkComputador) REFERENCES computador (idComputador)
 );
 
 CREATE TABLE registroProcesso (
-    idRegistroProcesso INT IDENTITY(1,1) PRIMARY KEY,
+    idRegistroProcesso INT PRIMARY KEY IDENTITY(1,1),
     registro NVARCHAR(150),
     fkProcesso INT,
     fkHasComponente INT,
@@ -121,14 +121,14 @@ CREATE TABLE registroProcesso (
 );
 
 CREATE TABLE processoIlicito (
-    idProcessoIlicito INT IDENTITY(1,1) PRIMARY KEY,
+    idProcessoIlicito INT PRIMARY KEY IDENTITY(1,1),
     fkSoftware INT NOT NULL,
     dataHora DATE NOT NULL,
     CONSTRAINT fk_SoftwarePermitido FOREIGN KEY (fkSoftware) REFERENCES softwarePermitido (idSoftwarePermitido)
 );
 
 CREATE TABLE ilicitoRegistro (
-    idRegistroIlicito INT IDENTITY(1,1) PRIMARY KEY,
+    idRegistroIlicito INT PRIMARY KEY IDENTITY(1,1),
     fkProcessoIlicito INT NOT NULL,
     dtHora DATETIME NOT NULL,
     CONSTRAINT fk_ProcessoIlicito FOREIGN KEY (fkProcessoIlicito) REFERENCES processoIlicito (idProcessoIlicito)

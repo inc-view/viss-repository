@@ -71,11 +71,11 @@ function obterDadosGrafico() {
         console.log('Estes dados foram recebidos pela funcao "obterDadosGrafico" e passados para "plotarGrafico":')
         console.log(resposta)
 
-        dados_tratados = resposta[0];
+        dados_tratados = resposta;
 
         // Inserindo valores recebidos em estrutura para plotar o gráfico
        for (i = 0; i < dados_tratados.length; i++) {
-        labelsGraf1.push(dados_tratados[i].data_hora);
+            labelsGraf1.push(dados_tratados[i].data_hora);
             dadosGraf1.datasets[0].data.push(dados_tratados[i].contagem);
 
         }
@@ -95,7 +95,7 @@ function obterDadosGrafico() {
     );
         // Criando estrutura para plotar gráfico - config
         
-        setInterval(() => atualizarGrafico(fkEmpresa, dadosGraf1, myChart), 3000);
+        setInterval(() => atualizarGrafico(fkEmpresa,  resposta, myChart), 3000);
     }
 
 
@@ -103,6 +103,7 @@ function obterDadosGrafico() {
     // buscando a última medida inserida em tabela contendo as capturas, 
 var dadosTeste;
 var novoRegistroTeste;
+var dados_atualiza;
 var valorAntigo;
 var valorNovo;
     //     Se quiser alterar a busca, ajuste as regras de negócio em src/controllers
@@ -114,11 +115,13 @@ var valorNovo;
                     console.log(`Dados recebidos: ${JSON.stringify(novoRegistro)}`);
                     console.log(`Dados atuais do gráfico:`);
                     console.log(dados);
+                    dados_atualiza = dados;
                     novoRegistroTeste = novoRegistro;
-                     valorAntigo = dados.datasets[0].data;
+                     valorAntigo = dados.contagem;
                      valorNovo = novoRegistro[0];
                     
-                    if (!(novoRegistro[0].data_hora == dados.labels[dados.labels.length - 1] || novoRegistro[0].data_hora == undefined) ) {
+                    for(var cont = 0 ; cont < novoRegistro.length; cont++){
+                    if (!(novoRegistro[cont].data_hora == dados.labels[dados.labels.length - 1] || novoRegistro[0].data_hora == undefined) ) {
                         // tirando e colocando valores no gráfico
                         if(dadosGraf1.datasets[0].data != null || dadosGraf1.datasets[0].data != undefined){
                             dados.labels.shift(); // apagar o primeiro
@@ -141,14 +144,14 @@ var valorNovo;
                             console.log("VALOR ANTIGO - ", valorAntigo)
                             console.log("VALOR NOVO - ", valorNovo)
     
-                            // for(var contador = 0; contador < valorAntigo.length; contador++){
+                             for(var contador = 0; contador < valorAntigo.length; contador++){
                              if(valorNovo[i] != valorAntigo[i] && valorAntigo != undefined){
                                 console.log("ENCONTREI", valorAntigo[i], valorNovo[i].contagem)
                                 //dados.datasets[0].data[contador].contagem = novoRegistro[0].contagem;
                                 myChart.data.datasets[0].data[i] = valorNovo[i].contagem;
                                 myChart.update();
                              }
-                            // }
+                             }
                         }
                         console.log("---------------------------------------------------------------")
                         console.log("Como não há dados novos para captura, o gráfico não atualizará.")
@@ -158,6 +161,7 @@ var valorNovo;
                         console.log(dados.labels[dados.labels.length - 1])
                         console.log("---------------------------------------------------------------")
                         }
+                    }
 
                     
                 });

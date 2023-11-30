@@ -168,7 +168,7 @@ secondLine.addEventListener("change", () => {
 
               if(data[i] != undefined){
                 labels.push(data[i].dia)
-                dataSerieTwo.push(data[i].cpu);
+                dataSerieTwo.push(Math.round(data[i].cpu));
               }else{
                 dataSerieTwo.push(0);
                 labels.push(labels[i-1] - 1)
@@ -274,15 +274,15 @@ function listMainProcess() {
                           <div
                             class="d-flex justify-content-between align-items-center mb-1 max-width-progress-wrap"
                           >
-                            <p class="text-success">${row.cpu}%</p>
+                            <p class="text-success">${parseFloat(row.cpu.toFixed(2))}%</p>
                           </div>
 
                           <div class="progress progress-md">
                             <div
                               class="progress-bar ${classColorCPU}"
                               role="progressbar"
-                              style="width: ${Math.round(row.cpu, 0)}%"
-                              aria-valuenow="${Math.round(row.cpu, 0)}"
+                              style="width: ${parseFloat(row.cpu.toFixed(2))}%"
+                              aria-valuenow="${parseFloat(row.cpu.toFixed(2))}"
                               aria-valuemin="0"
                               aria-valuemax="100"
                             ></div>
@@ -295,15 +295,15 @@ function listMainProcess() {
                           <div
                             class="d-flex justify-content-between align-items-center mb-1 max-width-progress-wrap"
                           >
-                            <p class="text-success">${row.ram}%</p>
+                            <p class="text-success">${parseFloat(row.ram.toFixed(2))}%</p>
                           </div>
 
                           <div class="progress progress-md">
                             <div
                               class="progress-bar ${classColorRAM}"
                               role="progressbar"
-                              style="width: ${Math.round(row.ram, 0)}%"
-                              aria-valuenow="${Math.round(row.ram, 0)}"
+                              style="width: ${parseFloat(row.ram.toFixed(2))}%"
+                              aria-valuenow="${parseFloat(row.ram.toFixed(2))}"
                               aria-valuemin="0"
                               aria-valuemax="100"
                             ></div>
