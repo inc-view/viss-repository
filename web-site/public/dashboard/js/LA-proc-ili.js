@@ -22,7 +22,11 @@ let proximaAtualizacao;
             animation: false, // Desabilita as animações
             scales: {
                 y: {
-                    beginAtZero: true
+                    min: 0,
+                    max: 8,
+                    ticks: {
+                        stepSize: 1
+                    }
                 },
                 x: {
                     ticks: {
@@ -35,6 +39,9 @@ let proximaAtualizacao;
 
     // Adicionando gráfico criado em div na tela
     var myChart;
+    myChart = new Chart(
+        document.getElementById(`grafProcIlic`),
+        config);
 
 function obterDadosGrafico() {
     if (proximaAtualizacao != undefined) {
@@ -47,8 +54,18 @@ function obterDadosGrafico() {
                     console.log(`Dados recebidos:`, resposta);
                     
                     resposta.reverse();
+
+                    // labelsGraf1 = []
+                    // dadosGraf1.datasets[0].data = []
+                        // Inserindo valores recebidos em estrutura para plotar o gráfico
+                    for (i = 0; i < resposta.length; i++) {
+                        labelsGraf1.push(resposta[i].data_hora);
+                        dadosGraf1.datasets[0].data.push(resposta[i].contagem);
+                    }
+
+                    myChart.update()
                     
-                    plotarGrafico(resposta);
+                    // plotarGrafico(resposta);
 
                 });
             } else {
@@ -59,7 +76,10 @@ function obterDadosGrafico() {
                 console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
             });
     }
+
+
     var dados_tratados;
+    var teste_graf1;
     // Esta função *plotarGrafico* usa os dados capturados na função anterior para criar o gráfico
     // Configura o gráfico (cores, tipo, etc), materializa-o na página e, 
     // A função *plotarGrafico* também invoca a função *atualizarGrafico*
@@ -72,14 +92,15 @@ function obterDadosGrafico() {
         console.log(resposta)
 
         dados_tratados = resposta;
-
+        
+        labelsGraf1 = []
+        dadosGraf1.datasets[0].data = []
         // Inserindo valores recebidos em estrutura para plotar o gráfico
        for (i = 0; i < dados_tratados.length; i++) {
             labelsGraf1.push(dados_tratados[i].data_hora);
             dadosGraf1.datasets[0].data.push(dados_tratados[i].contagem);
-
         }
-
+        
 
         console.log('----------------------------------------------')
         console.log('O gráfico será plotado com os respectivos valores:')
@@ -92,10 +113,11 @@ function obterDadosGrafico() {
         myChart = new Chart(
         document.getElementById(`grafProcIlic`),
         config
+        
     );
         // Criando estrutura para plotar gráfico - config
         
-        setInterval(() => atualizarGrafico(fkEmpresa,  resposta, myChart), 3000);
+        setInterval(() => atualizarGrafico(fkEmpresa,  dados_tratados, myChart), 3000);
     }
 
 
@@ -109,6 +131,7 @@ var valorNovo;
     //     Se quiser alterar a busca, ajuste as regras de negócio em src/controllers
     //     Para ajustar o "select", ajuste o comando sql em src/models
     function atualizarGrafico(fkEmpresa, dados, myChart) {
+        
         fetch(`/procIlic/buscarGraf/${fkEmpresa}`, { cache: 'no-store' }).then(function (response) {
             if (response.ok) {
                 response.json().then(function (novoRegistro) {
@@ -117,22 +140,20 @@ var valorNovo;
                     console.log(dados);
                     dados_atualiza = dados;
                     novoRegistroTeste = novoRegistro;
-                     valorAntigo = dados.contagem;
-                     valorNovo = novoRegistro[0];
+                    valorNovo = novoRegistro;
                     
                     for(var cont = 0 ; cont < novoRegistro.length; cont++){
-                    if (!(novoRegistro[cont].data_hora == dados.labels[dados.labels.length - 1] || novoRegistro[0].data_hora == undefined) ) {
+                    if (!(novoRegistro[cont].data_hora == dados[dados.length - 1].data_hora || novoRegistro[0].data_hora == undefined) ) {
                         // tirando e colocando valores no gráfico
-                        if(dadosGraf1.datasets[0].data != null || dadosGraf1.datasets[0].data != undefined){
-                            dados.labels.shift(); // apagar o primeiro
-                        }
+                            dados.shift(); // apagar o primeiro
+                        
                         console.log("============")
                         console.log("Novo registro" , novoRegistro)
                         console.log("==============")
-                        dados.labels.push(novoRegistro[0].data_hora); 
+                        dados.labels.push(novoRegistro[cont].data_hora); 
 
-                        dados.datasets[0].data.shift();  
-                        dados.datasets[0].data.push(novoRegistro[0].contagem); // incluir uma nova medida de umidade
+                        //dados.datasets[0].data.shift();  
+                        dados.data.push(novoRegistro[cont].contagem); // incluir uma nova medida de umidade
 
                         myChart.update();
                         
@@ -140,25 +161,13 @@ var valorNovo;
                     proximaAtualizacao = setInterval(() => atualizarGrafico(fkEmpresa, dados, myChart), 3000);
                     
                     }else{
-                        for(var i = 0; i < valorAntigo.length; i++){
-                            console.log("VALOR ANTIGO - ", valorAntigo)
-                            console.log("VALOR NOVO - ", valorNovo)
-    
-                             for(var contador = 0; contador < valorAntigo.length; contador++){
-                             if(valorNovo[i] != valorAntigo[i] && valorAntigo != undefined){
-                                console.log("ENCONTREI", valorAntigo[i], valorNovo[i].contagem)
-                                //dados.datasets[0].data[contador].contagem = novoRegistro[0].contagem;
-                                myChart.data.datasets[0].data[i] = valorNovo[i].contagem;
-                                myChart.update();
-                             }
-                             }
-                        }
+                        
                         console.log("---------------------------------------------------------------")
                         console.log("Como não há dados novos para captura, o gráfico não atualizará.")
                         console.log("Horário do novo dado capturado:")
                         console.log(novoRegistro[0].data_hora)
                         console.log("Horário do último dado capturado:")
-                        console.log(dados.labels[dados.labels.length - 1])
+                        console.log(dados[dados.length - 1].data_hora)
                         console.log("---------------------------------------------------------------")
                         }
                     }
@@ -232,7 +241,7 @@ var teste = [];
             </div>
           </div>
             `;
-    }else if(teste[0] != undefined){
+    }else if(teste[0] != undefined && teste[1] == undefined && teste[2] == undefined){
         kpi.innerHTML = `
         <div class="wrapper d-flex align-items-center justify-content-between py-2 border-bottom">
             <div class="d-flex">
@@ -244,7 +253,7 @@ var teste = [];
                 ${teste[0].contagem}
             </div>
         </div>`;
-    } else if(teste[0] != undefined && teste[1] != undefined){
+    } else if(teste[0] != undefined && teste[1] != undefined && teste[2] == undefined){
         kpi.innerHTML = `
         <div class="wrapper d-flex align-items-center justify-content-between py-2 border-bottom">
         <div class="d-flex">
