@@ -616,7 +616,8 @@ function kpiMediaCpuDay(idMaquina) {
     instrucaoSql = ''
 
     if (process.env.AMBIENTE_PROCESSO == "producao") {
-        instrucaoSql = `SELECT
+        instrucaoSql = `
+        SELECT
         AVG(registro) AS cpu
     FROM
         registro
@@ -656,7 +657,8 @@ function kpiMediaCpuAllTime(idMaquina) {
     instrucaoSql = ''
 
     if (process.env.AMBIENTE_PROCESSO == "producao") {
-        instrucaoSql = `SELECT
+        instrucaoSql = `
+        SELECT
         AVG(registro) AS cpu
     FROM
         registro
@@ -690,7 +692,8 @@ function kpiMediaMemoryDay(idMaquina) {
     instrucaoSql = ''
 
     if (process.env.AMBIENTE_PROCESSO == "producao") {
-        instrucaoSql = `SELECT
+        instrucaoSql = `
+        SELECT
         AVG(registro) AS memory
     FROM
         registro

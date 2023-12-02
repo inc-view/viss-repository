@@ -65,19 +65,19 @@ router.get("/getMediaMemoryAllMonth/:idMaquina/:months", function (req, res) {
     leandroController.getMediaMemoryAllMonth(req, res);
 });
 
-router.get("/kpiMediaCpuDay", function (req, res) {
+router.get("/kpiMediaCpuDay/:idMaquina", function (req, res) {
     leandroController.kpiMediaCpuDay(req, res);
 });
 
-router.get("/kpiMediaCpuAllTime", function (req, res) {
+router.get("/kpiMediaCpuAllTime/:idMaquina", function (req, res) {
     leandroController.kpiMediaCpuAllTime(req, res);
 });
 
-router.get("/kpiMediaMemoryDay", function (req, res) {
+router.get("/kpiMediaMemoryDay/:idMaquina", function (req, res) {
     leandroController.kpiMediaMemoryDay(req, res);
 });
 
-router.get("/kpiMediaMemoryAllTime", function (req, res) {
+router.get("/kpiMediaMemoryAllTime/:idMaquina", function (req, res) {
     leandroController.kpiMediaMemoryAllTime(req, res);
 });
 
